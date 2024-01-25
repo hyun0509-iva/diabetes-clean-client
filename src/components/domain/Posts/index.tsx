@@ -26,6 +26,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
   } = useInfiniteQuery<IContentsResponse>({
     queryKey: [queryKey],
     queryFn: ({ pageParam = 1 }) => fetcher(pageParam, params),
+    staleTime: 1000 * 60, // 1분간 refetch 안함
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.contents.length === listSize
         ? allPages.length + 1
