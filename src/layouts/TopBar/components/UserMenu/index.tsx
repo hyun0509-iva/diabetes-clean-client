@@ -18,7 +18,10 @@ const UserMenu = () => {
   const { isAuth } = userState();
 
   // 유저 인증 상태
-  const { data: me } = useAPIQuery<IUserResponse>(USER_KEY, getUserIdByToken);
+  const { data: me, isError } = useAPIQuery<IUserResponse>(
+    USER_KEY,
+    getUserIdByToken
+  );
 
   const [showUserSubMenu, setShowUserSubMenu] = useState(false);
   const onShowUserSubMenu = useCallback(() => {
@@ -30,7 +33,7 @@ const UserMenu = () => {
   }, []);
 
   const renderMenu = (isLoggedIn: string) => {
-    if (!isLoggedIn) {
+    if (isError || !isLoggedIn) {
       return (
         <>
           <UserItem>
