@@ -136,10 +136,10 @@ const getUserIdByToken = async () => {
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
       if (error.response?.status === 401) {
-        setStorage("isAuth", JSON.stringify({ loginState: false }));
+        // setStorage("userState", JSON.stringify({ state: null }));
         console.error("인증 필요");
       } else if (error.response?.status === 403) {
-        setStorage("isAuth", JSON.stringify({ loginState: false }));
+        setStorage("userState", JSON.stringify({ state: null }));
         removeStorage("accessToken");
         window.location.reload();
         console.error("토큰이 유효하지 않아 로그아웃합니다.");

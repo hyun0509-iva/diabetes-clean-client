@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import userState from "store/userState";
 import { logInApi } from "utils/apis/userApis";
 import alertHandler from "utils/functions/alertHandler";
+import useStorage from "utils/functions/useStorage";
 
 const useLoginMutation = () => {
   const queryClient = useQueryClient();
   const { isAuth, setIsAuth, setUserInfo } = userState();
+  const { setStorage } = useStorage;
   const navigate = useNavigate();
 
   return useMutation<IAuthResponse, AxiosError, TAuthRequest>(
@@ -17,20 +19,19 @@ const useLoginMutation = () => {
     {
       onSuccess(data) {
         if (data) {
+          console.log(data);
           const { userInfo, accessToken } = data;
-          if (isAuth) {
-            // userInfo, token이 존재한다면 삭제하기
-            setUserInfo(userInfo);
-            setIsAuth(null);
-            return;
-          }
+          if (isAuth) return;
+
+          setStorage("accessToken", accessToken);
           setUserInfo(userInfo);
-          setIsAuth(data.accessToken);
+          setIsAuth(true);
           navigate("/");
         }
         queryClient.refetchQueries({ queryKey: [USER_KEY] });
       },
       onError(error: any) {
+        console.log({ loginError: error });
         alertHandler.onToast({ msg: error.response.data.msg, icon: "error" });
       }
     }

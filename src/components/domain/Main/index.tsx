@@ -32,6 +32,7 @@ const data = [
 const Main = () => {
   return (
     <MainContainer>
+      {/* Banner-Video */}
       <section className="banner-video">
         <div className="video-wrap">
           <video className="video" width={800} autoPlay loop muted>
@@ -45,6 +46,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      {/* Banner-text */}
       <section className="banner-text">
         <div className="main_container">
           <div className="inner">
@@ -73,6 +75,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      {/* knowledge */}
       <section className="knowledge">
         <div className="main_container container">
           <div className="inner">
@@ -82,23 +85,17 @@ const Main = () => {
             <div className="contents">
               <Accordion data={data} />
             </div>
-            <div style={{ textAlign: "end", cursor: "pointer" }}>
-              <cite
-                onClick={() =>
-                  window.open("https://www.gwgs.go.kr/health/sub04_0711.do")
-                }
-              >
-                출처: 고성군 보건소
-              </cite>
-            </div>
+            <div style={{ textAlign: "end", cursor: "pointer" }}></div>
           </div>
         </div>
       </section>
+      {/* Banner-md */}
       <section className="banner-md">
         <div className="main_container">
           <div className="inner">앱의 간단한 소개(배너 텍스트용)</div>
         </div>
       </section>
+      {/* App-explanation */}
       <section className="app-explanation">
         <div className="main_container">
           <div className="inner">
@@ -106,6 +103,7 @@ const Main = () => {
           </div>
         </div>
       </section>
+      {/* last-banner */}
       <section className="last-banner">
         <div className="main_container">
           <div className="inner">

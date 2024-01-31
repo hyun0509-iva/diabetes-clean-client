@@ -4,9 +4,9 @@ import { devtools, persist } from "zustand/middleware";
 
 interface IUserState {
   userInfo: IUserInfo | null;
-  isAuth: string | null;
+  isAuth: boolean | null;
   setUserInfo: (userData: IUserInfo) => void;
-  setIsAuth: (token: string | null) => void;
+  setIsAuth: (isAuth: boolean | null) => void;
   logOut: () => void;
 }
 
@@ -20,9 +20,9 @@ const userState = create<IUserState>()(
           set(() => ({
             userInfo: userData
           })),
-        setIsAuth: (token: string | null) =>
+        setIsAuth: (isAuth: boolean | null) =>
           set((state) => ({
-            isAuth: token
+            isAuth
           })),
         logOut: () => {
           set(() => ({

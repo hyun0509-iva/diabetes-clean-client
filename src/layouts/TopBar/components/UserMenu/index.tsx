@@ -18,7 +18,7 @@ const UserMenu = () => {
   const { isAuth } = userState();
 
   // 유저 인증 상태
-  const { data: me, isError } = useAPIQuery<IUserResponse>(
+  const { data: me, error } = useAPIQuery<IUserResponse>(
     USER_KEY,
     getUserIdByToken
   );
@@ -33,7 +33,7 @@ const UserMenu = () => {
   }, []);
 
   const renderMenu = (isLoggedIn: string) => {
-    if (isError || !isLoggedIn) {
+    if (!isLoggedIn) {
       return (
         <>
           <UserItem>
