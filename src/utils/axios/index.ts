@@ -50,8 +50,9 @@ api.interceptors.response.use(
     return config;
   },
   async (error) => {
-    // 500 에러 이외의 예기치 않는 에러(ex: 서버 다운)
+    // 네트워크 에러
     if (error.code === "ERR_NETWORK") {
+      error.status = 500;
       alertHandler.onToast({
         msg: "서버 오류, 관리자에게 문의해주세요!",
         icon: "error"
