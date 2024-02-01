@@ -17,11 +17,12 @@ const userState = create<IUserState>()(
         isAuth: null, // 인증 상태: 토큰 유무로 판단
         userInfo: null,
         setUserInfo: (userData: IUserInfo) =>
-          set(() => ({
+          set((state) => ({
+            ...state.userInfo,
             userInfo: userData
           })),
         setIsAuth: (isAuth: boolean | null) =>
-          set((state) => ({
+          set(() => ({
             isAuth
           })),
         logOut: () => {
