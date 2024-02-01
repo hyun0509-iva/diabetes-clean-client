@@ -93,7 +93,7 @@ const MyFeed = () => {
                     size={150}
                     imgUrl={
                       writer?.imageSrc
-                        ? `${process.env.REACT_APP_BASE_URL}/${writer?.imageSrc}`
+                        ? writer?.imageSrc
                         : gravatar.url(writer?.nickname as string, {
                             s: "130px",
                             d: "retro"
