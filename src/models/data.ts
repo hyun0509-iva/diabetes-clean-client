@@ -15,6 +15,7 @@ export interface IAuthResponse extends CommonResponse {
   accessToken: string;
   userInfo: IUserInfo;
 }
+
 export interface IUserInfo {
   readonly _id: string;
   email: string;
@@ -40,9 +41,8 @@ export type TMyInfo = Pick<
 
 export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageSrc">;
 
-export type TUserUpdateRequest = Pick<
-  TMyInfo,
-  "nickname" | "aboutMe" | "imageSrc"
+export type TUserUpdateRequest = Partial<
+  Pick<TMyInfo, "nickname" | "aboutMe" | "imageSrc">
 >;
 
 export interface IUserResponse {
