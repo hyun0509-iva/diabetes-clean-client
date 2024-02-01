@@ -1,5 +1,4 @@
 //PATCH api/v1/comment/:id
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { USER_KEY } from "constants/query_key";

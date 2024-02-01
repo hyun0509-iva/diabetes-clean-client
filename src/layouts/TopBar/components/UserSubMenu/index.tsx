@@ -6,6 +6,7 @@ import api from "utils/axios";
 import { ROUTER_PATH } from "constants/router_path";
 import { USER_KEY } from "constants/query_key";
 import userState from "store/userState";
+import useStorage from "utils/functions/useStorage";
 
 interface IProps {
   showSubMenu: boolean;
@@ -13,16 +14,18 @@ interface IProps {
 }
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
   const { MYPAGE, STORY } = ROUTER_PATH;
-  const { userInfo, setIsAuth } = userState();
+  const { userInfo, logOut } = userState();
+  const { removeStorage } = useStorage;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleLogOut = useCallback(() => {
     api.get("/api/v1/auth/logout", { withCredentials: true }).then(() => {
-      setIsAuth(null);
+      logOut();
       queryClient.setQueryData([USER_KEY], false);
+
       navigate("/login", { replace: true });
     });
-
+    removeStorage("accessToken");
     onCloseMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

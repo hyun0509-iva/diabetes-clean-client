@@ -32,7 +32,7 @@ const UserMenu = () => {
     setShowUserSubMenu(false);
   }, []);
 
-  const renderMenu = (isLoggedIn: string) => {
+  const renderMenu = (isLoggedIn: boolean) => {
     if (!isLoggedIn) {
       return (
         <>
@@ -59,7 +59,7 @@ const UserMenu = () => {
                       size={40}
                       imgUrl={
                         me?.userInfo?.imageSrc
-                          ? `http://localhost:5000/${me?.userInfo?.imageSrc}`
+                          ? me?.userInfo?.imageSrc
                           : gravatar.url(me?.userInfo?.email, {
                               s: "40px",
                               d: "retro"
@@ -83,7 +83,7 @@ const UserMenu = () => {
     }
   };
 
-  return <>{renderMenu(isAuth as string)}</>;
+  return <>{renderMenu(isAuth as boolean)}</>;
 };
 
 export default React.memo(UserMenu);

@@ -19,7 +19,6 @@ const useLoginMutation = () => {
     {
       onSuccess(data) {
         if (data) {
-          console.log(data);
           const { userInfo, accessToken } = data;
           if (isAuth) return;
 

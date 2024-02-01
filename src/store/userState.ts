@@ -3,9 +3,9 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface IUserState {
-  userInfo: IUserInfo | null;
+  userInfo: Partial<IUserInfo> | null;
   isAuth: boolean | null;
-  setUserInfo: (userData: IUserInfo) => void;
+  setUserInfo: (userData: Partial<IUserInfo>) => void;
   setIsAuth: (isAuth: boolean | null) => void;
   logOut: () => void;
 }
@@ -16,10 +16,9 @@ const userState = create<IUserState>()(
       (set) => ({
         isAuth: null, // 인증 상태: 토큰 유무로 판단
         userInfo: null,
-        setUserInfo: (userData: IUserInfo) =>
+        setUserInfo: (userData) =>
           set((state) => ({
-            ...state.userInfo,
-            userInfo: userData
+            userInfo: { ...state.userInfo, ...userData }
           })),
         setIsAuth: (isAuth: boolean | null) =>
           set(() => ({
