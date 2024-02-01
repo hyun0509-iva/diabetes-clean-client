@@ -19,14 +19,14 @@ import {
 } from "./styles";
 
 const UserProfile = () => {
-  // const userInfo = useRecoilValue(userState);
-  const { userInfo } = userState();
+  const { userInfo: me } = userState();
+  console.log({ me });
   const deleteMutate = useDeleteUser();
   const updateMutate = useUpdateUser();
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [nickname, setNickname] = useState(userInfo?.nickname);
-  const [aboutMe, setAboutMe] = useState(userInfo?.aboutMe);
+  const [nickname, setNickname] = useState(me?.nickname);
+  const [aboutMe, setAboutMe] = useState(me?.aboutMe);
   const [showProfileSubMenu, setShowProfileSubMenu] = useState(false);
   const [thumbnail, setThumbnail] = useState<string | null>("");
 
@@ -67,12 +67,12 @@ const UserProfile = () => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          deleteMutate.mutate(userInfo?._id as string);
+          deleteMutate.mutate(me?._id as string);
         } else if (result.isDismissed) {
           alertHandler.onToast({ msg: alertMessage.cancelMsg });
         }
       });
-  }, [deleteMutate, userInfo?._id]);
+  }, [deleteMutate, me?._id]);
 
   const onChangeImg = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,14 +98,14 @@ const UserProfile = () => {
     if (nickname || aboutMe || thumbnail) {
       console.log({ thumbnail });
       const insertData = {
-        nickname: nickname || (userInfo?.nickname as string),
-        aboutMe: aboutMe || (userInfo?.aboutMe as string),
-        imageSrc: thumbnail || (userInfo?.imageSrc as string)
+        nickname: nickname || (me?.nickname as string),
+        aboutMe: aboutMe || (me?.aboutMe as string),
+        imageSrc: thumbnail || (me?.imageSrc as string)
       };
       console.log(insertData);
       console.log(thumbnail);
       updateMutate.mutate({
-        userId: userInfo?._id as string,
+        userId: me?._id as string,
         userData: insertData
       });
     }
@@ -115,10 +115,10 @@ const UserProfile = () => {
     nickname,
     thumbnail,
     updateMutate,
-    userInfo?._id,
-    userInfo?.aboutMe,
-    userInfo?.imageSrc,
-    userInfo?.nickname
+    me?._id,
+    me?.aboutMe,
+    me?.imageSrc,
+    me?.nickname
   ]);
 
   return (
@@ -144,13 +144,13 @@ const UserProfile = () => {
             <Avatar
               size={160}
               imgUrl={
-                userInfo?.imageSrc
+                me?.imageSrc
                   ? `http://localhost:5000/${
-                      thumbnail ? thumbnail : userInfo?.imageSrc
+                      thumbnail ? thumbnail : me?.imageSrc
                     }`
                   : thumbnail
                   ? `http://localhost:5000/${thumbnail}`
-                  : gravatar.url(userInfo?.email as string, {
+                  : gravatar.url(me?.email as string, {
                       s: "170px",
                       d: "retro"
                     })
@@ -186,12 +186,12 @@ const UserProfile = () => {
               {isEditMode ? (
                 <input
                   className="info_cont edit_mode"
-                  placeholder={userInfo?.nickname}
+                  placeholder={me?.nickname}
                   value={nickname}
                   onChange={onChangeNickName}
                 />
               ) : (
-                <div className="info_cont">{userInfo?.nickname}</div>
+                <div className="info_cont">{me?.nickname}</div>
               )}
             </div>
             <div className="Info_block">
@@ -200,12 +200,12 @@ const UserProfile = () => {
                 <Textarea
                   rows={11}
                   className="info_cont about_me edit_mode"
-                  placeholder={userInfo?.aboutMe}
+                  placeholder={me?.aboutMe}
                   defaultValue={aboutMe}
                   onChange={onChangeAboutMe}
                 />
               ) : (
-                <div className="info_cont about_me">{userInfo?.aboutMe}</div>
+                <div className="info_cont about_me">{me?.aboutMe}</div>
               )}
             </div>
           </UserInfo>
