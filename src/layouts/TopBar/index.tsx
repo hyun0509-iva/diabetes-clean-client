@@ -8,8 +8,10 @@ import SearchBar from "components/common/SearchBar";
 import headerViewState from "store/headerViewState";
 import UserMenu from "./components/UserMenu";
 import { Navbar, OverWrap } from "./styles";
+import userState from "store/userState";
 
 const Topbar = () => {
+  const { isAuth } = userState();
   const [isOpen, setIsOpen] = useState(false);
   const { setIsViewHeader } = headerViewState();
   const [targetPath, setTargetPath] = useState(false);
@@ -30,9 +32,10 @@ const Topbar = () => {
 
   const showSidebar = useCallback(() => setIsOpen(true), []);
   const showCloseSidebar = useCallback(() => setIsOpen(false), []);
+  console.log(isAuth);
   return (
     <>
-      <Navbar className="navbar" ref={ref}>
+      <Navbar className="navbar" ref={ref} isAuth={isAuth as boolean}>
         <div className="menu-left">
           <div>
             <button className="menu-bars">
