@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { Like_key } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, ILikeRequest } from "models/data";
 import { unLike } from "utils/apis/like";
+
+const { Like_key } = QUERY_KEY;
 
 const useUnLike = () => {
   const queryClient = useQueryClient();

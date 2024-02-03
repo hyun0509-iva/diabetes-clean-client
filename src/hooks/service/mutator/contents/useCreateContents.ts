@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { CONTENTS_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, IContentsRequest } from "models/data";
 import { createContents } from "utils/apis/contents";
+
+const { CONTENTS_KEY } = QUERY_KEY;
 
 const useCreateContentsMutation = () => {
   const queryClient = useQueryClient();

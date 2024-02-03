@@ -1,11 +1,13 @@
 import { useLocation } from "react-router-dom";
 import ContentsForm from "components/domain/EditContents/ContentsForm";
 import { IContentsDetailResponse } from "models/data";
-import { CONTENTS_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { useAPIByIdQuery } from "hooks/service/queries";
 import { getContentsFindById } from "utils/apis/contents";
 import { Container } from "styles/common";
 import { EditHeader, EditBody } from "./styles";
+
+const { CONTENTS_KEY } = QUERY_KEY;
 
 const EditContents = () => {
   const { pathname, state: contentsId } = useLocation();

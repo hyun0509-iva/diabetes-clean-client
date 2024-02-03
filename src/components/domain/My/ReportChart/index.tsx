@@ -1,4 +1,4 @@
-import { DIABETES_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import dayjs from "dayjs";
 import { useAPIByIdQuery } from "hooks/service/queries";
 import { IDiabetesInfo, IDiabetesResponse } from "models/data";
@@ -15,6 +15,8 @@ import {
 } from "recharts";
 import userState from "store/userState";
 import { getDiabetes } from "utils/apis/diabetesApis";
+
+const { DIABETES_KEY } = QUERY_KEY;
 
 const ReportChart = () => {
   const [today] = useState(dayjs().format("YYYY-MM-DD"));

@@ -14,7 +14,7 @@ interface IProps {
 
 const PostLikeStatus = ({ contentsId, likes, likeCount }: IProps) => {
   const [isLike, setIsLike] = useState(false);
-  const { userInfo: currentUser, setIsAuth } = userState();
+  const { userInfo: currentUser } = userState();
   const addLike = useAddLike();
   const unLike = useUnLike();
 

@@ -14,11 +14,11 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-      retry: 1
+      retry: 1,
+      staleTime: 1000 * 60 * 2 // 2분간 fresh 상태 (2분간은 refetch 안함)
     }
   }
 });
-
 root.render(
   <>
     <Global styles={reset} />

@@ -1,7 +1,7 @@
 import { palette } from "libs/palette";
 import styled from "@emotion/styled";
 
-export const Navbar = styled.div`
+export const Navbar = styled.div<{ isAuth: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,7 +13,7 @@ export const Navbar = styled.div`
   }
   .search-center {
     position: relative;
-    left: -38px;
+    left: ${({ isAuth }) => (isAuth ? -50 : 0)}px;
     width: 660px;
   }
   .menu-right {

@@ -9,7 +9,7 @@ import {
   TMyInfo
 } from "models/data";
 import { useAPIByIdQuery } from "hooks/service/queries";
-import { COMMENT_KEY, Like_key } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { getAllComment } from "utils/apis/comment";
 
 import { Contour } from "styles/common";
@@ -20,6 +20,8 @@ import {
   PostItemWrap
 } from "components/domain/Posts/styles";
 import { getContentsLike } from "utils/apis/like";
+
+const { COMMENT_KEY, Like_key } = QUERY_KEY;
 
 const PostItem = ({
   _id,

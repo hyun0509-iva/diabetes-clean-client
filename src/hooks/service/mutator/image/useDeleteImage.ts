@@ -1,18 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
-import { CommonResponse } from "models/data";
-import { unFollow } from "utils/apis/follow";
+import { deleteImage } from "utils/apis/uploadImage";
 import alertHandler from "utils/functions/alertHandler";
 
-const { FOLLOW_KEY } = QUERY_KEY;
+const { COMMENT_KEY } = QUERY_KEY;
 
-const useUnFollow = () => {
+const useDeleteImage = () => {
   const queryClient = useQueryClient();
-  return useMutation<CommonResponse, AxiosError, string>(unFollow, {
+  return useMutation<any, AxiosError, File>(deleteImage, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries<string>([FOLLOW_KEY]);
-      alertHandler.onToast({ msg: data.msg });
+      if (data.isOk) {
+        alertHandler.onToast({ msg: data.msg });
+      }
+      queryClient.invalidateQueries<string>([COMMENT_KEY]);
     },
     onError: (err) => {
       console.log({ error: err });
@@ -21,4 +22,4 @@ const useUnFollow = () => {
   });
 };
 
-export default useUnFollow;
+export default useDeleteImage;

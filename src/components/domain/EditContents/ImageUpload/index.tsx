@@ -49,7 +49,12 @@ const ImageUpload = ({ imageUrl, setImgUrl, setImgFileName }: IProps) => {
         text="이미지 취소"
         type="button"
         onClick={onCancelImageUpload}
-        style={{ position: "absolute", right: 10, top: 10 }}
+        style={{
+          position: "absolute",
+          width: "fit-content",
+          right: 10,
+          top: 10
+        }}
       />
       <ImageUploadForm>
         <ImgUploadBox>

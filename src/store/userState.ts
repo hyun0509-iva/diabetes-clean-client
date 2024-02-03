@@ -3,10 +3,10 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface IUserState {
-  userInfo: IUserInfo | null;
-  isAuth: string | null;
-  setUserInfo: (userData: IUserInfo) => void;
-  setIsAuth: (token: string | null) => void;
+  userInfo: Partial<IUserInfo> | null;
+  isAuth: boolean | null;
+  setUserInfo: (userData: Partial<IUserInfo>) => void;
+  setIsAuth: (isAuth: boolean | null) => void;
   logOut: () => void;
 }
 
@@ -16,13 +16,13 @@ const userState = create<IUserState>()(
       (set) => ({
         isAuth: null, // 인증 상태: 토큰 유무로 판단
         userInfo: null,
-        setUserInfo: (userData: IUserInfo) =>
-          set(() => ({
-            userInfo: userData
-          })),
-        setIsAuth: (token: string | null) =>
+        setUserInfo: (userData) =>
           set((state) => ({
-            isAuth: token
+            userInfo: { ...state.userInfo, ...userData }
+          })),
+        setIsAuth: (isAuth: boolean | null) =>
+          set(() => ({
+            isAuth
           })),
         logOut: () => {
           set(() => ({

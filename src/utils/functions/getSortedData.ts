@@ -13,11 +13,11 @@ export interface ISortedData {
 export const getSortedData = (originData: IDiabetesInfo[]): ISortedData => {
   const sortedObj: { [key: string]: IDiabetesInfo[] } = {};
   originData.forEach((item: IDiabetesInfo) => {
-    const monthDate = dayjs(item.createdAt).format("YYYY-MM-DD dddd");
-    if (Array.isArray(sortedObj[monthDate])) {
-      sortedObj[monthDate].push(item);
+    const createdDate = dayjs(item.createdAt).format("YYYY-MM-DD dddd");
+    if (Array.isArray(sortedObj[createdDate])) {
+      sortedObj[createdDate].push(item);
     } else {
-      sortedObj[monthDate] = [item];
+      sortedObj[createdDate] = [item];
     }
   });
   return sortedObj;

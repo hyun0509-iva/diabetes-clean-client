@@ -4,7 +4,7 @@ import axios from "axios";
 import PostItem from "../Posts/PostItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { IContentsResponse } from "models/data";
-import { CONTENTS_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { ErrprPostItemWrap, PostCardWrap } from "../Posts/styles";
 
 interface IProps {
@@ -13,6 +13,9 @@ interface IProps {
   fetcher: (page: string, context: string) => Promise<IContentsResponse>;
   queryKey?: string;
 }
+
+const { CONTENTS_KEY } = QUERY_KEY;
+
 const SearchPost = ({ params, queryKey, fetcher }: IProps) => {
   const listSize = 10; //한 페이지에 보여질 게시글 수
   const { ref, inView } = useInView();

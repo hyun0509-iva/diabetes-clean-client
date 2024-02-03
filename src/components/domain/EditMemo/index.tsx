@@ -3,11 +3,13 @@ import NavMenu from "components/common/NavMenu";
 import FormDiabetes from "./FormDiabetes";
 import { getDiabetesFindById } from "utils/apis/diabetesApis";
 import { ROUTER_PATH } from "constants/router_path";
-import { DIABETES_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { useAPIByIdQuery } from "hooks/service/queries";
 import { IDiabetesInfo, IDiabetesResponse } from "models/data";
 import { Container } from "styles/common";
 import { EditBody, EditHeader } from "./styles";
+
+const { DIABETES_KEY } = QUERY_KEY;
 
 const EditMemo = () => {
   const { pathname, state: DiabetesId } = useLocation();

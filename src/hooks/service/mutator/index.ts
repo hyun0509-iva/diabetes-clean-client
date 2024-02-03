@@ -12,4 +12,7 @@ export { default as useDelComment } from "./comment/useDelComment";
 export { default as useUpdateComment } from "./comment/useUpdateComment";
 
 export { default as useCreateUser } from "./user/useCreateUser";
+export { default as useUpdateUser } from "./user/useUpdateUser";
 export { default as useDeleteUser } from "./user/useDeleteUser";
+
+export { default as useUploadImage } from "./image/useUploadImage";

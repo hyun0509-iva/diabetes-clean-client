@@ -44,10 +44,7 @@ const Router = createBrowserRouter([
       {
         element: <PrivateRoutes />,
         children: [
-          {
-            path: MEMO,
-            element: <Memo />
-          },
+          { path: MEMO, element: <Memo /> },
           { path: SAVE_MEMO_DIABETES, element: <WriteMemo /> },
           { path: UPDATE_DIABETES, element: <WriteMemo /> },
           { path: SAVE_CONTENTS, element: <WriteContents /> },
@@ -58,14 +55,8 @@ const Router = createBrowserRouter([
       {
         element: <LoggedInRoutes />,
         children: [
-          {
-            path: LOGIN,
-            element: <Login />
-          },
-          {
-            path: SIGNUP,
-            element: <SignUp />
-          }
+          { path: LOGIN, element: <Login /> },
+          { path: SIGNUP, element: <SignUp /> }
         ]
       },
       {

@@ -7,18 +7,23 @@ import Avatar from "components/common/Avatar";
 import UserSubMenu from "layouts/TopBar/components/UserSubMenu";
 import { getUserIdByToken } from "utils/apis/userApis";
 import { ROUTER_PATH } from "constants/router_path";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 
 import { MenuList, UserInfoWrap, UserItem } from "./styles";
 import { useAPIQuery } from "hooks/service/queries";
 import userState from "store/userState";
+
+const { USER_KEY } = QUERY_KEY;
 
 const UserMenu = () => {
   const { LOGIN, SIGNUP } = ROUTER_PATH;
   const { isAuth } = userState();
 
   // 유저 인증 상태
-  const { data: me } = useAPIQuery<IUserResponse>(USER_KEY, getUserIdByToken);
+  const { data: me, error } = useAPIQuery<IUserResponse>(
+    USER_KEY,
+    getUserIdByToken
+  );
 
   const [showUserSubMenu, setShowUserSubMenu] = useState(false);
   const onShowUserSubMenu = useCallback(() => {
@@ -29,7 +34,7 @@ const UserMenu = () => {
     setShowUserSubMenu(false);
   }, []);
 
-  const renderMenu = (isLoggedIn: string) => {
+  const renderMenu = (isLoggedIn: boolean) => {
     if (!isLoggedIn) {
       return (
         <>
@@ -56,7 +61,7 @@ const UserMenu = () => {
                       size={40}
                       imgUrl={
                         me?.userInfo?.imageSrc
-                          ? `http://localhost:5000/${me?.userInfo?.imageSrc}`
+                          ? me?.userInfo?.imageSrc
                           : gravatar.url(me?.userInfo?.email, {
                               s: "40px",
                               d: "retro"
@@ -80,7 +85,7 @@ const UserMenu = () => {
     }
   };
 
-  return <>{renderMenu(isAuth as string)}</>;
+  return <>{renderMenu(isAuth as boolean)}</>;
 };
 
 export default React.memo(UserMenu);
