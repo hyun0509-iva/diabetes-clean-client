@@ -21,6 +21,7 @@ interface IProps {
   createdAt: string | Date;
 }
 const { UPDATE_CONTENTS } = ROUTER_PATH;
+
 const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
   const { userInfo: currentUser } = userState();
   const [isFollow, setIsFollow] = useState(false);
@@ -32,7 +33,7 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
 
   useEffect(() => {
     if (writer) {
-      setIsFollow((currentUser as IUserInfo).followings.includes(writer._id));
+      setIsFollow((currentUser as IUserInfo)?.followings.includes(writer?._id));
     }
   }, [currentUser, writer]);
 
