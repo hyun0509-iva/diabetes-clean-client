@@ -2,11 +2,13 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { DIABETES_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
 import { updateContents } from "utils/apis/contents";
 import alertHandler from "utils/functions/alertHandler";
+
+const { DIABETES_KEY } = QUERY_KEY;
 
 const useUpdateDiabetes = () => {
   const navigate = useNavigate();

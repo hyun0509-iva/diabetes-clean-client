@@ -5,7 +5,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { theme } from "libs/palette";
 import { reset } from "styles/reset";
 import Routes from "routes";
-import { COMMENT_KEY, CONTENTS_KEY } from "constants/query_key";
 
 const rootElement = document.getElementById("wrap");
 if (!rootElement) throw new Error("Failed to find the root element");

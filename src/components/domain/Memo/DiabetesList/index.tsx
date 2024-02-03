@@ -5,7 +5,7 @@ import { IDiabetesInfo, IDiabetesResponse } from "models/data";
 import { ISortedData, getSortedData } from "utils/functions/getSortedData";
 import { getDiabetes } from "utils/apis/diabetesApis";
 import { getThisMonthData } from "utils/functions/getThisMonthData";
-import { DIABETES_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import userState from "store/userState";
 import DiabetesItem from "components/domain/Memo/DiabetesItem";
 import {
@@ -17,6 +17,9 @@ import {
 interface Props {
   curDate: dayjs.Dayjs;
 }
+
+const { DIABETES_KEY } = QUERY_KEY;
+
 const DiabetesList = ({ curDate }: Props) => {
   const [processData, setProcessData] = useState<ISortedData>({});
   const { userInfo } = userState();

@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { COMMENT_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse } from "models/data";
 import { deleteComment } from "utils/apis/comment";
 import alertHandler from "utils/functions/alertHandler";
+
+const { COMMENT_KEY } = QUERY_KEY;
 
 const useDelComment = () => {
   const queryClient = useQueryClient();

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SubMenu from "components/common/SubMenu";
 import api from "utils/axios";
 import { ROUTER_PATH } from "constants/router_path";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import userState from "store/userState";
 import useStorage from "utils/functions/useStorage";
 
@@ -12,6 +12,9 @@ interface IProps {
   showSubMenu: boolean;
   onCloseMenu: () => void;
 }
+
+const { USER_KEY } = QUERY_KEY;
+
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
   const { MYPAGE, STORY } = ROUTER_PATH;
   const { userInfo, logOut } = userState();

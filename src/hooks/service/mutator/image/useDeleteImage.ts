@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { COMMENT_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { deleteImage } from "utils/apis/uploadImage";
 import alertHandler from "utils/functions/alertHandler";
+
+const { COMMENT_KEY } = QUERY_KEY;
 
 const useDeleteImage = () => {
   const queryClient = useQueryClient();

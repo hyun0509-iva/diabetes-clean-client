@@ -11,7 +11,7 @@ import {
   DetailModalContent,
   DetailModalHeader
 } from "components/common/GlobalModal/styles";
-import { DIABETES_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { IDiabetesInfo, IDiabetesResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
@@ -20,7 +20,10 @@ import modalState from "store/modalState";
 interface Iprops {
   id: string;
 }
+
+const { DIABETES_KEY } = QUERY_KEY;
 const { UPDATE_DIABETES } = ROUTER_PATH;
+
 const DiabetesDetail = ({ id }: Iprops) => {
   const { closeModal } = modalState();
   const navigate = useNavigate();

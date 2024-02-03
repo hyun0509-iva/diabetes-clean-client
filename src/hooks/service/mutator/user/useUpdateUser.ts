@@ -1,10 +1,12 @@
 //PATCH api/v1/comment/:id
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, TUserUpdateRequest } from "models/data";
 import { updateUserApi } from "utils/apis/userApis";
 import alertHandler from "utils/functions/alertHandler";
+
+const { USER_KEY } = QUERY_KEY;
 
 const useUpdateUser = () => {
   const queryClient = useQueryClient();

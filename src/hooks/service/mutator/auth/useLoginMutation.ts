@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { IAuthResponse, TAuthRequest } from "models/data";
 import { useNavigate } from "react-router-dom";
 import userState from "store/userState";
 import { logInApi } from "utils/apis/userApis";
 import alertHandler from "utils/functions/alertHandler";
 import useStorage from "utils/functions/useStorage";
+
+const { USER_KEY } = QUERY_KEY;
 
 const useLoginMutation = () => {
   const queryClient = useQueryClient();

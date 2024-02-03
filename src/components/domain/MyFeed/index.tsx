@@ -11,7 +11,7 @@ import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
 import { getMyFeedInfo } from "utils/apis/contents";
 import { getFollow } from "utils/apis/follow";
-import { CONTENTS_KEY, FOLLOW_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { IFollowResponse, IMyFeedResponse } from "models/data";
 
 import {
@@ -25,6 +25,8 @@ import {
   UserStatus
 } from "./styles";
 import SideBtnMenu from "components/common/SideBtnMenu";
+
+const { CONTENTS_KEY, FOLLOW_KEY } = QUERY_KEY;
 
 const MyFeed = () => {
   const { STORY, SAVE_CONTENTS } = ROUTER_PATH;
@@ -63,7 +65,9 @@ const MyFeed = () => {
   useEffect(() => {
     if (followData && currentUser) {
       // 팔로우 버튼: 유저의 팔로워 목록에 내가 존재하는가?
-      setIsFollow(followData?.followInfo?.followers.includes(currentUser?._id));
+      setIsFollow(
+        followData?.followInfo?.followers.includes(currentUser?._id as string)
+      );
     }
   }, [currentUser, followData, writer]);
 

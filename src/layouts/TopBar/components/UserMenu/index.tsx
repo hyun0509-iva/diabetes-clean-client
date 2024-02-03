@@ -7,11 +7,13 @@ import Avatar from "components/common/Avatar";
 import UserSubMenu from "layouts/TopBar/components/UserSubMenu";
 import { getUserIdByToken } from "utils/apis/userApis";
 import { ROUTER_PATH } from "constants/router_path";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 
 import { MenuList, UserInfoWrap, UserItem } from "./styles";
 import { useAPIQuery } from "hooks/service/queries";
 import userState from "store/userState";
+
+const { USER_KEY } = QUERY_KEY;
 
 const UserMenu = () => {
   const { LOGIN, SIGNUP } = ROUTER_PATH;

@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { USER_KEY } from "constants/query_key";
+import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, IAuthRequest } from "models/data";
 import { postUserApi } from "utils/apis/userApis";
 import alertHandler from "utils/functions/alertHandler";
+
+const { USER_KEY } = QUERY_KEY;
 
 const useCreateUserMutation = () => {
   const queryClient = useQueryClient();
