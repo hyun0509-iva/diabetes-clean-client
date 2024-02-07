@@ -13,6 +13,7 @@ export const FormWrap = styled.form`
 `;
 
 export const InputGroup = styled.div`
+  position: relative;
   margin-top: 13px;
   padding: 0 5px;
   display: flex;
