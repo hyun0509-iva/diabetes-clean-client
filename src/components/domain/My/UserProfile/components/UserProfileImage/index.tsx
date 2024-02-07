@@ -105,7 +105,7 @@ const UserProfileImage = () => {
     <UserImageWrap>
       <Button
         className="prof_btn"
-        text={<MdEdit color="#232" />}
+        context={<MdEdit color="#232" />}
         onClick={onShowProfileSubMenu}
         onMouseDown={(e) => e.stopPropagation()}
       />
@@ -161,12 +161,12 @@ const UserProfileImage = () => {
         <div className="profile_img_btn_group">
           <Button
             type="button"
-            text="사진 삭제"
+            context="사진 삭제"
             onClick={onDeleteUserProfileAndUpLoadImage}
           />
           <Button
             type="button"
-            text="사진 적용"
+            context="사진 적용"
             disabled={isActiveProfileImage}
             onClick={onUpdateUserProfileImage}
           />

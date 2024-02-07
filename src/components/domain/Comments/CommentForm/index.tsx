@@ -104,15 +104,15 @@ const CommentForm = ({
         </div>
         <div className="button-wrap">
           {editMode ? (
-            <Button onClick={onClose} text="수정 취소" type="button" />
+            <Button onClick={onClose} context="수정 취소" type="button" />
           ) : (
             content !== "" && (
-              <Button onClick={onReset} text="초기화" type="button" />
+              <Button onClick={onReset} context="초기화" type="button" />
             )
           )}
           <Button
             onClick={onSubmit}
-            text={editMode ? "댓글 수정" : "댓글 추가"}
+            context={editMode ? "댓글 수정" : "댓글 추가"}
             type="submit"
           />
         </div>

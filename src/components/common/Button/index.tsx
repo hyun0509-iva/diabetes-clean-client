@@ -1,6 +1,5 @@
 import { DetailedHTMLProps, ButtonHTMLAttributes, FC } from "react";
 import { ButtonInterface } from "./style";
-import { FormBtn } from "pages/SignUp/styles";
 
 type commonButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -8,7 +7,7 @@ type commonButtonProps = DetailedHTMLProps<
 >;
 
 interface customType {
-  text: string | React.ReactElement;
+  context: string | React.ReactElement;
   posX?: string | number;
   posY?: string | number;
   size?: string | number;
@@ -16,8 +15,8 @@ interface customType {
   color?: string;
 }
 
-const Button: FC<customType & commonButtonProps> = ({ text, ...rest }) => {
-  return <ButtonInterface {...rest}>{text}</ButtonInterface>;
+const Button: FC<customType & commonButtonProps> = ({ context, ...rest }) => {
+  return <ButtonInterface {...rest}>{context}</ButtonInterface>;
 };
 
 export default Button;

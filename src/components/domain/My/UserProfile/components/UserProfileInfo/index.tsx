@@ -104,11 +104,11 @@ const UserProfileInfo = () => {
       </UserInfo>
       <ButtonGroup className="profile_info_btn_group">
         {isEditMode ? (
-          <Button text="프로필 적용" onClick={onUpdateUser} />
+          <Button context="프로필 적용" onClick={onUpdateUser} />
         ) : (
-          <Button text="프로필 수정" onClick={onToggleEditMode} />
+          <Button context="프로필 수정" onClick={onToggleEditMode} />
         )}
-        <Button text="회원 탈퇴" onClick={onDelUser} />
+        <Button context="회원 탈퇴" onClick={onDelUser} />
       </ButtonGroup>
     </UserProfileInfoWrap>
   );

@@ -111,7 +111,7 @@ const MyFeed = () => {
                   <div>
                     {currentUser?.nickname !== writer?.nickname && (
                       <Button
-                        text={`${isFollow ? "팔로우 취소" : "팔로우"}`}
+                        context={`${isFollow ? "팔로우 취소" : "팔로우"}`}
                         type="button"
                         onClick={onFollow}
                         style={{
