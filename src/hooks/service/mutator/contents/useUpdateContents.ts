@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { updateContents } from "utils/apis/contents";
 import alertHandler from "utils/functions/alertHandler";
 
-const { DIABETES_KEY } = QUERY_KEY;
+const { CONTENTS_KEY } = QUERY_KEY;
 
 const useUpdateDiabetes = () => {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const useUpdateDiabetes = () => {
   >(updateContents, {
     onSuccess: (data) => {
       if (data.isOk) {
-        queryClient.invalidateQueries<string>([DIABETES_KEY]);
+        queryClient.invalidateQueries<string>([CONTENTS_KEY]);
         alertHandler.onToast({ msg: data.msg });
         navigate(-1);
       }
