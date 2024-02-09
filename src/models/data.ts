@@ -1,3 +1,5 @@
+import { IUploadedImg } from "components/domain/EditContents/ContentsForm";
+
 export interface CommonResponse {
   isOk: boolean;
   msg: string;
@@ -81,16 +83,14 @@ export interface IUpdateDiabetes {
 export interface IContentsRequest {
   writer: string;
   content: string;
-  imageName?: string;
-  imageUrl?: string;
+  imageData?: Array<IUploadedImg>;
 }
 
 export interface IContents {
   _id: string;
   writer: TMyInfo | TBriefWriter;
   content: string;
-  imageName: string;
-  imageUrl: string;
+  imageData?: Array<IUploadedImg>;
   createdAt: Date | string;
   updateAt: Date | string;
   isDeleted: boolean;

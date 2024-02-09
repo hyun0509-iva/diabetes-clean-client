@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 import { MdAdd } from "react-icons/md";
 import SubMenu from "components/common/SubMenu";
-import { MenuItemType } from "typings/menuItem";
+import { MenuItemType } from "types/menuItem";
 import { SubMenuBtn, SubMenuBtnContainer } from "./styles";
 
 interface IProps {

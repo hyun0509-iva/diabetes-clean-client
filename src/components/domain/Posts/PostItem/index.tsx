@@ -27,8 +27,7 @@ const PostItem = ({
   _id,
   writer,
   content,
-  imageName,
-  imageUrl,
+  imageData,
   isDeleted,
   createdAt
 }: IContents) => {
@@ -59,11 +58,15 @@ const PostItem = ({
         <>
           <PostBody>
             <PostBodyBlock className="nn">
-              {imageUrl && (
-                <div className="img-wrap">
-                  <img src={imageUrl} alt={imageName || ""} />
-                </div>
-              )}
+              <ul>
+                {imageData?.length
+                  ? imageData.map((image) => (
+                      <li key={image.assetId}>
+                        <img src={image.url} alt="" width={"300px"} />
+                      </li>
+                    ))
+                  : null}
+              </ul>
               <div className="content-wrap">
                 <p>{content}</p>
               </div>

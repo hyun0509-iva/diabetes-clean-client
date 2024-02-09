@@ -16,3 +16,4 @@ export { default as useUpdateUser } from "./user/useUpdateUser";
 export { default as useDeleteUser } from "./user/useDeleteUser";
 
 export { default as useUploadImage } from "./image/useUploadImage";
+export { default as useDeleteImage } from "./image/useDeleteImage";

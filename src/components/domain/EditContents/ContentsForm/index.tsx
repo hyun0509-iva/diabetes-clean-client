@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import userState from "store/userState";
 import { useCreateContents, useupdateContents } from "hooks/service/mutator";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import Textarea from "components/common/Textarea";
 import { FormWrap, InputGroup, LabelWrap } from "../styles";
 import { MdImage } from "react-icons/md";
 import { MAX_FILES_COUNT } from "constants/variables";
+import cloudinaryState from "store/cloudinaryState";
 
 const { STORY } = ROUTER_PATH;
 
@@ -21,19 +22,28 @@ interface Props {
   data?: IContents | null;
 }
 
+export interface IUploadedImg {
+  /* 이미지 삭제에 필요한 속성도 포함 */
+  publicId: string;
+  assetId: string;
+  fileName?: string;
+  url: string;
+  width: number | string;
+  height: number | string;
+}
+
 const ContentsForm = ({ mode, data }: Props) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
-  const createMutation = useCreateContents();
-  const updateMutation = useupdateContents();
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
   const [content, setContent] = useState((data?.content as string) || "");
-  const [imageUrl, setImageUrl] = useState((data?.imageUrl as string) || "");
-  const [imageName, setimageName] = useState((data?.imageName as string) || "");
-  const [thumbnail, setThumbnail] = useState<string | Array<string> | null>(
-    imageUrl || ""
+  const [imageData, setImageData] = useState<Array<IUploadedImg>>(
+    data?.imageData || []
   );
+  const { cld } = cloudinaryState();
+  const createMutation = useCreateContents();
+  const updateMutation = useupdateContents();
 
   const onChangeContent = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -56,6 +66,7 @@ const ContentsForm = ({ mode, data }: Props) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
+          /* 이미지 업로드한 거 삭제하기 */
           navigate(-1);
         } else if (result.isDismissed) {
           alertHandler.onToast({ msg: alertMessage.cancelMsg });
@@ -65,12 +76,11 @@ const ContentsForm = ({ mode, data }: Props) => {
 
   /* 컨텐츠 추가 */
   const createContents = useCallback(
-    (writer: string, content: string, imageName: string, imageUrl: string) => {
+    (writer: string, content: string, imageData?: Array<IUploadedImg>) => {
       createMutation.mutate({
         writer: writer,
         content,
-        imageName,
-        imageUrl
+        imageData
       });
     },
     []
@@ -90,7 +100,7 @@ const ContentsForm = ({ mode, data }: Props) => {
 
       if (content !== "") {
         mode === "create"
-          ? createContents(userId, content, imageName, imageUrl)
+          ? createContents(userId, content, imageData as Array<IUploadedImg>)
           : updateContents(data?._id as string, content);
         navigate(STORY, { replace: true });
       } else {
@@ -101,8 +111,7 @@ const ContentsForm = ({ mode, data }: Props) => {
       content,
       createMutation,
       data?._id,
-      imageName,
-      imageUrl,
+      imageData,
       mode,
       navigate,
       updateMutation,
@@ -126,16 +135,13 @@ const ContentsForm = ({ mode, data }: Props) => {
               <MdImage fontSize={20} color="#9a9a9a" />
             </span>
             <span className="img_count">
-              {thumbnail?.length} / {MAX_FILES_COUNT}
+              {imageData?.length} / {MAX_FILES_COUNT}
             </span>
           </label>
         </LabelWrap>
         <ImageUpload
-          imageUrl={data?.imageUrl as Array<string> | string}
-          setImgUrl={setImageUrl}
-          setImgFileName={setimageName}
-          thumbnail={thumbnail}
-          setThumbnail={setThumbnail}
+          imageData={data?.imageData as Array<IUploadedImg>}
+          setImageData={setImageData}
         />
       </InputGroup>
       <ButtonGroup>

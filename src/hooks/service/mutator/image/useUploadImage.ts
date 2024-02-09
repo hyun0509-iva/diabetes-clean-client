@@ -5,7 +5,7 @@ import alertHandler from "utils/functions/alertHandler";
 
 const useUploadImage = () => {
   return useMutation<any, AxiosError, File>(uploadImage, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       alertHandler.onToast({
         icon: "success",
         msg: "이미지를 업로드했습니다."
