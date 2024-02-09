@@ -8,7 +8,7 @@ const { COMMENT_KEY } = QUERY_KEY;
 
 const useDeleteImage = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, AxiosError, File>(deleteImage, {
+  return useMutation<any, AxiosError, string>(deleteImage, {
     onSuccess: (data) => {
       if (data.isOk) {
         alertHandler.onToast({ msg: data.msg });

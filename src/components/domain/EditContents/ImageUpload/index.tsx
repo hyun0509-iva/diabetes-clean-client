@@ -1,5 +1,11 @@
-import { Dispatch, memo, useState, useRef, useCallback } from "react";
+import { memo, useState, useRef, useCallback, Dispatch } from "react";
 import { MdFolderOpen } from "react-icons/md";
+import Button from "components/common/Button";
+import { CloseBtn } from "components/common/Modal/styles";
+import { IUploadedImg } from "components/domain/EditContents/ContentsForm";
+import alertHandler from "utils/functions/alertHandler";
+import { MAX_FILES_COUNT } from "constants/variables";
+import { useUploadImage, useDeleteImage } from "hooks/service/mutator";
 import {
   ImgUploadBox,
   DrapFileArea,
@@ -7,34 +13,21 @@ import {
   ThumbnailImg,
   UploadText
 } from "./styles";
-import Button from "components/common/Button";
-import { CloseBtn } from "components/common/Modal/styles";
-import alertHandler from "utils/functions/alertHandler";
-import { MAX_FILES_COUNT } from "constants/variables";
 
 interface IProps {
-  imageUrl: Array<string> | string;
-  setImgUrl: Dispatch<React.SetStateAction<string>>;
-  setImgFileName: Dispatch<React.SetStateAction<string>>;
-  thumbnail: string | Array<string> | null;
-  setThumbnail: React.Dispatch<
-    React.SetStateAction<string | Array<string> | null>
-  >;
+  imageData: Array<IUploadedImg>;
+  setImageData: Dispatch<React.SetStateAction<Array<IUploadedImg>>>;
 }
 
-const ImageUpload = ({
-  imageUrl,
-  setImgUrl,
-  setImgFileName,
-  thumbnail,
-  setThumbnail
-}: IProps) => {
+const ImageUpload = ({ imageData, setImageData }: IProps) => {
+  const [thumbnail, setThumbnail] = useState<Array<any>>(imageData || []);
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const uploadImageMutate = useUploadImage();
+  const deleteImageMutate = useDeleteImage();
 
   const onChangeImg = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files as FileList);
     if (files.length) {
-      const filesArr: Promise<string>[] = [];
       if (files.length > MAX_FILES_COUNT) {
         alertHandler.onToast({
           msg: "이미지 개수는 9개까지만 가능합니다.",
@@ -43,31 +36,18 @@ const ImageUpload = ({
         return;
       }
       const fileToRead = files.slice(0, MAX_FILES_COUNT);
-      fileToRead.forEach((file: File) => {
-        const fileReader: FileReader = new FileReader();
-        const promise = new Promise<string>((resolve, reject) => {
-          fileReader.onloadend = (e: ProgressEvent<FileReader>) => {
-            const { result } = e.currentTarget as FileReader;
-            if (result) {
-              resolve(result as string);
-            } else {
-              reject(new Error("Failed to read file"));
-            }
-          };
-
-          fileReader.readAsDataURL(file);
-        });
-
-        filesArr.push(promise);
+      fileToRead.forEach(async (file: File) => {
+        const resData = await uploadImageMutate.mutateAsync(file);
+        const uploadedImgUrl = {
+          publicId: resData.public_id,
+          assetId: resData.asset_id,
+          url: resData.url,
+          width: resData.width,
+          height: resData.height
+        };
+        setThumbnail((prev) => [...prev, uploadedImgUrl]);
+        setImageData((prev) => [...prev, uploadedImgUrl]);
       });
-
-      Promise.all(filesArr)
-        .then((imageUrls) => {
-          setThumbnail(imageUrls);
-        })
-        .catch((error) => {
-          console.error("파일을 읽는데 실패했습니다.:", error);
-        });
     }
   }, []);
   const onClickFileInput = useCallback(() => {
@@ -75,20 +55,21 @@ const ImageUpload = ({
   }, []);
 
   const onCancelImageUpload = useCallback(
-    (imgStr: string) => {
+    async (targetImg: any) => {
       if (thumbnail?.length) {
-        setImgUrl("");
-        setImgFileName("");
-
-        const prev = thumbnail as Array<string>;
-        setThumbnail(() => prev.filter((item) => item !== imgStr));
-        //TODO: 이미지 업로드:삭제 부분 로직 작성하기
+        console.log("이미지 삭제");
+        await deleteImageMutate.mutateAsync(targetImg.publicId);
+        setThumbnail((prev: any) =>
+          prev.filter((origin: any) => origin.publicId !== targetImg.publicId)
+        );
+        setImageData((prev: any) =>
+          prev.filter((origin: any) => origin.publicId !== targetImg.publicId)
+        );
       }
     },
-    [setImgFileName, setImgUrl, thumbnail]
+    [setImageData, thumbnail]
   );
 
-  //TODO: 이미지 업로드: 생성 부분 로직 작성하기
   return (
     <>
       <ImageUploadForm>
@@ -134,18 +115,16 @@ const ImageUpload = ({
         {thumbnail?.length ? (
           <ThumbnailImg>
             <ul>
-              {(thumbnail as Array<string>).map(
-                (imgStr: string, idx: number) => (
-                  <li key={idx}>
-                    <CloseBtn type="button">
-                      <span onClick={() => onCancelImageUpload(imgStr)}>
-                        &times;
-                      </span>
-                    </CloseBtn>
-                    <img src={imgStr} alt="" />
-                  </li>
-                )
-              )}
+              {thumbnail.map((image: any, idx: number) => (
+                <li key={idx}>
+                  <CloseBtn type="button">
+                    <span onClick={() => onCancelImageUpload(image)}>
+                      &times;
+                    </span>
+                  </CloseBtn>
+                  <img src={image.url} alt="" />
+                </li>
+              ))}
             </ul>
           </ThumbnailImg>
         ) : null}
