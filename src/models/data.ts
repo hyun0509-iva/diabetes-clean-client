@@ -1,5 +1,3 @@
-import { IUploadedImg } from "components/domain/EditContents/ContentsForm";
-
 export interface CommonResponse {
   isOk: boolean;
   msg: string;
@@ -100,6 +98,16 @@ export interface IContentsResponse {
   isOk: boolean;
   contents: IContents[];
   total?: number;
+}
+
+export interface IUploadedImg {
+  /* 이미지 삭제에 필요한 속성도 포함 */
+  publicId: string;
+  assetId: string;
+  fileName?: string;
+  url: string;
+  width: number | string;
+  height: number | string;
 }
 
 export interface IContentsDetailResponse {
