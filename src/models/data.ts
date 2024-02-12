@@ -23,7 +23,7 @@ export interface IUserInfo {
   aboutMe?: string;
   followers: Array<string>;
   followings: Array<string>;
-  imageSrc: string;
+  imageData: IUploadedImg;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,16 +33,16 @@ export type TMyInfo = Pick<
   | "_id"
   | "email"
   | "nickname"
-  | "imageSrc"
+  | "imageData"
   | "followers"
   | "followings"
   | "aboutMe"
 >;
 
-export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageSrc">;
+export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageData">;
 
 export type TUserUpdateRequest = Partial<
-  Pick<TMyInfo, "nickname" | "aboutMe" | "imageSrc">
+  Pick<TMyInfo, "nickname" | "aboutMe" | "imageData">
 >;
 
 export interface IUserResponse {
@@ -149,7 +149,7 @@ export interface ICommentResponse {
   comment: IComment[];
 }
 
-type TFollowUser = Omit<TBriefWriter, "imageSrc">;
+type TFollowUser = Omit<TBriefWriter, "imageData">;
 export interface IFollowResponse {
   isOk: boolean;
   followInfo: {

@@ -102,8 +102,8 @@ const Comment = ({ comment }: Iprops) => {
         <ContentsInfo
           createdAt={createdAt}
           imgUrl={
-            writer?.imageSrc
-              ? writer?.imageSrc
+            writer?.imageData?.url
+              ? writer?.imageData?.url
               : gravatar.url(writer?.nickname, {
                   s: "32px",
                   d: "retro"

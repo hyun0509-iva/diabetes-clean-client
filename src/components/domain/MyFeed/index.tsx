@@ -43,7 +43,7 @@ const MyFeed = () => {
   const unFollowMutate = useUnFollowMutation();
 
   const writer = useMemo(() => data?.contents?.writer, [data]); //게시글 작성자
-  console.log({ writer: writer?.imageSrc });
+  console.log({ writer: writer?.imageData });
   const subMenus = useMemo(
     () => [
       {
@@ -96,8 +96,8 @@ const MyFeed = () => {
                     imgName=""
                     size={150}
                     imgUrl={
-                      writer?.imageSrc
-                        ? writer?.imageSrc
+                      writer?.imageData?.url
+                        ? writer?.imageData?.url
                         : gravatar.url(writer?.nickname as string, {
                             s: "130px",
                             d: "retro"

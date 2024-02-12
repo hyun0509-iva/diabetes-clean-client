@@ -136,8 +136,8 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
           createdAt={createdAt}
           userName={writer?.nickname}
           imgUrl={
-            writer?.imageSrc
-              ? writer?.imageSrc
+            writer?.imageData?.url !== ""
+              ? writer?.imageData?.url
               : gravatar.url(writer?.nickname, {
                   s: "32px",
                   d: "retro"

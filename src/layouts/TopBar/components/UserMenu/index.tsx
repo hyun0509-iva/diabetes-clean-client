@@ -60,8 +60,8 @@ const UserMenu = () => {
                     <Avatar
                       size={40}
                       imgUrl={
-                        me?.userInfo?.imageSrc
-                          ? me?.userInfo?.imageSrc
+                        me?.userInfo?.imageData.url
+                          ? me?.userInfo?.imageData.url
                           : gravatar.url(me?.userInfo?.email, {
                               s: "40px",
                               d: "retro"
