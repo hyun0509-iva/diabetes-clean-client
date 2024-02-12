@@ -4,7 +4,6 @@ import { IContentsDetailResponse } from "models/data";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByIdQuery } from "hooks/service/queries";
 import { getContentsFindById } from "utils/apis/contents";
-import { Container } from "styles/common";
 import { EditHeader, EditBody, EditContentsContainer } from "./styles";
 
 const { CONTENTS_KEY } = QUERY_KEY;

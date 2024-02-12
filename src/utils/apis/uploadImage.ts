@@ -31,13 +31,11 @@ const uploadImage = async (file: File) => {
 };
 
 const deleteImage = async (publicId: string) => {
-  console.log(API_KEY, API_SECRET);
   try {
     // 이미지 삭제 API 호출
     const res = await api.post("/api/v1/image", {
       publicId
     });
-    console.log({ res });
     return res;
   } catch (error) {
     console.error("Error deleting image:", error);
