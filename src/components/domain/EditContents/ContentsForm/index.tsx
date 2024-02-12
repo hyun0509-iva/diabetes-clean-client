@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import userState from "store/userState";
 import { useCreateContents, useupdateContents } from "hooks/service/mutator";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import Button from "components/common/Button";
 import { ROUTER_PATH } from "constants/router_path";
 
 import { ButtonGroup } from "components/domain/EditMemo/FormDiabetes/styles";
-import { IContents } from "models/data";
+import { IContents, IUploadedImg } from "models/data";
 import Textarea from "components/common/Textarea";
 import { FormWrap, InputGroup, LabelWrap } from "../styles";
 import { MdImage } from "react-icons/md";
@@ -20,16 +20,6 @@ const { STORY } = ROUTER_PATH;
 interface Props {
   mode: "create" | "update";
   data?: IContents | null;
-}
-
-export interface IUploadedImg {
-  /* 이미지 삭제에 필요한 속성도 포함 */
-  publicId: string;
-  assetId: string;
-  fileName?: string;
-  url: string;
-  width: number | string;
-  height: number | string;
 }
 
 const ContentsForm = ({ mode, data }: Props) => {
@@ -52,7 +42,7 @@ const ContentsForm = ({ mode, data }: Props) => {
     []
   );
 
-  const onCancal = useCallback(() => {
+  const onCancel = useCallback(() => {
     alertHandler
       .onConfirm({
         icon: "warning",
@@ -145,7 +135,7 @@ const ContentsForm = ({ mode, data }: Props) => {
         />
       </InputGroup>
       <ButtonGroup>
-        <Button type="button" context="취소하기" onClick={onCancal} />
+        <Button type="button" context="취소하기" onClick={onCancel} />
         <Button type="submit" context="게시하기" />
       </ButtonGroup>
     </FormWrap>

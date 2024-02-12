@@ -44,6 +44,7 @@ export const UploadText = styled.div`
   .upload_btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     width: fit-content;
     width: 115px;

@@ -20,7 +20,7 @@ const RootLayout = () => {
       }
     });
     setCid(cld);
-  }, []);
+  }, [setCid]);
 
   useEffect(() => {
     const $body = document.body;

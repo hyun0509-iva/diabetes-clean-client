@@ -2,7 +2,6 @@ import { memo, useState, useRef, useCallback, Dispatch } from "react";
 import { MdFolderOpen } from "react-icons/md";
 import Button from "components/common/Button";
 import { CloseBtn } from "components/common/Modal/styles";
-import { IUploadedImg } from "components/domain/EditContents/ContentsForm";
 import alertHandler from "utils/functions/alertHandler";
 import { MAX_FILES_COUNT } from "constants/variables";
 import { useUploadImage, useDeleteImage } from "hooks/service/mutator";
@@ -13,6 +12,8 @@ import {
   ThumbnailImg,
   UploadText
 } from "./styles";
+import { LoadingSpinner } from "styles/common";
+import { IUploadedImg } from "models/data";
 
 interface IProps {
   imageData: Array<IUploadedImg>;
@@ -20,7 +21,9 @@ interface IProps {
 }
 
 const ImageUpload = ({ imageData, setImageData }: IProps) => {
-  const [thumbnail, setThumbnail] = useState<Array<any>>(imageData || []);
+  const [thumbnail, setThumbnail] = useState<Array<IUploadedImg>>(
+    imageData || []
+  );
   const inputFileRef = useRef<HTMLInputElement>(null);
   const uploadImageMutate = useUploadImage();
   const deleteImageMutate = useDeleteImage();
@@ -84,10 +87,14 @@ const ImageUpload = ({ imageData, setImageData }: IProps) => {
               <div className="upload_btn_wrap">
                 <Button
                   context={
-                    <>
-                      <MdFolderOpen />
-                      <span>파일 선택</span>
-                    </>
+                    uploadImageMutate.isLoading ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <>
+                        <MdFolderOpen />
+                        <span>파일 선택</span>
+                      </>
+                    )
                   }
                   type="button"
                   className="upload_btn"
@@ -115,14 +122,14 @@ const ImageUpload = ({ imageData, setImageData }: IProps) => {
         {thumbnail?.length ? (
           <ThumbnailImg>
             <ul>
-              {thumbnail.map((image: any, idx: number) => (
-                <li key={idx}>
+              {thumbnail.map((image: IUploadedImg, idx: number) => (
+                <li key={image.publicId}>
                   <CloseBtn type="button">
                     <span onClick={() => onCancelImageUpload(image)}>
                       &times;
                     </span>
                   </CloseBtn>
-                  <img src={image.url} alt="" />
+                  <img src={image.url} alt="postImg" />
                 </li>
               ))}
             </ul>
