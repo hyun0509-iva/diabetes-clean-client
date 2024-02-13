@@ -67,6 +67,7 @@ const ContentsForm = ({ mode, data }: Props) => {
   /* 컨텐츠 추가 */
   const createContents = useCallback(
     (writer: string, content: string, imageData?: Array<IUploadedImg>) => {
+      content && content.replaceAll("\n", "&#10;");
       createMutation.mutate({
         writer: writer,
         content,
