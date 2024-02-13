@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FcCollapse, FcExpand } from "react-icons/fc";
 import gravatar from "gravatar";
@@ -20,10 +20,7 @@ const UserMenu = () => {
   const { isAuth } = userState();
 
   // 유저 인증 상태
-  const { data: me, error } = useAPIQuery<IUserResponse>(
-    USER_KEY,
-    getUserIdByToken
-  );
+  const { data: me } = useAPIQuery<IUserResponse>(USER_KEY, getUserIdByToken);
 
   const [showUserSubMenu, setShowUserSubMenu] = useState(false);
   const onShowUserSubMenu = useCallback(() => {
