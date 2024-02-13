@@ -1,3 +1,4 @@
+import { theme } from "libs/palette";
 import styled from "@emotion/styled";
 
 export const PostCardWrap = styled.div`
@@ -71,26 +72,102 @@ export const PostBody = styled.section`
   padding-top: 10px;
 `;
 
-export const PostBodyBlock = styled.div`
+export const PostBodyBlock = styled.div<{ moreImg?: number }>`
   padding: 0 5px;
 
-  .img-wrap {
-    padding-top: 8px;
-    width: 100%;
-    height: 350px;
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 5px;
-    }
-  }
   .content-wrap {
-    padding: 30px 0px;
+    padding: 15px 0px;
     p {
       width: 100%;
       font-size: 16px;
       font-weight: 300;
+    }
+  }
+
+  .img-wrap {
+    padding-top: 8px;
+    width: 100%;
+    display: flex;
+    gap: 10px;
+
+    &.flex_wrap_len02 {
+      flex-wrap: wrap;
+
+      li {
+        width: 305px;
+      }
+    }
+    &.flex_wrap_len03,
+    &.flex_wrap_len04 {
+      flex-wrap: wrap;
+
+      li {
+        width: 305px;
+      }
+    }
+    &.flex_wrap_len05 {
+      flex-wrap: wrap;
+
+      li {
+        width: 305px;
+        &:not(:nth-of-type(1), :nth-of-type(2)) {
+          width: 200px;
+        }
+      }
+    }
+
+    &.more {
+      flex-wrap: wrap;
+      height: 610px;
+      overflow: hidden;
+
+      .more_txt {
+        position: absolute;
+      }
+
+      li {
+        position: relative;
+        &:not(:nth-of-type(1), :nth-of-type(2)) {
+          width: 200px;
+          height: 230px;
+        }
+        &:nth-of-type(5) {
+          position: relative;
+          z-index: 10;
+
+          &::after {
+            content: "더보기";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+            color: #fff;
+            z-index: 15;
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgb(81 77 77 / 50%);
+            z-index: 10;
+          }
+        }
+      }
+    }
+
+    li {
+      width: 100%;
+      height: 350px;
+      position: relative;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
     }
   }
 `;

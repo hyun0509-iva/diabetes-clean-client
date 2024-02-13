@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 
 export const ImageUploadForm = styled.div`
   width: 100%;
-  margin-top: 30px;
-  padding: 20px 10px;
+  padding: 20px 0px;
 `;
 
 export const ImgUploadBox = styled.div`
@@ -14,9 +13,11 @@ export const ImgUploadBox = styled.div`
 
 export const DrapFileArea = styled.div`
   width: 90%;
-  height: 266px;
-  padding: 36px 0 76px;
+  height: 150px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 
   .icon-wrap {
@@ -30,25 +31,58 @@ export const DrapFileArea = styled.div`
     height: 150px;
     display: block;
   }
-  .upload-msg {
-    position: absolute;
-    font-size: 14px;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   input {
     display: none;
   }
 `;
 
+export const UploadText = styled.div`
+  .upload_btn_wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .upload_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    width: 115px;
+    padding: 10px;
+  }
+
+  .upload_msg {
+    margin-top: 15px;
+    display: inline-block;
+  }
+`;
+
 export const ThumbnailImg = styled.div`
-  height: 100%;
-  width: 100%;
-  position: absolute;
+  margin-top: 30px;
+  position: relative;
   top: 0;
   left: 0;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  li {
+    position: relative;
+    margin-top: 20px;
+    width: 195px;
+    height: 195px;
+    box-shadow: ${({ theme }) => theme.boxShadow.light};
+  }
+
+  button {
+    position: absolute;
+    background-color: #fff;
+    top: -11px;
+    right: -6px;
+  }
   img {
     width: 100%;
     height: 100%;

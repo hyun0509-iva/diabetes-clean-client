@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   FormWrap,
   InputGroup,
-  InputName,
+  InputLabel,
   InputWrap,
   Valid,
   FrmBtnContainer,
   FormBtn
-} from "pages/SignUp/styles";
+} from "./styles";
 import { useCreateUser } from "hooks/service/mutator";
 import alertHandler from "utils/functions/alertHandler";
 import { checkemailApi } from "utils/apis/userApis";
@@ -150,7 +150,7 @@ const SignUpForm = () => {
     <FormWrap>
       <form onSubmit={onSubmit}>
         <InputGroup>
-          <InputName htmlFor="email">이메일</InputName>
+          <InputLabel htmlFor="email">이메일</InputLabel>
           <InputWrap>
             <input
               type="email"
@@ -173,7 +173,6 @@ const SignUpForm = () => {
             <div className="buttonWrap">
               <FormBtn
                 className={`${isCheckEmail && "not-allowed"}`}
-                top="0px"
                 type="button"
                 disabled={isCheckEmail}
                 onClick={onClickCheckEmail}
@@ -191,7 +190,7 @@ const SignUpForm = () => {
           </InputWrap>
         </InputGroup>
         <InputGroup>
-          <InputName htmlFor="pw">비밀번호</InputName>
+          <InputLabel htmlFor="pw">비밀번호</InputLabel>
           <InputWrap>
             <input
               type="password"
@@ -216,13 +215,13 @@ const SignUpForm = () => {
               <Valid className={`valid ${isPw ? "success" : "error"}`}>
                 {isPw
                   ? "비밀 번호 형식이 올바릅니다."
-                  : "문자와 특수문자 조합의 6 ~ 24자리를 입력"}
+                  : "문자와 특수문자 조합의 6 ~ 24자리를 입력해주세요."}
               </Valid>
             )}
           </InputWrap>
         </InputGroup>
         <InputGroup>
-          <InputName htmlFor="passwordCheck">비밀번호 확인</InputName>
+          <InputLabel htmlFor="passwordCheck">비밀번호 확인</InputLabel>
           <InputWrap>
             <input
               type="password"
@@ -235,19 +234,20 @@ const SignUpForm = () => {
               value={passwordCheck}
               autoComplete="off"
             />
-            <FormBtn
-              className={`${isCheckPw && "not-allowed"}`}
-              top="0"
-              type="button"
-              onClick={onClickCheckPw}
-              disabled={isCheckPw}
-            >
-              비밀번호 확인
-            </FormBtn>
+            <div className="buttonWrap">
+              <FormBtn
+                className={`${isCheckPw && "not-allowed"}`}
+                type="button"
+                disabled={isCheckPw}
+                onClick={onClickCheckPw}
+              >
+                비밀번호 확인
+              </FormBtn>
+            </div>
           </InputWrap>
         </InputGroup>
         <InputGroup>
-          <InputName htmlFor="nickname">닉네임</InputName>
+          <InputLabel htmlFor="nickname">닉네임</InputLabel>
           <InputWrap>
             <input
               type="text"
@@ -273,31 +273,11 @@ const SignUpForm = () => {
             />
           </InputWrap>
         </InputGroup>
-        <FrmBtnContainer top={"-20px"}>
-          <button
-            type="reset"
-            style={{ width: "152px" }}
-            onClick={(e) => {
-              e.preventDefault();
-              console.log("취소");
-              setInputs({
-                ...inputs,
-                email: "",
-                password: "",
-                passwordCheck: "",
-                nickname: ""
-              });
-              console.log(password);
-              navigate("/");
-            }}
-          >
-            취소하기
-          </button>
+        <FrmBtnContainer>
           <button
             className={`${isCompleteState ? "" : "not-allowed"}`}
             type="submit"
             disabled={!isCompleteState}
-            style={{ width: "152px" }}
           >
             회원가입
           </button>

@@ -199,10 +199,10 @@ const FormDiabetes = ({ mode, data }: Props) => {
         />
       </TextareaGroup>
       <ButtonGroup>
-        <Button type="button" text="취소하기" onClick={onCancal} />
+        <Button type="button" context="취소하기" onClick={onCancal} />
         <Button
           type="submit"
-          text={mode === "create" ? "작성하기" : "수정하기"}
+          context={mode === "create" ? "작성하기" : "수정하기"}
         />
       </ButtonGroup>
     </FormWrap>

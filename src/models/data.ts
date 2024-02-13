@@ -23,7 +23,7 @@ export interface IUserInfo {
   aboutMe?: string;
   followers: Array<string>;
   followings: Array<string>;
-  imageSrc: string;
+  imageData: IUploadedImg;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,16 +33,16 @@ export type TMyInfo = Pick<
   | "_id"
   | "email"
   | "nickname"
-  | "imageSrc"
+  | "imageData"
   | "followers"
   | "followings"
   | "aboutMe"
 >;
 
-export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageSrc">;
+export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageData">;
 
 export type TUserUpdateRequest = Partial<
-  Pick<TMyInfo, "nickname" | "aboutMe" | "imageSrc">
+  Pick<TMyInfo, "nickname" | "aboutMe" | "imageData">
 >;
 
 export interface IUserResponse {
@@ -81,16 +81,14 @@ export interface IUpdateDiabetes {
 export interface IContentsRequest {
   writer: string;
   content: string;
-  imageName?: string;
-  imageUrl?: string;
+  imageData?: Array<IUploadedImg>;
 }
 
 export interface IContents {
   _id: string;
   writer: TMyInfo | TBriefWriter;
   content: string;
-  imageName: string;
-  imageUrl: string;
+  imageData?: Array<IUploadedImg>;
   createdAt: Date | string;
   updateAt: Date | string;
   isDeleted: boolean;
@@ -100,6 +98,16 @@ export interface IContentsResponse {
   isOk: boolean;
   contents: IContents[];
   total?: number;
+}
+
+export interface IUploadedImg {
+  /* 이미지 삭제에 필요한 속성도 포함 */
+  publicId: string;
+  assetId: string;
+  fileName?: string;
+  url: string;
+  width: number | string;
+  height: number | string;
 }
 
 export interface IContentsDetailResponse {
@@ -141,7 +149,7 @@ export interface ICommentResponse {
   comment: IComment[];
 }
 
-type TFollowUser = Omit<TBriefWriter, "imageSrc">;
+type TFollowUser = Omit<TBriefWriter, "imageData">;
 export interface IFollowResponse {
   isOk: boolean;
   followInfo: {

@@ -1,31 +1,55 @@
-import { Dispatch, memo, useState, useRef, useCallback } from "react";
-
+import { memo, useState, useRef, useCallback, Dispatch } from "react";
+import { MdFolderOpen } from "react-icons/md";
+import Button from "components/common/Button";
+import { CloseBtn } from "components/common/Modal/styles";
+import alertHandler from "utils/functions/alertHandler";
+import { MAX_FILES_COUNT } from "constants/variables";
+import { useUploadImage, useDeleteImage } from "hooks/service/mutator";
 import {
   ImgUploadBox,
   DrapFileArea,
   ImageUploadForm,
-  ThumbnailImg
+  ThumbnailImg,
+  UploadText
 } from "./styles";
-import Button from "components/common/Button";
+import { LoadingSpinner } from "styles/common";
+import { IUploadedImg } from "models/data";
 
 interface IProps {
-  imageUrl: string;
-  setImgUrl: Dispatch<React.SetStateAction<string>>;
-  setImgFileName: Dispatch<React.SetStateAction<string>>;
+  imageData: Array<IUploadedImg>;
+  setImageData: Dispatch<React.SetStateAction<Array<IUploadedImg>>>;
 }
 
-const ImageUpload = ({ imageUrl, setImgUrl, setImgFileName }: IProps) => {
+const ImageUpload = ({ imageData, setImageData }: IProps) => {
+  const [thumbnail, setThumbnail] = useState<Array<IUploadedImg>>(
+    imageData || []
+  );
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [thumbnail, setThumbnail] = useState<string | null>(imageUrl || "");
+  const uploadImageMutate = useUploadImage();
+  const deleteImageMutate = useDeleteImage();
 
   const onChangeImg = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = (e.target.files as FileList)[0];
-    if (file) {
-      const fileReader: FileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.addEventListener("loadend", (e: ProgressEvent<FileReader>) => {
-        const { result } = e.currentTarget as FileReader;
-        setThumbnail(result as string);
+    const files = Array.from(e.target.files as FileList);
+    if (files.length) {
+      if (files.length > MAX_FILES_COUNT) {
+        alertHandler.onToast({
+          msg: "이미지 개수는 9개까지만 가능합니다.",
+          icon: "warning"
+        });
+        return;
+      }
+      const fileToRead = files.slice(0, MAX_FILES_COUNT);
+      fileToRead.forEach(async (file: File) => {
+        const resData = await uploadImageMutate.mutateAsync(file);
+        const uploadedImgUrl = {
+          publicId: resData.public_id,
+          assetId: resData.asset_id,
+          url: resData.url,
+          width: resData.width,
+          height: resData.height
+        };
+        setThumbnail((prev) => [...prev, uploadedImgUrl]);
+        setImageData((prev) => [...prev, uploadedImgUrl]);
       });
     }
   }, []);
@@ -33,52 +57,58 @@ const ImageUpload = ({ imageUrl, setImgUrl, setImgFileName }: IProps) => {
     inputFileRef?.current?.click();
   }, []);
 
-  const onCancelImageUpload = useCallback(() => {
-    if (thumbnail) {
-      setThumbnail("");
-      setImgUrl("");
-      setImgFileName("");
-      //TODO: 이미지 업로드:삭제 부분 로직 작성하기
-    }
-  }, [setImgFileName, setImgUrl, thumbnail]);
+  const onCancelImageUpload = useCallback(
+    async (targetImg: any) => {
+      if (thumbnail?.length) {
+        console.log("이미지 삭제");
+        await deleteImageMutate.mutateAsync(targetImg.publicId);
+        setThumbnail((prev: any) =>
+          prev.filter((origin: any) => origin.publicId !== targetImg.publicId)
+        );
+        setImageData((prev: any) =>
+          prev.filter((origin: any) => origin.publicId !== targetImg.publicId)
+        );
+      }
+    },
+    [setImageData, thumbnail]
+  );
 
-  //TODO: 이미지 업로드: 생성 부분 로직 작성하기
   return (
     <>
-      <Button
-        text="이미지 취소"
-        type="button"
-        onClick={onCancelImageUpload}
-        style={{
-          position: "absolute",
-          width: "fit-content",
-          right: 10,
-          top: 10
-        }}
-      />
       <ImageUploadForm>
         <ImgUploadBox>
-          <DrapFileArea onClick={onClickFileInput}>
-            {thumbnail ? (
-              <ThumbnailImg>
-                <img src={thumbnail} alt="" />
-              </ThumbnailImg>
-            ) : (
-              <>
-                <div className="icon-wrap">
-                  <img
-                    src="https://img.icons8.com/ios/512/image--v1.png"
-                    alt="file-icon"
-                    className="img"
-                  />
-                </div>
-                <span className="upload-msg">
+          <DrapFileArea
+            onClick={() => {
+              // console.log("이미지 드래그 로직");
+              return null;
+            }}
+          >
+            <UploadText>
+              <div className="upload_btn_wrap">
+                <Button
+                  context={
+                    uploadImageMutate.isLoading ? (
+                      <LoadingSpinner />
+                    ) : (
+                      <>
+                        <MdFolderOpen />
+                        <span>파일 선택</span>
+                      </>
+                    )
+                  }
+                  type="button"
+                  className="upload_btn"
+                  onClick={onClickFileInput}
+                />
+              </div>
+              <div>
+                <span className="upload_msg">
                   클릭해서 직접 업로드하거나
                   <br />
                   이미지를 끌어다 놓으세요
                 </span>
-              </>
-            )}
+              </div>
+            </UploadText>
             <input
               multiple
               name="imgUpload"
@@ -89,6 +119,22 @@ const ImageUpload = ({ imageUrl, setImgUrl, setImgFileName }: IProps) => {
             />
           </DrapFileArea>
         </ImgUploadBox>
+        {thumbnail?.length ? (
+          <ThumbnailImg>
+            <ul>
+              {thumbnail.map((image: IUploadedImg, idx: number) => (
+                <li key={image.publicId}>
+                  <CloseBtn type="button">
+                    <span onClick={() => onCancelImageUpload(image)}>
+                      &times;
+                    </span>
+                  </CloseBtn>
+                  <img src={image.url} alt="postImg" />
+                </li>
+              ))}
+            </ul>
+          </ThumbnailImg>
+        ) : null}
       </ImageUploadForm>
     </>
   );

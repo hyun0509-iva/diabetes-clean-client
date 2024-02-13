@@ -4,8 +4,7 @@ import { IContentsDetailResponse } from "models/data";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByIdQuery } from "hooks/service/queries";
 import { getContentsFindById } from "utils/apis/contents";
-import { Container } from "styles/common";
-import { EditHeader, EditBody } from "./styles";
+import { EditHeader, EditBody, EditContentsContainer } from "./styles";
 
 const { CONTENTS_KEY } = QUERY_KEY;
 
@@ -17,7 +16,6 @@ const EditContents = () => {
     getContentsFindById
   );
   const mode = pathname.split("/")[1];
-  console.log({ data, mode });
   if (isError) {
     return (
       <div>
@@ -29,7 +27,7 @@ const EditContents = () => {
   }
   return (
     <div className="form-wrap">
-      <Container>
+      <EditContentsContainer>
         <EditHeader>
           <div className="contents-title">
             <span>
@@ -44,7 +42,7 @@ const EditContents = () => {
             data && <ContentsForm mode="update" data={data.contentsInfo} />
           )}
         </EditBody>
-      </Container>
+      </EditContentsContainer>
     </div>
   );
 };

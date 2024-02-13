@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import userState from "store/userState";
 import { useCreateContents, useupdateContents } from "hooks/service/mutator";
 import { useNavigate } from "react-router-dom";
@@ -7,13 +7,13 @@ import ImageUpload from "../ImageUpload";
 import Button from "components/common/Button";
 import { ROUTER_PATH } from "constants/router_path";
 
-import {
-  ButtonGroup,
-  FormWrap,
-  InputGroup,
-  TextareaGroup
-} from "components/domain/EditMemo/FormDiabetes/styles";
-import { IContents } from "models/data";
+import { ButtonGroup } from "components/domain/EditMemo/FormDiabetes/styles";
+import { IContents, IUploadedImg } from "models/data";
+import Textarea from "components/common/Textarea";
+import { FormWrap, InputGroup, LabelWrap } from "../styles";
+import { MdImage } from "react-icons/md";
+import { MAX_FILES_COUNT } from "constants/variables";
+import cloudinaryState from "store/cloudinaryState";
 
 const { STORY } = ROUTER_PATH;
 
@@ -23,15 +23,17 @@ interface Props {
 }
 
 const ContentsForm = ({ mode, data }: Props) => {
-  console.log({ data });
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const navigate = useNavigate();
-  const createMutation = useCreateContents();
-  const updateMutation = useupdateContents();
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
   const [content, setContent] = useState((data?.content as string) || "");
-  const [imageUrl, setImageUrl] = useState((data?.imageUrl as string) || "");
-  const [imageName, setimageName] = useState((data?.imageName as string) || "");
+  const [imageData, setImageData] = useState<Array<IUploadedImg>>(
+    data?.imageData || []
+  );
+  const { cld } = cloudinaryState();
+  const createMutation = useCreateContents();
+  const updateMutation = useupdateContents();
 
   const onChangeContent = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -40,7 +42,7 @@ const ContentsForm = ({ mode, data }: Props) => {
     []
   );
 
-  const onCancal = useCallback(() => {
+  const onCancel = useCallback(() => {
     alertHandler
       .onConfirm({
         icon: "warning",
@@ -54,6 +56,7 @@ const ContentsForm = ({ mode, data }: Props) => {
       })
       .then((result) => {
         if (result.isConfirmed) {
+          /* 이미지 업로드한 거 삭제하기 */
           navigate(-1);
         } else if (result.isDismissed) {
           alertHandler.onToast({ msg: alertMessage.cancelMsg });
@@ -61,27 +64,34 @@ const ContentsForm = ({ mode, data }: Props) => {
       });
   }, [navigate]);
 
+  /* 컨텐츠 추가 */
+  const createContents = useCallback(
+    (writer: string, content: string, imageData?: Array<IUploadedImg>) => {
+      createMutation.mutate({
+        writer: writer,
+        content,
+        imageData
+      });
+    },
+    []
+  );
+
+  /* 컨텐츠 수정 */
+  const updateContents = useCallback((contentsId: string, content: string) => {
+    updateMutation.mutate({
+      contentsId: contentsId as string,
+      content
+    });
+  }, []);
+
   const onSubmitContent = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      const insertData = {
-        writer: userId,
-        content,
-        imageName,
-        imageUrl
-      };
-
       if (content !== "") {
-        if (mode === "create") {
-          createMutation.mutate(insertData);
-        } else {
-          /* TODO 우선 이미지 업로드부분은 생략 (구현 완료후 수정)*/
-          updateMutation.mutate({
-            contentsId: data?._id as string,
-            content
-          });
-        }
+        mode === "create"
+          ? createContents(userId, content, imageData as Array<IUploadedImg>)
+          : updateContents(data?._id as string, content);
         navigate(STORY, { replace: true });
       } else {
         alertHandler.onToast({ msg: "내용을 입력해주세요!", icon: "warning" });
@@ -91,8 +101,7 @@ const ContentsForm = ({ mode, data }: Props) => {
       content,
       createMutation,
       data?._id,
-      imageName,
-      imageUrl,
+      imageData,
       mode,
       navigate,
       updateMutation,
@@ -101,23 +110,33 @@ const ContentsForm = ({ mode, data }: Props) => {
   );
   return (
     <FormWrap onSubmit={onSubmitContent}>
-      <TextareaGroup>
-        <textarea
-          placeholder="당신의 이야기를 들려주세요"
-          value={content}
-          onChange={onChangeContent}
-        />
-      </TextareaGroup>
-      <InputGroup style={{ position: "relative" }}>
+      <Textarea
+        ref={textAreaRef}
+        value={content}
+        onChange={onChangeContent}
+        rows={13}
+        placeholder={content || "댓글을 입력해주세요."}
+      />
+      <InputGroup>
+        <LabelWrap>
+          <label>
+            이미지 추가
+            <span className="img_icon">
+              <MdImage fontSize={20} color="#9a9a9a" />
+            </span>
+            <span className="img_count">
+              {imageData?.length} / {MAX_FILES_COUNT}
+            </span>
+          </label>
+        </LabelWrap>
         <ImageUpload
-          imageUrl={data?.imageUrl as string}
-          setImgUrl={setImageUrl}
-          setImgFileName={setimageName}
+          imageData={data?.imageData as Array<IUploadedImg>}
+          setImageData={setImageData}
         />
       </InputGroup>
       <ButtonGroup>
-        <Button type="button" text="취소하기" onClick={onCancal} />
-        <Button type="submit" text="게시하기" />
+        <Button type="button" context="취소하기" onClick={onCancel} />
+        <Button type="submit" context="게시하기" />
       </ButtonGroup>
     </FormWrap>
   );

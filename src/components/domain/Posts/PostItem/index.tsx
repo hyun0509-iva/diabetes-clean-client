@@ -6,6 +6,7 @@ import {
   ICommentResponse,
   IContents,
   ILikeResponse,
+  IUploadedImg,
   TMyInfo
 } from "models/data";
 import { useAPIByIdQuery } from "hooks/service/queries";
@@ -27,8 +28,7 @@ const PostItem = ({
   _id,
   writer,
   content,
-  imageName,
-  imageUrl,
+  imageData,
   isDeleted,
   createdAt
 }: IContents) => {
@@ -43,6 +43,27 @@ const PostItem = ({
     getAllComment
   );
 
+  const imgLayoutClass = () => {
+    const imgLen = (imageData as IUploadedImg[])?.length;
+    return (() => {
+      if (imgLen > 5) {
+        return `flex_wrap_len05 more`;
+      }
+
+      switch (imgLen) {
+        case 2:
+          return "flex_wrap_len02";
+        case 3:
+          return "flex_wrap_len03";
+        case 4:
+          return "flex_wrap_len04";
+        case 5:
+          return "flex_wrap_len05";
+        default:
+          return "";
+      }
+    })();
+  };
   return (
     <PostItemWrap key={_id}>
       <PostHeader
@@ -58,15 +79,19 @@ const PostItem = ({
       ) : (
         <>
           <PostBody>
-            <PostBodyBlock className="nn">
-              {imageUrl && (
-                <div className="img-wrap">
-                  <img src={imageUrl} alt={imageName || ""} />
-                </div>
-              )}
+            <PostBodyBlock>
               <div className="content-wrap">
                 <p>{content}</p>
               </div>
+              <ul className={`img-wrap ${imgLayoutClass()}`}>
+                {imageData?.length
+                  ? imageData.map((image) => (
+                      <li key={image.assetId}>
+                        <img src={image.url} alt="" width={"300px"} />
+                      </li>
+                    ))
+                  : null}
+              </ul>
             </PostBodyBlock>
             <PostBodyBlock>
               <PostStatus
