@@ -114,9 +114,9 @@ const ContentsForm = ({ mode, data }: Props) => {
       <Textarea
         ref={textAreaRef}
         value={content}
-        onChange={onChangeContent}
         rows={13}
-        placeholder={content || "댓글을 입력해주세요."}
+        onChange={onChangeContent}
+        placeholder={content ? "" : "댓글을 입력해주세요."}
       />
       <InputGroup>
         <LabelWrap>
