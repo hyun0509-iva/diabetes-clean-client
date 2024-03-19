@@ -97,16 +97,19 @@ const SignUpForm = () => {
   }, []);
 
   const onSubmit = useCallback(
-    (data: TCreateUserSchema) => {
+    async (data: TCreateUserSchema) => {
       // 에러 없이 정상적으로 submit 될 때 실행됨.
       if (isDisabledEmailField && isCompleteFrmData) {
         console.log(data);
-        mutation.mutate(data);
-        navigate("/");
+        const resData = await mutation.mutateAsync(data);
+        if (resData.isOk) {
+          navigate("/");
+          reset();
+        }
         reset();
       }
     },
-    [isCompleteFrmData, isDisabledEmailField, mutation, navigate, reset]
+    [isCompleteFrmData, isDisabledEmailField, mutation, reset]
   );
   return (
     <FormWrap>
