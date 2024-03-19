@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import LoginForm from "components/domain/LoginForm";
 import { AuthContainer } from "pages/SignUp/styles";
 

@@ -67,6 +67,7 @@ const ContentsForm = ({ mode, data }: Props) => {
   /* 컨텐츠 추가 */
   const createContents = useCallback(
     (writer: string, content: string, imageData?: Array<IUploadedImg>) => {
+      content && content.replaceAll("\n", "&#10;");
       createMutation.mutate({
         writer: writer,
         content,
@@ -113,9 +114,9 @@ const ContentsForm = ({ mode, data }: Props) => {
       <Textarea
         ref={textAreaRef}
         value={content}
-        onChange={onChangeContent}
         rows={13}
-        placeholder={content || "댓글을 입력해주세요."}
+        onChange={onChangeContent}
+        placeholder={content ? "" : "댓글을 입력해주세요."}
       />
       <InputGroup>
         <LabelWrap>

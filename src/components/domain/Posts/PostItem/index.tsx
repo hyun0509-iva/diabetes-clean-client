@@ -21,6 +21,7 @@ import {
   PostItemWrap
 } from "components/domain/Posts/styles";
 import { getContentsLike } from "utils/apis/like";
+import NewLine from "components/common/NewLine";
 
 const { COMMENT_KEY, Like_key } = QUERY_KEY;
 
@@ -81,7 +82,9 @@ const PostItem = ({
           <PostBody>
             <PostBodyBlock>
               <div className="content-wrap">
-                <p>{content}</p>
+                <p>
+                  <NewLine context={content} />
+                </p>
               </div>
               <ul className={`img-wrap ${imgLayoutClass()}`}>
                 {imageData?.length
