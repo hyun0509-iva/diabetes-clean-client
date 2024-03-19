@@ -37,6 +37,7 @@ const SignUpForm = () => {
     setFocus,
     handleSubmit,
     reset,
+    resetField,
     getValues,
     formState: { errors, isValid } //formState에 대한 정보를 불러옴(여러 속성이 존재, 공식문서 참조)
   } = useForm<TCreateUserSchema>({
@@ -78,6 +79,7 @@ const SignUpForm = () => {
         // 존재하는 이메일인 경우
         setIsDisabledEmailField(false);
         alertHandler.onToast({ msg: errorRes.data.msg, icon: "warning" });
+        resetField("email");
       } else {
         setIsDisabledEmailField(false);
         alertHandler.onToast({
@@ -86,7 +88,7 @@ const SignUpForm = () => {
         });
       }
     }
-  }, [emailFiled, isValidEmail]);
+  }, [emailFiled, isValidEmail, resetField]);
 
   const onShowPassword = useCallback(() => {
     setIsVisiblePassword((prev) => !prev);
@@ -106,10 +108,9 @@ const SignUpForm = () => {
           navigate("/");
           reset();
         }
-        reset();
       }
     },
-    [isCompleteFrmData, isDisabledEmailField, mutation, reset]
+    [isCompleteFrmData, isDisabledEmailField, mutation, navigate, reset]
   );
   return (
     <FormWrap>
