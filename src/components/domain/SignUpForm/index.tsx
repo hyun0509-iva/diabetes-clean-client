@@ -38,7 +38,7 @@ const SignUpForm = () => {
     handleSubmit,
     reset,
     resetField,
-    getValues,
+    watch,
     formState: { errors, isValid } //formState에 대한 정보를 불러옴(여러 속성이 존재, 공식문서 참조)
   } = useForm<TCreateUserSchema>({
     mode: "onChange",
@@ -46,7 +46,7 @@ const SignUpForm = () => {
   });
   const mutation = useCreateUser();
 
-  const emailFiled = getValues("email");
+  const emailFiled = watch("email");
   const { success: isValidEmail } = validateEmailReault(emailFiled);
 
   useEffect(() => {
