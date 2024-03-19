@@ -3,15 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import {
-  TCreateUserSchema,
-  createUserSchema,
-  validateEmailReault
-} from "schema/auth.schema";
+import { TCreateUserSchema, createUserSchema } from "schema/auth.schema";
 import alertHandler from "utils/functions/alertHandler";
 import { checkemailApi } from "utils/apis/userApis";
 import { useCreateUser } from "hooks/service/mutator";
-import { SCHEMA_ERROR_MESSAGE } from "constants/variables";
 import {
   FormWrap,
   InputGroup,
@@ -39,15 +34,15 @@ const SignUpForm = () => {
     reset,
     resetField,
     watch,
+    trigger,
     formState: { errors, isValid } //formState에 대한 정보를 불러옴(여러 속성이 존재, 공식문서 참조)
   } = useForm<TCreateUserSchema>({
     mode: "onChange",
     resolver: zodResolver(createUserSchema)
   });
-  const mutation = useCreateUser();
 
   const emailFiled = watch("email");
-  const { success: isValidEmail } = validateEmailReault(emailFiled);
+  const mutation = useCreateUser();
 
   useEffect(() => {
     setFocus("email"); //포커스
@@ -58,10 +53,10 @@ const SignUpForm = () => {
   }, [isValid]);
 
   const onClickCheckEmail = useCallback(async () => {
-    console.log(isValidEmail);
+    const isValidEmail = await trigger("email");
     if (!isValidEmail) {
       alertHandler.onToast({
-        msg: SCHEMA_ERROR_MESSAGE.EMAIL,
+        msg: "이메일이 유효하지 않습니다",
         icon: "error"
       });
       return;
@@ -88,7 +83,7 @@ const SignUpForm = () => {
         });
       }
     }
-  }, [emailFiled, isValidEmail, resetField]);
+  }, [emailFiled, resetField, trigger]);
 
   const onShowPassword = useCallback(() => {
     setIsVisiblePassword((prev) => !prev);

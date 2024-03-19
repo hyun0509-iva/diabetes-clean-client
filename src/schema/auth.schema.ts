@@ -28,9 +28,6 @@ const nicknameField = z
   .min(6, { message: SCHEMA_ERROR_MESSAGE.NICKNAME })
   .max(13, { message: SCHEMA_ERROR_MESSAGE.NICKNAME });
 
-export const validateEmailReault = (email: string) =>
-  emailField.safeParse(email);
-
 /* schema */
 export type TCreateUserSchema = z.infer<typeof createUserSchema>;
 export type TLoginUserSchema = z.infer<typeof loginUserSchema>;
