@@ -28,31 +28,34 @@ const ImageUpload = ({ imageData, setImageData }: IProps) => {
   const uploadImageMutate = useUploadImage();
   const deleteImageMutate = useDeleteImage();
 
-  const onChangeImg = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files as FileList);
-    if (files.length) {
-      if (files.length > MAX_FILES_COUNT) {
-        alertHandler.onToast({
-          msg: "이미지 개수는 9개까지만 가능합니다.",
-          icon: "warning"
+  const onChangeImg = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.target.files as FileList);
+      if (files.length) {
+        if (files.length > MAX_FILES_COUNT) {
+          alertHandler.onToast({
+            msg: "이미지 개수는 9개까지만 가능합니다.",
+            icon: "warning"
+          });
+          return;
+        }
+        const fileToRead = files.slice(0, MAX_FILES_COUNT);
+        fileToRead.forEach(async (file: File) => {
+          const resData = await uploadImageMutate.mutateAsync(file);
+          const uploadedImgUrl = {
+            publicId: resData.public_id,
+            assetId: resData.asset_id,
+            url: resData.url,
+            width: resData.width,
+            height: resData.height
+          };
+          setThumbnail((prev) => [...prev, uploadedImgUrl]);
+          setImageData((prev) => [...prev, uploadedImgUrl]);
         });
-        return;
       }
-      const fileToRead = files.slice(0, MAX_FILES_COUNT);
-      fileToRead.forEach(async (file: File) => {
-        const resData = await uploadImageMutate.mutateAsync(file);
-        const uploadedImgUrl = {
-          publicId: resData.public_id,
-          assetId: resData.asset_id,
-          url: resData.url,
-          width: resData.width,
-          height: resData.height
-        };
-        setThumbnail((prev) => [...prev, uploadedImgUrl]);
-        setImageData((prev) => [...prev, uploadedImgUrl]);
-      });
-    }
-  }, []);
+    },
+    [setImageData, uploadImageMutate]
+  );
   const onClickFileInput = useCallback(() => {
     inputFileRef?.current?.click();
   }, []);

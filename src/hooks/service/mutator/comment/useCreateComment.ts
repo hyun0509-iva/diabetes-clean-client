@@ -9,6 +9,7 @@ const { COMMENT_KEY } = QUERY_KEY;
 
 const useCreateComment = () => {
   const queryClient = useQueryClient();
+
   return useMutation<CommonResponse, AxiosError, ICommentRequest>(
     createComment<ICommentRequest>,
     {
