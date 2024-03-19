@@ -1,4 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import {
+  TCreateUserSchema,
+  createUserSchema,
+  validateEmailReault
+} from "schema/auth.schema";
+import alertHandler from "utils/functions/alertHandler";
+import { checkemailApi } from "utils/apis/userApis";
+import { useCreateUser } from "hooks/service/mutator";
+import { SCHEMA_ERROR_MESSAGE } from "constants/variables";
 import {
   FormWrap,
   InputGroup,
@@ -6,186 +19,123 @@ import {
   InputWrap,
   Valid,
   FrmBtnContainer,
-  FormBtn
+  FormBtn,
+  IconWrap
 } from "./styles";
-import { useCreateUser } from "hooks/service/mutator";
-import alertHandler from "utils/functions/alertHandler";
-import { checkemailApi } from "utils/apis/userApis";
-import { useNavigate } from "react-router-dom";
-import { checkValidation } from "utils/functions/validation";
-import { Link } from "react-router-dom";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const isFormValue = useRef(false);
-  const [inputs, setInputs] = useState({
-    email: "",
-    nickname: "",
-    password: "",
-    passwordCheck: ""
+  const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] =
+    useState(false);
+
+  const [isDisabledEmailField, setIsDisabledEmailField] = useState(false); //이메일 중복 확인 완료하면 버튼 비활성화
+  const [isCompleteFrmData, setIsCompleteFrmData] = useState(false); // (검증된)폼 데이터 작성 완료 유무
+
+  const {
+    register,
+    setFocus,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors, isValid } //formState에 대한 정보를 불러옴(여러 속성이 존재, 공식문서 참조)
+  } = useForm<TCreateUserSchema>({
+    mode: "onChange",
+    resolver: zodResolver(createUserSchema)
   });
-
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPw, setIsPw] = useState(false);
-  const [isFocus, setIsFocus] = useState({
-    isEmail: false,
-    isPw: false
-  });
-
-  const [isCheckEmail, setIsCheckEmail] = useState(false);
-  const [isCheckPw, setIsCheckPw] = useState(false);
-  const [isCompleteState, setIsCompleteState] = useState(false);
-  const [isComplete, setIsComplete] = useState({
-    isCompleteEmail: false,
-    isCompletePw: false,
-    isCompleteNickname: false
-  });
-
-  const { email, password, passwordCheck, nickname } = inputs;
-
-  useEffect(() => {
-    const result = Object.values(isComplete).every((item) => !!item);
-    setIsCompleteState(result);
-  }, [isComplete]);
-
-  const onFormChange = useCallback(
-    (e: any) => {
-      setInputs({
-        ...inputs,
-        [e.target.name]: e.target.value.trim()
-      });
-      isFormValue.current = true;
-    },
-    [inputs]
-  );
-
-  const onClickCheckEmail = useCallback(async () => {
-    if (isEmail) {
-      try {
-        const res = await checkemailApi<string>(email);
-        console.log(res);
-        alertHandler.onToast({ msg: res.msg });
-        setIsCheckEmail(true);
-        setIsComplete({
-          ...isComplete,
-          isCompleteEmail: true
-        });
-      } catch (error: any) {
-        if (error.status === 409) {
-          alertHandler.onToast({ msg: error.data.msg, icon: "warning" });
-          setIsCheckEmail(false);
-          setIsComplete({
-            ...isComplete,
-            isCompleteEmail: false
-          });
-        } else {
-          alertHandler.onToast({
-            msg: "서버 오류, 잠시후 시도해주세요",
-            icon: "error"
-          });
-          setIsCheckEmail(false);
-          setIsComplete({
-            ...isComplete,
-            isCompleteEmail: false
-          });
-        }
-        return;
-      }
-    } else {
-      alertHandler.onToast({ msg: "이메일을 입력해주세요!" });
-      setIsComplete({
-        ...isComplete,
-        isCompleteEmail: false
-      });
-    }
-  }, [email, isComplete, isEmail]);
-
-  const checkPw = (p1: string, p2: string) => p1 === p2;
-  const onClickCheckPw = useCallback(() => {
-    const isCheck = password && checkPw(password, passwordCheck);
-    if (isCheck) {
-      alertHandler.onToast({ msg: "비밀번호가 일치합니다." });
-      setIsCheckPw(true);
-      setIsComplete({
-        ...isComplete,
-        isCompletePw: true
-      });
-    } else {
-      alertHandler.onToast({
-        msg: "비밀번호가 일치하지 않습니다.",
-        icon: "warning"
-      });
-      setIsCheckPw(false);
-      setIsComplete({
-        ...isComplete,
-        isCompletePw: false
-      });
-      setInputs({
-        ...inputs,
-        password: "",
-        passwordCheck: ""
-      });
-    }
-  }, [inputs, isComplete, password, passwordCheck]);
-
   const mutation = useCreateUser();
 
+  const emailFiled = getValues("email");
+  const { success: isValidEmail } = validateEmailReault(emailFiled);
+
+  useEffect(() => {
+    setFocus("email"); //포커스
+  }, [setFocus]);
+
+  useEffect(() => {
+    setIsCompleteFrmData(isValid);
+  }, [isValid]);
+
+  const onClickCheckEmail = useCallback(async () => {
+    console.log(isValidEmail);
+    if (!isValidEmail) {
+      alertHandler.onToast({
+        msg: SCHEMA_ERROR_MESSAGE.EMAIL,
+        icon: "error"
+      });
+      return;
+    }
+    try {
+      const res = await checkemailApi<string>(emailFiled);
+      console.log(res);
+      if (res.isOk) {
+        setIsDisabledEmailField(true);
+        alertHandler.onToast({ msg: res.msg });
+      }
+    } catch (error: any) {
+      const errorRes = error.response;
+      if (errorRes.status === 409) {
+        // 존재하는 이메일인 경우
+        setIsDisabledEmailField(false);
+        alertHandler.onToast({ msg: errorRes.data.msg, icon: "warning" });
+      } else {
+        setIsDisabledEmailField(false);
+        alertHandler.onToast({
+          msg: "서버 오류, 잠시후 시도해주세요",
+          icon: "error"
+        });
+      }
+    }
+  }, [emailFiled, isValidEmail]);
+
+  const onShowPassword = useCallback(() => {
+    setIsVisiblePassword((prev) => !prev);
+  }, []);
+
+  const onShowConfirmPassword = useCallback(() => {
+    setIsVisibleConfirmPassword((prev) => !prev);
+  }, []);
+
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const userInfo = {
-        email,
-        password,
-        nickname
-      };
-      if (isCheckEmail && isCheckPw && nickname) {
-        console.log("회원가입하기");
-        mutation.mutate(userInfo);
+    (data: TCreateUserSchema) => {
+      // 에러 없이 정상적으로 submit 될 때 실행됨.
+      if (isDisabledEmailField && isCompleteFrmData) {
+        console.log(data);
+        mutation.mutate(data);
         navigate("/");
+        reset();
       }
     },
-    [email, isCheckEmail, isCheckPw, mutation, nickname, password, navigate]
+    [isCompleteFrmData, isDisabledEmailField, mutation, navigate, reset]
   );
   return (
     <FormWrap>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <InputLabel htmlFor="email">이메일</InputLabel>
           <InputWrap>
             <input
               type="email"
               id="email"
-              name="email"
-              required
-              disabled={isCheckEmail}
-              placeholder="이메일을 입력해주세요"
+              disabled={isDisabledEmailField}
               autoComplete="off"
-              onChange={onFormChange}
-              onFocus={() =>
-                setIsFocus({
-                  ...isFocus,
-                  isEmail: true
-                })
-              }
-              onBlur={(e) => setIsEmail(checkValidation(e))}
-              value={email}
+              placeholder="이메일을 입력해주세요"
+              {...register("email")}
             />
             <div className="buttonWrap">
               <FormBtn
-                className={`${isCheckEmail && "not-allowed"}`}
+                className={`${
+                  isDisabledEmailField ? "not-allowed" : "allowed"
+                }`}
                 type="button"
-                disabled={isCheckEmail}
+                disabled={isDisabledEmailField}
                 onClick={onClickCheckEmail}
               >
                 중복확인
               </FormBtn>
             </div>
-            {isFocus.isEmail && (
-              <Valid className={`valid ${isEmail ? "success" : "error"}`}>
-                {isEmail
-                  ? "이메일 형식이 올바릅니다."
-                  : "이메일 형식이 올바르지 않습니다."}
-              </Valid>
+            {errors.email && (
+              <Valid className="error">{errors.email.message}</Valid>
             )}
           </InputWrap>
         </InputGroup>
@@ -193,30 +143,16 @@ const SignUpForm = () => {
           <InputLabel htmlFor="pw">비밀번호</InputLabel>
           <InputWrap>
             <input
-              type="password"
-              id="password"
-              name="password"
-              required
-              className="input-width"
-              placeholder="비밀번호를 입력해주세요"
-              disabled={isCheckPw}
-              onChange={onFormChange}
-              onBlur={(e) => setIsPw(checkValidation(e))}
-              onFocus={() =>
-                setIsFocus({
-                  ...isFocus,
-                  isPw: true
-                })
-              }
-              value={password}
+              type={isVisiblePassword ? "text" : "password"}
               autoComplete="off"
+              placeholder="비밀번호를 입력해주세요"
+              {...register("password")}
             />
-            {isFocus.isPw && (
-              <Valid className={`valid ${isPw ? "success" : "error"}`}>
-                {isPw
-                  ? "비밀 번호 형식이 올바릅니다."
-                  : "문자와 특수문자 조합의 6 ~ 24자리를 입력해주세요."}
-              </Valid>
+            <IconWrap isVisible={isVisiblePassword} onClick={onShowPassword}>
+              {isVisiblePassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+            </IconWrap>
+            {errors.password && (
+              <Valid className="error">{errors.password.message}</Valid>
             )}
           </InputWrap>
         </InputGroup>
@@ -224,26 +160,24 @@ const SignUpForm = () => {
           <InputLabel htmlFor="passwordCheck">비밀번호 확인</InputLabel>
           <InputWrap>
             <input
-              type="password"
-              id="passwordCheck"
-              name="passwordCheck"
-              required
-              placeholder="비밀번호 확인해주세요"
-              disabled={isCheckPw}
-              onChange={onFormChange}
-              value={passwordCheck}
+              type={isVisibleConfirmPassword ? "text" : "password"}
               autoComplete="off"
+              placeholder="비밀번호를 입력해주세요"
+              {...register("confirmPassword")}
             />
-            <div className="buttonWrap">
-              <FormBtn
-                className={`${isCheckPw && "not-allowed"}`}
-                type="button"
-                disabled={isCheckPw}
-                onClick={onClickCheckPw}
-              >
-                비밀번호 확인
-              </FormBtn>
-            </div>
+            <IconWrap
+              isVisible={isVisibleConfirmPassword}
+              onClick={onShowConfirmPassword}
+            >
+              {isVisibleConfirmPassword ? (
+                <AiFillEye />
+              ) : (
+                <AiFillEyeInvisible />
+              )}
+            </IconWrap>
+            {errors.confirmPassword && (
+              <Valid className="error">{errors.confirmPassword.message}</Valid>
+            )}
           </InputWrap>
         </InputGroup>
         <InputGroup>
@@ -254,33 +188,26 @@ const SignUpForm = () => {
               required
               id="nickname"
               className="input-width"
-              name="nickname"
               placeholder="닉네임을 입력해주세요"
-              onBlur={(e) =>
-                String(e.target.value).length !== 0
-                  ? setIsComplete({
-                      ...isComplete,
-                      isCompleteNickname: true
-                    })
-                  : setIsComplete({
-                      ...isComplete,
-                      isCompleteNickname: false
-                    })
-              }
-              onChange={onFormChange}
-              value={nickname}
               autoComplete="off"
+              {...register("nickname")}
             />
+            {errors.nickname && (
+              <Valid className="error">{errors.nickname.message}</Valid>
+            )}
           </InputWrap>
         </InputGroup>
         <FrmBtnContainer>
-          <button
-            className={`${isCompleteState ? "" : "not-allowed"}`}
+          <FormBtn
+            className={`${
+              isDisabledEmailField && isCompleteFrmData
+                ? "allowed"
+                : "not-allowed"
+            }`}
             type="submit"
-            disabled={!isCompleteState}
           >
             회원가입
-          </button>
+          </FormBtn>
           <div className="auth-msg">
             <span>
               회원이 이신가요? &nbsp;
