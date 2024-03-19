@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLoginMutation } from "hooks/service/mutator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import {
   FormWrap,
@@ -8,68 +8,72 @@ import {
   InputLabel,
   InputWrap,
   FrmBtnContainer,
-  IconWrap
+  IconWrap,
+  FormBtn,
+  Valid
 } from "components/domain/SignUpForm/styles";
+import { useForm } from "react-hook-form";
+import { TLoginUserSchema, loginUserSchema } from "schema/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: ""
-  });
+  const [isCompleteFrmData, setIsCompleteFrmData] = useState(false);
+  const {
+    register,
+    setFocus,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid } //formState에 대한 정보를 불러옴(여러 속성이 존재, 공식문서 참조)
+  } = useForm<TLoginUserSchema>({
+    mode: "onChange",
+    resolver: zodResolver(loginUserSchema)
+  }); // (검증된)폼 데이터 작성 완료 유무
 
-  const { email, password } = inputs;
-
-  const onFormChange = useCallback(
-    (e: any) => {
-      setInputs({
-        ...inputs,
-        [e.target.name]: e.target.value.trim()
-      });
-    },
-    [inputs]
-  );
   const mutation = useLoginMutation();
+
+  useEffect(() => {
+    setFocus("email"); //포커스
+  }, [setFocus]);
+
+  useEffect(() => {
+    setIsCompleteFrmData(isValid);
+  }, [isValid]);
 
   const onShowPassword = () => {
     setIsVisiblePassword((prev) => !prev);
   };
 
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const userInfo = {
-        email,
-        password
-      };
-
-      if (password && email) {
-        mutation.mutate(userInfo);
+    async (data: TLoginUserSchema) => {
+      if (isCompleteFrmData) {
+        const resData = await mutation.mutateAsync(data);
+        if (resData.isOk) {
+          navigate("/");
+          reset();
+        }
       }
-      setInputs({
-        email: "",
-        password: ""
-      });
     },
-    [email, mutation, password]
+    [isCompleteFrmData, mutation, navigate, reset]
   );
 
   return (
     <FormWrap>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <InputGroup>
           <InputLabel htmlFor="email">이메일</InputLabel>
           <InputWrap>
             <input
               type="email"
-              id="email"
-              name="email"
               required
               placeholder="이메일을 입력해주세요"
-              onChange={onFormChange}
-              value={email}
               autoComplete="off"
+              {...register("email")}
             />
+            {errors.email && (
+              <Valid className="error">{errors.email.message}</Valid>
+            )}
           </InputWrap>
         </InputGroup>
         <InputGroup>
@@ -77,21 +81,21 @@ const LoginForm = () => {
           <InputWrap>
             <input
               type={isVisiblePassword ? "text" : "password"}
-              id="password"
-              name="password"
               required
               placeholder="비밀번호를 입력해주세요"
-              onChange={onFormChange}
-              value={password}
               autoComplete="off"
+              {...register("password")}
             />
             <IconWrap isVisible={isVisiblePassword} onClick={onShowPassword}>
               {isVisiblePassword ? <AiFillEye /> : <AiFillEyeInvisible />}
             </IconWrap>
+            {errors.password && (
+              <Valid className="error">{errors.password.message}</Valid>
+            )}
           </InputWrap>
         </InputGroup>
         <FrmBtnContainer>
-          <button type="submit">로그인</button>
+          <FormBtn type="submit">로그인</FormBtn>
           <div className="auth-msg">
             <span>
               아직 회원이 아니신가요? &nbsp;
