@@ -31,6 +31,12 @@ const Topbar = ({ headerHeight }: { headerHeight: number }) => {
     };
   }, [onHeaderScroll, setIsChangeHeaderHeight]);
 
+  useEffect(() => {
+    const $body = document.body;
+    // 모달 활성시 스크롤 방지
+    $body.style.overflow = isOpen ? "hidden" : "auto";
+  }, [isOpen]);
+
   useLayoutEffect(() => {
     setTargetPath(
       location.pathname === "/story" || location.pathname === "/search"
