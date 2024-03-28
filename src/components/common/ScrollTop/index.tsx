@@ -1,9 +1,9 @@
 import { ScrollTopBtn, ScrollTopWrap } from "./styles";
 import { MdArrowUpward } from "react-icons/md";
-import headerViewState from "store/headerViewState";
+import headerViewState from "store/headerState";
 
 const ScrollTop = () => {
-  const { isViewHeader } = headerViewState();
+  const { isChangeHeaderHeight } = headerViewState();
   const onScrollTop = () => {
     window.scrollTo({
       top: 0,
@@ -12,8 +12,8 @@ const ScrollTop = () => {
   };
 
   return (
-    <ScrollTopWrap onClick={onScrollTop} isFadeIn={!isViewHeader}>
-      <ScrollTopBtn isFadeIn={!isViewHeader}>
+    <ScrollTopWrap onClick={onScrollTop} isFadeIn={isChangeHeaderHeight}>
+      <ScrollTopBtn isFadeIn={isChangeHeaderHeight}>
         <MdArrowUpward size={40} />
       </ScrollTopBtn>
     </ScrollTopWrap>

@@ -1,5 +1,17 @@
 import { palette } from "libs/palette";
 import styled from "@emotion/styled";
+import { Header } from "styles/common";
+
+export const TopHeader = styled(Header)<{ isChangeHeaderHeight: boolean }>`
+  position: sticky;
+  top: 0;
+  width: "100%";
+  box-shadow: ${({ isChangeHeaderHeight, theme }) =>
+    isChangeHeaderHeight && theme.boxShadow.light};
+  backdrop-filter: ${({ isChangeHeaderHeight }) =>
+    isChangeHeaderHeight && "blur(10px)"};
+  z-index: 2;
+`;
 
 export const Navbar = styled.div<{ isAuth: boolean }>`
   display: flex;

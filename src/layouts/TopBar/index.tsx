@@ -1,24 +1,35 @@
 import { useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
-import { useInView } from "react-intersection-observer";
 import Sidebar from "components/common/Sidebar";
 import SearchBar from "components/common/SearchBar";
-// import { useSetRecoilState } from "recoil";
-import headerViewState from "store/headerViewState";
+import headerViewState from "store/headerState";
 import UserMenu from "./components/UserMenu";
 import { Navbar, OverWrap } from "./styles";
 import userState from "store/userState";
 
-const Topbar = () => {
+const Topbar = ({ headerHeight }: { headerHeight: number }) => {
   const { isAuth } = userState();
   const [isOpen, setIsOpen] = useState(false);
-  const { setIsViewHeader } = headerViewState();
+  const { setIsChangeHeaderHeight } = headerViewState();
   const [targetPath, setTargetPath] = useState(false);
-  const [ref, isView] = useInView({
-    threshold: 0.5
-  });
   const location = useLocation();
+
+  const onHeaderScroll = useCallback(() => {
+    if (window.scrollY > headerHeight) {
+      setIsChangeHeaderHeight(true);
+    } else {
+      setIsChangeHeaderHeight(false);
+    }
+  }, [headerHeight, setIsChangeHeaderHeight]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", onHeaderScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onHeaderScroll);
+    };
+  }, [onHeaderScroll, setIsChangeHeaderHeight]);
 
   useLayoutEffect(() => {
     setTargetPath(
@@ -26,16 +37,11 @@ const Topbar = () => {
     );
   }, [location.pathname]);
 
-  useEffect(() => {
-    setIsViewHeader(isView);
-  }, [isView, setIsViewHeader]);
-
   const showSidebar = useCallback(() => setIsOpen(true), []);
   const showCloseSidebar = useCallback(() => setIsOpen(false), []);
-  console.log(isAuth);
   return (
     <>
-      <Navbar className="navbar" ref={ref} isAuth={isAuth as boolean}>
+      <Navbar className="navbar" isAuth={isAuth as boolean}>
         <div className="menu-left">
           <div>
             <button className="menu-bars">
