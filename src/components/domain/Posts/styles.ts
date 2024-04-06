@@ -133,7 +133,7 @@ export const PostBodyBlock = styled.div<{ moreImg?: number }>`
         }
         &:nth-of-type(5) {
           position: relative;
-          z-index: 10;
+          cursor: pointer;
 
           &::after {
             content: "더보기";
@@ -143,7 +143,6 @@ export const PostBodyBlock = styled.div<{ moreImg?: number }>`
             transform: translate(-50%, -50%);
             font-size: 25px;
             color: #fff;
-            z-index: 15;
           }
           &::before {
             content: "";
@@ -153,7 +152,14 @@ export const PostBodyBlock = styled.div<{ moreImg?: number }>`
             top: 0;
             bottom: 0;
             background: rgb(81 77 77 / 50%);
-            z-index: 10;
+          }
+
+          .item_txt {
+            position: absolute;
+            top: 57%;
+            right: 28%;
+            color: #fff;
+            font-size: 28px;
           }
         }
       }

@@ -128,7 +128,7 @@ export const UserInfo = styled.div`
       outline: none;
       border: 1px solid gray;
       display: block;
-      width: 370px;
+      width: 320px;
       padding: 10px;
       font-size: 18px;
       box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 8%);

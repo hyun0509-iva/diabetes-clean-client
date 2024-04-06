@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import Comments from "components/domain/Comments";
 import PostHeader from "components/domain/Posts/PostHeader";
 import PostStatus from "components/domain/Posts/PostStatus";
@@ -44,6 +44,8 @@ const PostItem = ({
     getAllComment
   );
 
+  const [isOpenImgDetail, setIsOpenImgDetail] = useState(false);
+
   const imgLayoutClass = () => {
     const imgLen = (imageData as IUploadedImg[])?.length;
     return (() => {
@@ -65,6 +67,7 @@ const PostItem = ({
       }
     })();
   };
+  console.log(imageData);
   return (
     <PostItemWrap key={_id}>
       <PostHeader
@@ -88,13 +91,28 @@ const PostItem = ({
               </div>
               <ul className={`img-wrap ${imgLayoutClass()}`}>
                 {imageData?.length
-                  ? imageData.map((image) => (
-                      <li key={image.assetId}>
+                  ? imageData.map((image, idx) => (
+                      <li
+                        key={image.assetId}
+                        onClick={() => {
+                          if (idx === 4) {
+                            console.log(idx);
+                            // 이미지 상세 열기를 위한 상태 관리
+                            setIsOpenImgDetail((prev) => !prev);
+                          }
+                        }}
+                      >
                         <img src={image.url} alt="" width={"300px"} />
+                        {imageData.length > 5 && (
+                          <div className="item_txt">
+                            &#43;{imageData.length - 5}
+                          </div>
+                        )}
                       </li>
                     ))
                   : null}
               </ul>
+              {isOpenImgDetail && <div>이미지 상세 모달 형식의 페이지</div>}
             </PostBodyBlock>
             <PostBodyBlock>
               <PostStatus

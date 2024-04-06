@@ -46,6 +46,7 @@ export const ModalWrap = styled.div<{ disappear: boolean }>`
   background: rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s ease-in-out;
   z-index: 3;
+  backdrop-filter: blur(5px);
   //--- animation: test
   animation-duration: 0.3s;
   animation-timing-function: ease-in-out;

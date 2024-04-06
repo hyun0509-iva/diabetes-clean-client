@@ -2,14 +2,17 @@ import { palette } from "libs/palette";
 import styled from "@emotion/styled";
 import { Header } from "styles/common";
 
-export const TopHeader = styled(Header)<{ isChangeHeaderHeight: boolean }>`
+export const TopHeader = styled(Header)<{
+  isOpen: boolean;
+  isChangeHeaderHeight: boolean;
+}>`
   position: sticky;
   top: 0;
   width: "100%";
   box-shadow: ${({ isChangeHeaderHeight, theme }) =>
     isChangeHeaderHeight && theme.boxShadow.light};
-  backdrop-filter: ${({ isChangeHeaderHeight }) =>
-    isChangeHeaderHeight && "blur(10px)"};
+  backdrop-filter: ${({ isOpen, isChangeHeaderHeight }) =>
+    isChangeHeaderHeight && (isOpen ? "none" : "blur(5px)")};
   z-index: 2;
 `;
 
@@ -64,6 +67,7 @@ export const OverWrap = styled.div`
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
+  backdrop-filter: blur(5px);
 `;
 
 export const NavContents = styled.li`

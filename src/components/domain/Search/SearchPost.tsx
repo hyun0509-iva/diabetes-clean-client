@@ -66,6 +66,9 @@ const SearchPost = ({ params, queryKey, fetcher }: IProps) => {
         if (error.response?.status === 403) {
           errorMessage = error.response?.data.msg;
         }
+        if (error.response?.status === 404 || error.response?.status === 403) {
+          errorMessage = error.response?.data?.msg;
+        }
         if (error.response?.status === 500) {
           errorMessage = "서버 에러, 잠시후 다시 시작해주세요";
         }
