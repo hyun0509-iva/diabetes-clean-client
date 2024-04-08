@@ -7,6 +7,7 @@ import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 import userState from "store/userState";
 import useStorage from "utils/functions/useStorage";
+import { API_PATH } from "constants/api_path";
 
 interface IProps {
   showSubMenu: boolean;
@@ -14,21 +15,25 @@ interface IProps {
 }
 
 const { USER_KEY } = QUERY_KEY;
+const { LOG_OUT } = API_PATH;
 
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
   const { MYPAGE, STORY } = ROUTER_PATH;
-  const { userInfo, logOut } = userState();
+  const { userInfo, removeIsAuth, removeUserInfo } = userState();
   const { removeStorage } = useStorage;
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleLogOut = useCallback(() => {
-    api.get("/api/v1/auth/logout", { withCredentials: true }).then(() => {
-      logOut();
-      queryClient.setQueryData([USER_KEY], false);
+    api
+      .get(`${LOG_OUT}/${userInfo?._id}`, { withCredentials: true })
+      .then(() => {
+        queryClient.setQueryData([USER_KEY], false);
 
-      navigate("/login", { replace: true });
-    });
-    removeStorage("accessToken");
+        removeUserInfo();
+        navigate("/login", { replace: true });
+        removeStorage("accessToken");
+        removeIsAuth();
+      });
     onCloseMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
