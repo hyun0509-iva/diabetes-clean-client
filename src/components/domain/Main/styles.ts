@@ -1,5 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { palette } from "libs/palette";
 
 const TextAni = keyframes`
   0% {
@@ -13,16 +14,20 @@ export const MainContainer = styled.div`
   .main_container {
     //메인 화면 공통 스타일
     padding: 30px 0;
-    margin: 130px auto;
     width: 80%;
+    margin: auto;
+
+    .inner {
+      padding-top: 20px;
+    }
   }
 
-  /* banner-video 영역 */
-  section.banner-video {
+  /* video 영역 */
+  section.banner_video {
     width: 100%;
     height: 100%;
 
-    .video-wrap {
+    .video_wrap {
       position: relative;
       left: 0;
       top: 0;
@@ -55,137 +60,151 @@ export const MainContainer = styled.div`
     }
   }
 
-  /* introl_text 영역 */
-  section.banner-text {
+  /* Banner-text 영역 */
+  section.banner_text {
     width: 100%;
-    background-color: #f1f3f5;
+    background-color: #fff;
+    height: 500px;
 
     .inner {
-      padding: 25px 0;
-      display: flex;
-      gap: 15px;
-
-      .left-side {
-        flex: 1;
-
-        .img_wrap {
-          margin-top: -20px;
-          width: 370px;
-          position: relative;
-          left: 0;
-          top: 0;
-        }
-
-        .img_wrap img {
-          width: 100%;
-        }
-        .img_wrap .inner_text {
-          position: absolute;
-          left: 154px;
-          top: 80px;
-
-          span {
-            font-size: 30px;
-          }
-        }
-      }
-
-      .main_text {
-        flex: 2;
-        text-align: center;
-
-        .title .up_text {
-          padding-left: 3px;
-          font-size: 16px;
-        }
-
-        .title h2 {
-          font-size: 32px;
-          font-weight: 800;
-        }
-
-        .contents {
-          margin-top: 45px;
-        }
-
-        .contents p {
-          line-height: 1.6;
-          font-size: 25px;
-        }
-        .contents p:nth-of-type(3) {
-          margin-top: 40px;
-        }
-      }
+      padding-top: 50px;
     }
-  }
 
-  section.knowledge {
-    .inner {
-      width: 65%;
-      margin: auto;
-
-      .title {
-        border-left-color: pink;
+    .banner_text_top {
+      text-align: center;
+      h2.banner_txt {
+        font-size: 32px;
+      }
+      h3.banner_sub_txt {
+        margin-top: 30px;
         font-size: 24px;
-        padding: 0 20px;
 
-        & span {
-          position: relative;
-        }
-        & span::before {
-          position: absolute;
-          background-color: #d9480f;
-          top: 3px;
-          left: -10px;
-          content: "";
-          width: 3px;
-          height: 18px;
+        span {
+          color: #70290d;
         }
       }
-      .knowledge-contents {
-        padding: 15px 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        transition: height 0.3s ease-in-out;
-        .content-item {
-          overflow: hidden;
-          box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 20%);
+    }
+
+    .banner_text_bottom {
+      width: 650px;
+      margin: 100px auto;
+
+      .hr {
+        position: relative;
+        border-top: 1px solid ${palette.gray[2]};
+
+        .dot {
+          position: absolute;
+          top: -6px;
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: ${palette.gray[2]};
         }
-        .contents_title {
-          padding: 20px 15px;
-          cursor: pointer;
+        .dot:nth-of-type(1) {
+          left: 0%;
         }
-        .contents_desc {
-          & p {
-            padding: 0px 15px;
-            height: 0;
-            transition: all 0.3s ease-in-out;
-          }
+        .dot:nth-of-type(2) {
+          left: 50%;
         }
-        .contents_desc.on {
-          & p {
-            padding: 20px 15px;
-            display: block;
-            height: auto;
-          }
+        .dot:nth-of-type(3) {
+          right: 0;
+        }
+      }
+      .context_container {
+        margin-top: 30px;
+        position: relative;
+        h4 {
+          font-size: 18px;
+          font-weight: 800;
+          text-align: center;
+          margin-bottom: 15px;
+        }
+        .context {
+          position: absolute;
+          top: 0;
+          font-weight: 600;
+        }
+        .context:nth-of-type(1) {
+          left: 0;
+          transform: translateX(-50%);
+          width: 175px;
+        }
+        .context:nth-of-type(2) {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 195px;
+        }
+        .context:nth-of-type(3) {
+          right: 0;
+          transform: translateX(50%);
+          width: 196px;
         }
       }
     }
   }
-  section.banner-md {
+  /* introduction 영역 */
+  section.introduction {
     width: 100%;
-    height: 300px;
+    height: 900px;
     background-color: #f1f3f5;
+
+    .title {
+      h2 {
+        font-size: 20px;
+        span {
+          color: #70290d;
+        }
+      }
+    }
+    .conents {
+      ul.feature_list {
+        position: relative;
+      }
+      .item {
+        position: absolute;
+      }
+      .item:nth-child(1) {
+        top: 20px;
+        left: 15%;
+        width: 300px;
+        height: 300px;
+        background-color: #70290d;
+      }
+      .item:nth-child(2) {
+        top: 350px;
+        left: 0%;
+        width: 300px;
+        height: 300px;
+        background-color: rebeccapurple;
+      }
+      .item:nth-child(3) {
+        top: 0;
+        left: 70%;
+        width: 300px;
+        height: 500px;
+        background-color: gainsboro;
+      }
+      .item:nth-child(4) {
+        top: 0;
+        left: 80%;
+        width: 300px;
+        height: 300px;
+        background-color: antiquewhite;
+      }
+    }
   }
 
-  section.app-explanation {
+  /* popularStory 영역 */
+  section.popular_story {
     width: 100%;
     height: 300px;
-    background-color: #f1f3f5;
+    background-color: #fff;
   }
 
-  section.last-banner {
+  /* BannerBottomSec 영역 */
+  section.banner_bottom {
     width: 100%;
     height: 300px;
     background-color: #f1f3f5;

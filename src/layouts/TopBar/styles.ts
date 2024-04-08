@@ -1,10 +1,12 @@
 import { palette } from "libs/palette";
 import styled from "@emotion/styled";
 import { Header } from "styles/common";
+import { css } from "@emotion/react";
 
 export const TopHeader = styled(Header)<{
   isOpen: boolean;
   isChangeHeaderHeight: boolean;
+  targetPath: boolean;
 }>`
   position: sticky;
   top: 0;
@@ -14,6 +16,11 @@ export const TopHeader = styled(Header)<{
   backdrop-filter: ${({ isOpen, isChangeHeaderHeight }) =>
     isChangeHeaderHeight && (isOpen ? "none" : "blur(5px)")};
   z-index: 2;
+  ${({ targetPath }) =>
+    !targetPath &&
+    css`
+      background-color: #fff;
+    `};
 `;
 
 export const Navbar = styled.div<{ isAuth: boolean }>`
