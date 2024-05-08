@@ -32,7 +32,6 @@ const RootLayout = () => {
   return (
     <div>
       <Interceptors />
-
       <Topbar />
       <Suspense fallback={<div>로딩중...</div>}>
         <Main>

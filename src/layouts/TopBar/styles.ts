@@ -19,7 +19,7 @@ export const TopHeader = styled(Header)<{
   ${({ targetPath }) =>
     !targetPath &&
     css`
-      background-color: #fff;
+      background-color: #eaecee;
     `};
 `;
 

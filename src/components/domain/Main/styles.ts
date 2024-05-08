@@ -146,8 +146,8 @@ export const MainContainer = styled.div`
   }
   /* introduction 영역 */
   section.introduction {
+    padding: 50px 0;
     width: 100%;
-    height: 900px;
     background-color: #f1f3f5;
 
     .title {
@@ -159,54 +159,150 @@ export const MainContainer = styled.div`
       }
     }
     .conents {
-      ul.feature_list {
-        position: relative;
-      }
-      .item {
-        position: absolute;
-      }
-      .item:nth-child(1) {
-        top: 20px;
-        left: 15%;
-        width: 300px;
-        height: 300px;
-        background-color: #70290d;
-      }
-      .item:nth-child(2) {
-        top: 350px;
-        left: 0%;
-        width: 300px;
-        height: 300px;
-        background-color: rebeccapurple;
-      }
-      .item:nth-child(3) {
-        top: 0;
-        left: 70%;
-        width: 300px;
-        height: 500px;
-        background-color: gainsboro;
-      }
-      .item:nth-child(4) {
-        top: 0;
-        left: 80%;
-        width: 300px;
-        height: 300px;
-        background-color: antiquewhite;
+      margin-top: 50px;
+
+      .feature_list {
+        display: flex;
+        gap: 15px;
+
+        .item {
+          width: 500px;
+          height: 500px;
+          box-shadow: 5px 6px 15px rgba(3, 3, 3, 0.4);
+        }
+        .item:nth-of-type(even) {
+          transform: translateY(-20px);
+        }
       }
     }
   }
 
   /* popularStory 영역 */
   section.popular_story {
+    padding: 50px 0;
     width: 100%;
-    height: 300px;
     background-color: #fff;
+
+    .title {
+      h2 {
+        font-size: 20px;
+        span {
+          color: #70290d;
+        }
+      }
+    }
+    .conents {
+      margin-top: 25px;
+
+      .popular_story_list {
+        display: flex;
+        gap: 30px;
+
+        .item {
+          min-width: 350px;
+          width: 33.3%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 5px 6px 15px rgba(3, 3, 3, 0.4);
+        }
+        .img_wrap {
+          width: 100%;
+          height: 300px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .content_wrap {
+          margin: 10px 0;
+          padding: 10px 15px;
+          height: 150px;
+          .text {
+            height: 75%;
+            padding: 10px 15px;
+            font-size: 18px;
+            text-align: center;
+          }
+          .more_btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 35%; */
+
+            button {
+              width: 150px;
+              height: 40px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 20px;
+              color: #fff;
+              background-color: #454749;
+            }
+          }
+        }
+      }
+    }
   }
 
   /* BannerBottomSec 영역 */
   section.banner_bottom {
+    overflow: hidden;
     width: 100%;
-    height: 300px;
+    height: 500px;
     background-color: #f1f3f5;
+
+    .bottom_wrap {
+      padding: 80px;
+      position: relative;
+
+      .contents {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        padding-top: 50px;
+
+        .text {
+          p {
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
+          }
+        }
+        .more_btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          button {
+            width: 150px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            color: #fff;
+            background-color: #70290d;
+          }
+        }
+      }
+      .img_wrap {
+        position: absolute;
+        transform: rotate(36deg);
+        top: 81px;
+        right: -18px;
+        width: 350px;
+        height: 500px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          box-shadow: 0px 0px 10px 4px rgb(0 0 0 /11%);
+        }
+      }
+    }
   }
 `;

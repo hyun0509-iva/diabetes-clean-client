@@ -19,7 +19,7 @@ export const Contour = styled.div`
   // 구분선(Contour)
   width: 100%;
   height: 1px;
-  background-color: ${palette.gray[1]};
+  background-color: ${palette.gray[2]};
 `;
 
 export const LoadingSpinner = styled.span`

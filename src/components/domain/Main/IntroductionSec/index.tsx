@@ -11,12 +11,24 @@ const IntroductionSec = () => {
             </h2>
           </div>
           <div className="conents">
-            <ul className="feature_list">
-              <li className="item"></li>
-              <li className="item"></li>
-              <li className="item"></li>
-              <li className="item"></li>
-            </ul>
+            <div className="feature_list">
+              <div className="item">
+                <div className="img_wrap"></div>
+                <div className="content_wrap"></div>
+              </div>
+              <div className="item">
+                <div className="img_wrap"></div>
+                <div className="content_wrap"></div>
+              </div>
+              <div className="item">
+                <div className="img_wrap"></div>
+                <div className="content_wrap"></div>
+              </div>
+              <div className="item">
+                <div className="img_wrap"></div>
+                <div className="content_wrap"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

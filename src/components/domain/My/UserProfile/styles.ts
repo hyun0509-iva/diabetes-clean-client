@@ -1,4 +1,3 @@
-import { theme } from "libs/palette";
 import styled from "@emotion/styled";
 
 export const ProfileBlock = styled.div`
@@ -8,7 +7,8 @@ export const ProfileBlock = styled.div`
   align-items: center;
   gap: 15px;
   margin: 30px 0px;
-  box-shadow: ${theme.boxShadow.light};
+  border-radius: 8px;
+  box-shadow: 0 4px 23px -5px rgb(0 0 0 / 45%);
 `;
 
 export const ProfileContainer = styled.div`
