@@ -216,7 +216,7 @@ export const MainContainer = styled.div`
         }
         .content_wrap {
           margin: 10px 0;
-          padding: 10px 15px;
+          padding: 10px 15px 30px;
           height: 150px;
           .text {
             height: 75%;

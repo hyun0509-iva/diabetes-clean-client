@@ -74,6 +74,6 @@ export const theme = {
   boxShadow: {
     thick: "0 4px 23px -5px rgb(0 0 0 / 40%)",
     middle: "0px 0px 10px 0px rgb(0 0 0 / 35%)",
-    light: "0px 2px 13px -1px rgb(0 0 0 / 10%)"
+    light: "0px 0px 12px 0px rgb(0 0 0 / 18%)"
   }
 };
