@@ -64,6 +64,7 @@ const Topbar = () => {
       isOpen={isOpen}
       isChangeHeaderHeight={isChangeHeaderHeight}
       ref={headerRef}
+      targetPath={targetPath}
     >
       <Navbar className="navbar" isAuth={isAuth as boolean}>
         <div className="menu-left">

@@ -16,6 +16,7 @@ export const PostItemWrap = styled.div`
   padding: 30px 15px;
   background-color: #fff;
   border-radius: 5px;
+  box-shadow: 0px 0px 10px 4px rgb(0 0 0 /10%);
 `;
 
 export const ErrprPostItemWrap = styled(PostItemWrap)`
