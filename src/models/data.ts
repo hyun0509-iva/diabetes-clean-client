@@ -94,7 +94,10 @@ export type TMyInfo = Pick<
   | "aboutMe"
 >;
 
-export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageData">;
+export type TBriefWriter = Pick<
+  TMyInfo,
+  "_id" | "email" | "nickname" | "imageData"
+>;
 
 export type TUserUpdateRequest = Partial<
   Pick<TMyInfo, "nickname" | "aboutMe" | "imageData">

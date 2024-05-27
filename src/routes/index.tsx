@@ -6,6 +6,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import LoggedInRoutes from "./LoggedInRoutes";
 import Home from "pages/Home";
 import NotFound from "pages/NotFound";
+import SearchHospital from "pages/SearchHospital";
 
 const Login = lazy(() => import("pages/Login"));
 const SignUp = lazy(() => import("pages/SignUp"));
@@ -32,6 +33,7 @@ const {
   UPDATE_CONTENTS,
   MY_FEED,
   SEARCH,
+  SEARCH_HOSPITAL,
   EMPATHY
 } = ROUTER_PATH;
 
@@ -70,6 +72,10 @@ const Router = createBrowserRouter([
       {
         path: SEARCH,
         element: <SearchPage />
+      },
+      {
+        path: SEARCH_HOSPITAL,
+        element: <SearchHospital />
       },
       {
         path: MY_FEED,
