@@ -6,7 +6,7 @@ export const FormWrap = styled.form`
   width: 100%;
   min-width: 300px;
   position: relative;
-  box-shadow: ${({ theme }) => theme.boxShadow.middle};
+  box-shadow: ${({ theme }) => theme.boxShadow.thick};
   form {
     margin-top: 45px;
   }
