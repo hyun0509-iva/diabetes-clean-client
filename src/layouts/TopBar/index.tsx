@@ -64,6 +64,7 @@ const Topbar = () => {
       isOpen={isOpen}
       isChangeHeaderHeight={isChangeHeaderHeight}
       ref={headerRef}
+      targetPath={targetPath}
     >
       <Navbar className="navbar" isAuth={isAuth as boolean}>
         <div className="menu-left">
@@ -76,7 +77,7 @@ const Topbar = () => {
           </div>
           <div className="logo">
             <Link to="/">
-              <img width={100} src="/images/logo.png" alt="logo-img" />
+              <img src="/images/logo.png" alt="logo-img" />
             </Link>
           </div>
         </div>

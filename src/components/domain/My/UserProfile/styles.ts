@@ -1,4 +1,3 @@
-import { theme } from "libs/palette";
 import styled from "@emotion/styled";
 
 export const ProfileBlock = styled.div`
@@ -8,7 +7,8 @@ export const ProfileBlock = styled.div`
   align-items: center;
   gap: 15px;
   margin: 30px 0px;
-  box-shadow: ${theme.boxShadow.light};
+  border-radius: 8px;
+  box-shadow: 0 4px 23px -5px rgb(0 0 0 / 45%);
 `;
 
 export const ProfileContainer = styled.div`
@@ -118,7 +118,7 @@ export const UserInfo = styled.div`
   }
   .info_cont {
     padding: 10px;
-    box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 8%);
+    box-shadow: ${({ theme }) => theme.boxShadow.middle};
 
     &.about_me {
       height: 300px;
@@ -131,7 +131,7 @@ export const UserInfo = styled.div`
       width: 320px;
       padding: 10px;
       font-size: 18px;
-      box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 8%);
+      box-shadow: ${({ theme }) => theme.boxShadow.light};
     }
   }
 `;

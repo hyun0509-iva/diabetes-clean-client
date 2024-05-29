@@ -1,5 +1,6 @@
 import { keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import { palette } from "libs/palette";
 
 const TextAni = keyframes`
   0% {
@@ -13,16 +14,20 @@ export const MainContainer = styled.div`
   .main_container {
     //메인 화면 공통 스타일
     padding: 30px 0;
-    margin: 130px auto;
     width: 80%;
+    margin: auto;
+
+    .inner {
+      padding-top: 20px;
+    }
   }
 
-  /* banner-video 영역 */
-  section.banner-video {
+  /* video 영역 */
+  section.banner_video {
     width: 100%;
     height: 100%;
 
-    .video-wrap {
+    .video_wrap {
       position: relative;
       left: 0;
       top: 0;
@@ -55,139 +60,249 @@ export const MainContainer = styled.div`
     }
   }
 
-  /* introl_text 영역 */
-  section.banner-text {
+  /* Banner-text 영역 */
+  section.banner_text {
+    width: 100%;
+    background-color: #fff;
+    height: 500px;
+
+    .inner {
+      padding-top: 50px;
+    }
+
+    .banner_text_top {
+      text-align: center;
+      h2.banner_txt {
+        font-size: 32px;
+      }
+      h3.banner_sub_txt {
+        margin-top: 30px;
+        font-size: 24px;
+
+        span {
+          color: #70290d;
+        }
+      }
+    }
+
+    .banner_text_bottom {
+      width: 650px;
+      margin: 100px auto;
+
+      .hr {
+        position: relative;
+        border-top: 1px solid ${palette.gray[2]};
+
+        .dot {
+          position: absolute;
+          top: -6px;
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: ${palette.gray[2]};
+        }
+        .dot:nth-of-type(1) {
+          left: 0%;
+        }
+        .dot:nth-of-type(2) {
+          left: 50%;
+        }
+        .dot:nth-of-type(3) {
+          right: 0;
+        }
+      }
+      .context_container {
+        margin-top: 30px;
+        position: relative;
+        h4 {
+          font-size: 18px;
+          font-weight: 800;
+          text-align: center;
+          margin-bottom: 15px;
+        }
+        .context {
+          position: absolute;
+          top: 0;
+          font-weight: 600;
+        }
+        .context:nth-of-type(1) {
+          left: 0;
+          transform: translateX(-50%);
+          width: 175px;
+        }
+        .context:nth-of-type(2) {
+          left: 50%;
+          transform: translateX(-50%);
+          width: 195px;
+        }
+        .context:nth-of-type(3) {
+          right: 0;
+          transform: translateX(50%);
+          width: 196px;
+        }
+      }
+    }
+  }
+  /* introduction 영역 */
+  section.introduction {
+    padding: 50px 0;
     width: 100%;
     background-color: #f1f3f5;
 
-    .inner {
-      padding: 25px 0;
-      display: flex;
-      gap: 15px;
-
-      .left-side {
-        flex: 1;
-
-        .img_wrap {
-          margin-top: -20px;
-          width: 370px;
-          position: relative;
-          left: 0;
-          top: 0;
-        }
-
-        .img_wrap img {
-          width: 100%;
-        }
-        .img_wrap .inner_text {
-          position: absolute;
-          left: 154px;
-          top: 80px;
-
-          span {
-            font-size: 30px;
-          }
+    .title {
+      h2 {
+        font-size: 20px;
+        span {
+          color: #70290d;
         }
       }
+    }
+    .conents {
+      margin-top: 50px;
 
-      .main_text {
-        flex: 2;
-        text-align: center;
+      .feature_list {
+        display: flex;
+        gap: 15px;
 
-        .title .up_text {
-          padding-left: 3px;
-          font-size: 16px;
+        .item {
+          width: 500px;
+          height: 500px;
+          box-shadow: 5px 6px 15px rgba(3, 3, 3, 0.4);
         }
-
-        .title h2 {
-          font-size: 32px;
-          font-weight: 800;
-        }
-
-        .contents {
-          margin-top: 45px;
-        }
-
-        .contents p {
-          line-height: 1.6;
-          font-size: 25px;
-        }
-        .contents p:nth-of-type(3) {
-          margin-top: 40px;
+        .item:nth-of-type(even) {
+          transform: translateY(-20px);
         }
       }
     }
   }
 
-  section.knowledge {
-    .inner {
-      width: 65%;
-      margin: auto;
+  /* popularStory 영역 */
+  section.popular_story {
+    padding: 50px 0;
+    width: 100%;
+    background-color: #fff;
 
-      .title {
-        border-left-color: pink;
-        font-size: 24px;
-        padding: 0 20px;
-
-        & span {
-          position: relative;
-        }
-        & span::before {
-          position: absolute;
-          background-color: #d9480f;
-          top: 3px;
-          left: -10px;
-          content: "";
-          width: 3px;
-          height: 18px;
+    .title {
+      h2 {
+        font-size: 20px;
+        span {
+          color: #70290d;
         }
       }
-      .knowledge-contents {
-        padding: 15px 8px;
+    }
+    .conents {
+      margin-top: 25px;
+
+      .popular_story_list {
+        display: flex;
+        gap: 30px;
+
+        .item {
+          min-width: 350px;
+          width: 33.3%;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 5px 6px 15px rgba(3, 3, 3, 0.4);
+        }
+        .img_wrap {
+          width: 100%;
+          height: 300px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .content_wrap {
+          margin: 10px 0;
+          padding: 10px 15px 30px;
+          height: 150px;
+          .text {
+            height: 75%;
+            padding: 10px 15px;
+            font-size: 18px;
+            text-align: center;
+          }
+          .more_btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 35%; */
+
+            button {
+              width: 150px;
+              height: 40px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 20px;
+              color: #fff;
+              background-color: #454749;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* BannerBottomSec 영역 */
+  section.banner_bottom {
+    overflow: hidden;
+    width: 100%;
+    height: 500px;
+    background-color: #f1f3f5;
+
+    .bottom_wrap {
+      padding: 80px;
+      position: relative;
+
+      .contents {
         display: flex;
         flex-direction: column;
-        gap: 15px;
-        transition: height 0.3s ease-in-out;
-        .content-item {
-          overflow: hidden;
-          box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 20%);
-        }
-        .contents_title {
-          padding: 20px 15px;
-          cursor: pointer;
-        }
-        .contents_desc {
-          & p {
-            padding: 0px 15px;
-            height: 0;
-            transition: all 0.3s ease-in-out;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        padding-top: 50px;
+
+        .text {
+          p {
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
           }
         }
-        .contents_desc.on {
-          & p {
-            padding: 20px 15px;
-            display: block;
-            height: auto;
+        .more_btn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          button {
+            width: 150px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            color: #fff;
+            background-color: #70290d;
           }
         }
       }
+      .img_wrap {
+        position: absolute;
+        transform: rotate(36deg);
+        top: 81px;
+        right: -18px;
+        width: 350px;
+        height: 500px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          box-shadow: 0px 0px 10px 4px rgb(0 0 0 /11%);
+        }
+      }
     }
-  }
-  section.banner-md {
-    width: 100%;
-    height: 300px;
-    background-color: #f1f3f5;
-  }
-
-  section.app-explanation {
-    width: 100%;
-    height: 300px;
-    background-color: #f1f3f5;
-  }
-
-  section.last-banner {
-    width: 100%;
-    height: 300px;
-    background-color: #f1f3f5;
   }
 `;
