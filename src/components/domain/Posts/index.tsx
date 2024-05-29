@@ -4,7 +4,7 @@ import axios from "axios";
 import PostItem from "./PostItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { IContentsResponse } from "models/data";
-import { ErrprPostItemWrap, PostCardWrap } from "./styles";
+import { EmptyPostItemWrap, ErrprPostItemWrap, PostCardWrap } from "./styles";
 
 interface IProps {
   params: string;
@@ -15,7 +15,6 @@ interface IProps {
 const Posts = ({ params, queryKey, fetcher }: IProps) => {
   const listSize = 10; //한 페이지에 보여질 게시글 수
   const { ref, inView } = useInView();
-
   const {
     data,
     error,
@@ -26,7 +25,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
   } = useInfiniteQuery<IContentsResponse>({
     queryKey: [queryKey],
     queryFn: ({ pageParam = 1 }) => fetcher(pageParam, params),
-    staleTime: 1000 * 60, // 1분간 refetch 안함
+    staleTime: 1000 * 60 * 2, // 2분간 fresh 상태 (2분간은 refetch 안함)
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.contents.length === listSize
         ? allPages.length + 1
@@ -42,25 +41,30 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
 
   const renderContext = () => {
     if (isSuccess) {
-      return data.pages.map((page) =>
-        page.contents.map((post) => {
+      return data.pages.map((page) => {
+        if (!page.contents?.length) {
           return (
-            <div key={post._id}>
-              <PostCardWrap
-                key={post._id}
-                ref={page.contents?.length === listSize ? ref : null}
-              >
-                <PostItem {...post} />
-              </PostCardWrap>
-            </div>
+            <PostCardWrap key="0">
+              <EmptyPostItemWrap>컨텐츠가 존재하지 않습니다.</EmptyPostItemWrap>
+            </PostCardWrap>
           );
-        })
-      );
+        }
+        return page.contents.map((post) => (
+          <div key={post._id}>
+            <PostCardWrap
+              key={post._id}
+              ref={page.contents?.length === listSize ? ref : null}
+            >
+              <PostItem {...post} />
+            </PostCardWrap>
+          </div>
+        ));
+      });
     } else {
       if (axios.isAxiosError(error)) {
         console.log(error);
         let errorMessage = "";
-        if (error.response?.status === 404 || error.response?.status === 403) {
+        if (error.response?.status === 400 || error.response?.status === 403) {
           errorMessage = error.response?.data?.msg;
         }
         if (error.response?.status === 500) {

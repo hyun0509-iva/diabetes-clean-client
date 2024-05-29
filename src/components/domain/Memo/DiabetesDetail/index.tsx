@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { BsFillTrash2Fill, BsPencilSquare } from "react-icons/bs";
 import dayjs from "dayjs";
 import { timeIcons } from "libs/time-icons";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import { useDelDiabetes } from "hooks/service/mutator";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
 import { getDiabetesFindById } from "utils/apis/diabetesApis";
@@ -27,7 +27,7 @@ const { UPDATE_DIABETES } = ROUTER_PATH;
 const DiabetesDetail = ({ id }: Iprops) => {
   const { closeModal } = modalState();
   const navigate = useNavigate();
-  const { data, isError } = useAPIByIdQuery<IDiabetesResponse>(
+  const { data, isError } = useAPIByParamQuery<IDiabetesResponse>(
     id,
     DIABETES_KEY,
     getDiabetesFindById

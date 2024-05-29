@@ -1,19 +1,20 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, Outlet } from "react-router-dom";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import gravatar from "gravatar";
 import Avatar from "components/common/Avatar";
 import NavMenu from "components/common/NavMenu";
 import Button from "components/common/Button";
 import { ROUTER_PATH } from "constants/router_path";
 import userState from "store/userState";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
 import { getMyFeedInfo } from "utils/apis/contents";
 import { getFollow } from "utils/apis/follow";
 import { QUERY_KEY } from "constants/query_key";
 import { IFollowResponse, IMyFeedResponse } from "models/data";
-
+import SideBtnMenu from "components/common/SideBtnMenu";
 import {
   MyFeedContainer,
   MyFeedWrap,
@@ -24,40 +25,35 @@ import {
   UserInfo,
   UserStatus
 } from "./styles";
-import SideBtnMenu from "components/common/SideBtnMenu";
 
-const { CONTENTS_KEY, FOLLOW_KEY } = QUERY_KEY;
+const { FOLLOW_KEY, MY_FEED_KEY } = QUERY_KEY;
 
 const MyFeed = () => {
   const { STORY, SAVE_CONTENTS } = ROUTER_PATH;
   const [isFollow, setIsFollow] = useState(false);
-  const { username } = useParams();
-  const queryKey = `${CONTENTS_KEY}/${username}`;
-  const { data, isLoading } = useAPIByIdQuery<IMyFeedResponse>(
-    username as string,
-    queryKey,
-    getMyFeedInfo
+  const { usernick } = useParams();
+  const { data, isLoading } = useAPIByParamQuery<IMyFeedResponse>(
+    usernick as string,
+    `${MY_FEED_KEY}/info`,
+    getMyFeedInfo // myfeedInfo: {writer, contentsCount}
   );
+  const writer = data?.myfeedInfo.writer;
   const { userInfo: currentUser } = userState(); //현재 인증된 유저
   const followMutate = useFollowMutation();
   const unFollowMutate = useUnFollowMutation();
-
-  const writer = useMemo(() => data?.contents?.writer, [data]); //게시글 작성자
-  console.log({ writer: writer?.imageData });
   const subMenus = useMemo(
     () => [
       {
         id: 1,
-        label: `${username === currentUser?.nickname ? "내 게시글" : "게시글"}`,
-        url: `${STORY}/${username}`
+        label: `${usernick === currentUser?.nickname ? "내 게시글" : "게시글"}`,
+        url: `${STORY}/${usernick}`
       },
-      { id: 2, label: "관심 글", url: `${STORY}/${username}/empathy` }
-      // { id: 3, label: "활동 내역", url: `${STORY}/${username}/activity` } //활동 내역 기능 개발시 활성화
+      { id: 2, label: "관심 글", url: `${STORY}/${usernick}/empathy` }
     ],
-    [STORY, currentUser?.nickname, username]
+    [STORY, currentUser?.nickname, usernick]
   );
 
-  const { data: followData } = useAPIByIdQuery<IFollowResponse>(
+  const { data: followData } = useAPIByParamQuery<IFollowResponse>(
     writer?._id as string,
     FOLLOW_KEY,
     getFollow
@@ -77,15 +73,12 @@ const MyFeed = () => {
       : followMutate.mutate(writer?._id as string);
   }, [isFollow, followMutate, writer?._id, unFollowMutate]);
 
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-  console.log({ writer });
+  if (isLoading) return null;
   return (
     <MyFeedWrap>
       <MyFeedContainer>
         <Header>
-          <span>{username}님 스토리</span>
+          <span>{writer?.nickname}님 스토리</span>
         </Header>
         <MyFeedMain>
           <LeftSide>
@@ -98,7 +91,7 @@ const MyFeed = () => {
                     imgUrl={
                       writer?.imageData?.url
                         ? writer?.imageData?.url
-                        : gravatar.url(writer?.nickname as string, {
+                        : gravatar.url(writer?.email as string, {
                             s: "130px",
                             d: "retro"
                           })
@@ -107,7 +100,6 @@ const MyFeed = () => {
                 </div>
                 <div className="user-fields">
                   <div>{writer?.nickname}</div>
-                  <div>{writer?.email}</div>
                   <div>
                     {currentUser?.nickname !== writer?.nickname && (
                       <Button
@@ -144,7 +136,7 @@ const MyFeed = () => {
                   <li>
                     <span className="status-inner">
                       <span className="status">게시글</span>
-                      <span>{data?.contents?.contentsCount}</span>
+                      <span>{data?.myfeedInfo.contentsCount}</span>
                     </span>
                   </li>
                 </ul>

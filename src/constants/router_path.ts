@@ -13,6 +13,7 @@ export const ROUTER_PATH = {
   UPDATE_CONTENTS: "/update/story",
   STORY: "/story",
   SEARCH_HOSPITAL: "/search/hosp",
+  MY_FEED_KEY: "/story/:usernick",
   SEARCH: "search",
   MY_FEED: "/story/:username",
   EMPATHY: "empathy"

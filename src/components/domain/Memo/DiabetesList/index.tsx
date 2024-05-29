@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import { IDiabetesInfo, IDiabetesResponse } from "models/data";
 import { ISortedData, getSortedData } from "utils/functions/getSortedData";
 import { getDiabetes } from "utils/apis/diabetesApis";
@@ -30,7 +30,7 @@ const DiabetesList = ({ curDate }: Props) => {
     data: diabetesData,
     isError,
     isLoading
-  } = useAPIByIdQuery<IDiabetesResponse>(userId, DIABETES_KEY, getDiabetes);
+  } = useAPIByParamQuery<IDiabetesResponse>(userId, DIABETES_KEY, getDiabetes);
   const diabetesInfo = diabetesData?.diabetesInfo as IDiabetesInfo[];
   useEffect(() => {
     const thisMonthData =

@@ -60,9 +60,15 @@ export const Navbar = styled.div<{ isAuth: boolean }>`
   .logo {
     position: relative;
     left: 0;
-    top: 3px;
-    height: 100%;
+    top: -3px;
+    width: 100px;
+    height: 34px;
     line-height: 40px;
+
+    & img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 export const OverWrap = styled.div`

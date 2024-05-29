@@ -7,6 +7,7 @@ import LoggedInRoutes from "./LoggedInRoutes";
 import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import SearchHospital from "pages/SearchHospital";
+import Spinner from "components/common/Spinner";
 
 const Login = lazy(() => import("pages/Login"));
 const SignUp = lazy(() => import("pages/SignUp"));
@@ -31,7 +32,7 @@ const {
   MYPAGE,
   SAVE_CONTENTS,
   UPDATE_CONTENTS,
-  MY_FEED,
+  MY_FEED_KEY,
   SEARCH,
   SEARCH_HOSPITAL,
   EMPATHY
@@ -78,7 +79,7 @@ const Router = createBrowserRouter([
         element: <SearchHospital />
       },
       {
-        path: MY_FEED,
+        path: MY_FEED_KEY,
         element: <MyStory />,
         children: [
           { index: true, element: <MyPost /> },
@@ -91,7 +92,7 @@ const Router = createBrowserRouter([
 
 const Routes = () => {
   return (
-    <Suspense fallback={<div>로딩중...</div>}>
+    <Suspense fallback={<Spinner />}>
       <RouterProvider router={Router} />
     </Suspense>
   );

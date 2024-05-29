@@ -68,6 +68,14 @@ export const Icons = styled.div`
 `;
 
 // post-contents
+export const EmptyPostItemWrap = styled(ErrprPostItemWrap)`
+  height: 360px;
+  color: #adb5bd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const PostBody = styled.section`
   position: relative;
   padding-top: 10px;

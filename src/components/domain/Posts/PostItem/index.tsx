@@ -9,7 +9,7 @@ import {
   IUploadedImg,
   TMyInfo
 } from "models/data";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import { QUERY_KEY } from "constants/query_key";
 import { getAllComment } from "utils/apis/comment";
 
@@ -33,12 +33,13 @@ const PostItem = ({
   isDeleted,
   createdAt
 }: IContents) => {
-  const { data: contentsLike } = useAPIByIdQuery<ILikeResponse>(
+  console.log("cnff");
+  const { data: contentsLike } = useAPIByParamQuery<ILikeResponse>(
     _id,
     Like_key,
     getContentsLike
   );
-  const { data: comments } = useAPIByIdQuery<ICommentResponse>(
+  const { data: comments } = useAPIByParamQuery<ICommentResponse>(
     _id,
     COMMENT_KEY,
     getAllComment
@@ -67,7 +68,6 @@ const PostItem = ({
       }
     })();
   };
-  console.log(imageData);
   return (
     <PostItemWrap key={_id}>
       <PostHeader

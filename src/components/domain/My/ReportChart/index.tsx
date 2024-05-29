@@ -1,6 +1,6 @@
 import { QUERY_KEY } from "constants/query_key";
 import dayjs from "dayjs";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import { IDiabetesInfo, IDiabetesResponse } from "models/data";
 import { useMemo, useState } from "react";
 import {
@@ -22,7 +22,7 @@ const ReportChart = () => {
   const [today] = useState(dayjs().format("YYYY-MM-DD"));
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
-  const { data: diabetesData } = useAPIByIdQuery<IDiabetesResponse>(
+  const { data: diabetesData } = useAPIByParamQuery<IDiabetesResponse>(
     userId,
     DIABETES_KEY,
     getDiabetes
