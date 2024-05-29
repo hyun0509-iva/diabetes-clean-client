@@ -1,7 +1,7 @@
 import { palette } from "libs/palette";
-import styled from "@emotion/styled";
 import { Container } from "styles/common";
 import { StoryWarp } from "components/domain/Feed/styles";
+import styled from "@emotion/styled";
 
 export const MyFeedWrap = styled(Container)`
   max-width: inherit;

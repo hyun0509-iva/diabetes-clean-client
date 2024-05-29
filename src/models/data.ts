@@ -94,7 +94,10 @@ export type TMyInfo = Pick<
   | "aboutMe"
 >;
 
-export type TBriefWriter = Pick<TMyInfo, "_id" | "nickname" | "imageData">;
+export type TBriefWriter = Pick<
+  TMyInfo,
+  "_id" | "email" | "nickname" | "imageData"
+>;
 
 export type TUserUpdateRequest = Partial<
   Pick<TMyInfo, "nickname" | "aboutMe" | "imageData">
@@ -185,14 +188,14 @@ export interface IContentsDetailResponse {
 
 /* <--- MyFeed Type ---> */
 
-export interface IMyFeed {
+export interface IMyFeedInfo {
   writer: TMyInfo;
   contentsCount: number;
 }
 
 export interface IMyFeedResponse {
   isOk: boolean;
-  contents: IMyFeed;
+  myfeedInfo: IMyFeedInfo;
 }
 
 /* <--- Comment Type ---> */

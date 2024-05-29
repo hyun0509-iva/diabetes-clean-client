@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-const useAPIByIdQuery = <TYPE = unknown>(
+const useAPIByParamQuery = <TYPE = unknown>(
   queryParam: string,
   apiKey: string,
   apiFunc: (context: string) => Promise<any>
@@ -13,4 +13,4 @@ const useAPIByIdQuery = <TYPE = unknown>(
   });
 };
 
-export default useAPIByIdQuery;
+export default useAPIByParamQuery;

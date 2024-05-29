@@ -104,7 +104,7 @@ const Comment = ({ comment }: Iprops) => {
           imgUrl={
             writer?.imageData?.url
               ? writer?.imageData?.url
-              : gravatar.url(writer?.nickname, {
+              : gravatar.url(writer?.email, {
                   s: "32px",
                   d: "retro"
                 })
