@@ -103,32 +103,12 @@ const getAllContents = async (page: string) => {
   }
 };
 
-//내피드 페이징처리
+//내피드(페이징 처리)
 const getUserContents = async (page: string, context: string) => {
   const limit = 10;
   try {
     const { data } = await api.get<IContentsResponse>(
       `${CONTENTS_API}/users/${context}?page=${page}&size=${limit}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
-};
-
-// 내 게시글 (게시글수 포함)
-const getMyFeedInfo = async (context: string) => {
-  try {
-    const { data } = await api.get<IContentsResponse>(
-      `${CONTENTS_API}/users/${context}/info`
     );
     return data;
   } catch (error: unknown) {
@@ -167,6 +147,28 @@ const getLikedPosts = async (page: string, context: string) => {
     };
 
     return data_;
+  } catch (error: unknown) {
+    if (axios.isAxiosError<ResponseErrorType>(error)) {
+      if (error.response?.status === 500) {
+        alertHandler.onToast({
+          msg: "서버 오류! 잠시후 다시 시작해주세요.",
+          icon: "error"
+        });
+      }
+    }
+    throw error;
+  }
+};
+
+// 내 게시글 정보(페이징 처리되지 않음)
+const getMyFeedInfo = async (ninkName: string) => {
+  console.log("getMyFeedCount");
+  try {
+    const { data } = await api.get<IContentsResponse>(
+      `${CONTENTS_API}/myfeed-info/users/${ninkName}`
+    );
+    console.log(data);
+    return data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
       if (error.response?.status === 500) {

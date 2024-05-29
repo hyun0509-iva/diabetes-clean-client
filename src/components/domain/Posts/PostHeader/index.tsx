@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { FiMoreHorizontal } from "react-icons/fi";
 import gravatar from "gravatar";
 import SubMenu from "components/common/SubMenu";
-
 import { PostHeaderBlock, Icons } from "components/domain/Posts/styles";
 import userState from "store/userState";
-import { IUserInfo, TMyInfo } from "models/data";
+import { IFollowResponse, TMyInfo } from "models/data";
 import { useDelContents } from "hooks/service/mutator";
 import alertHandler from "utils/functions/alertHandler";
 import PostUserInfo from "components/domain/Feed/PostUserInfo";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import { ROUTER_PATH } from "constants/router_path";
+import { QUERY_KEY } from "constants/query_key";
+import { getFollow } from "utils/apis/follow";
+import { useAPIByParamQuery } from "hooks/service/queries";
 
 interface IProps {
   writer: TMyInfo;
@@ -21,6 +23,7 @@ interface IProps {
   createdAt: string | Date;
 }
 const { UPDATE_CONTENTS } = ROUTER_PATH;
+const { FOLLOW_KEY } = QUERY_KEY;
 
 const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
   const { userInfo: currentUser } = userState();
@@ -30,12 +33,19 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
   const followMutate = useFollowMutation();
   const unFollowMutate = useUnFollowMutation();
   const contentsMutation = useDelContents();
-
+  const { data: followData } = useAPIByParamQuery<IFollowResponse>(
+    writer?._id as string,
+    FOLLOW_KEY,
+    getFollow
+  );
   useEffect(() => {
-    if (writer) {
-      setIsFollow((currentUser as IUserInfo)?.followings.includes(writer?._id));
+    if (followData && currentUser) {
+      // 팔로우 버튼: 유저의 팔로워 목록에 내가 존재하는가?
+      setIsFollow(
+        followData?.followInfo?.followers.includes(currentUser?._id as string)
+      );
     }
-  }, [currentUser, writer]);
+  }, [currentUser, followData, writer]);
 
   const onToggleMenu = useCallback(() => {
     setShowSubMenu((prev) => !prev);

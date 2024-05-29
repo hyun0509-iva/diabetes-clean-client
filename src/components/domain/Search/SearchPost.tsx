@@ -5,7 +5,11 @@ import PostItem from "../Posts/PostItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { IContentsResponse } from "models/data";
 import { QUERY_KEY } from "constants/query_key";
-import { ErrprPostItemWrap, PostCardWrap } from "../Posts/styles";
+import {
+  EmptyPostItemWrap,
+  ErrprPostItemWrap,
+  PostCardWrap
+} from "../Posts/styles";
 
 interface IProps {
   params: string;
@@ -46,7 +50,7 @@ const SearchPost = ({ params, queryKey, fetcher }: IProps) => {
 
   const renderContext = () => {
     if (isSuccess) {
-      return data.pages.map((page) =>
+      return data.pages.map((page) => {
         page.contents.map((post, idx) => {
           return (
             <div key={post._id}>
@@ -58,16 +62,13 @@ const SearchPost = ({ params, queryKey, fetcher }: IProps) => {
               </PostCardWrap>
             </div>
           );
-        })
-      );
+        });
+      });
     } else {
       if (axios.isAxiosError(error)) {
         let errorMessage = "";
-        if (error.response?.status === 403) {
+        if (error.response?.status === 400 || error.response?.status === 403) {
           errorMessage = error.response?.data.msg;
-        }
-        if (error.response?.status === 404 || error.response?.status === 403) {
-          errorMessage = error.response?.data?.msg;
         }
         if (error.response?.status === 500) {
           errorMessage = "서버 에러, 잠시후 다시 시작해주세요";

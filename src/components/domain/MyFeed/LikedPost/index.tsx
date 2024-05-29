@@ -4,10 +4,11 @@ import { getLikedPosts } from "utils/apis/contents";
 
 // 관심글
 const LikedPost = () => {
-  const { username } = useParams();
+  const { usernick } = useParams();
+
   return (
     <LikedPosts
-      params={username as string}
+      params={usernick as string}
       queryKey="liked_contents"
       fetcher={getLikedPosts}
     />

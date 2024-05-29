@@ -11,7 +11,7 @@ export const API_PATH = {
   DIABETES_API: "/api/v1/diabetes",
   // Story
   CONTENTS_API: "/api/v1/contents",
-  MY_FEED: "/api/v1/contents/users",
+  MY_FEED_KEY: "/api/v1/contents/users",
   // Search
   SEARCH_API: "/api/v1/search",
   // Comment

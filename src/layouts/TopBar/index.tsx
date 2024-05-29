@@ -77,7 +77,7 @@ const Topbar = () => {
           </div>
           <div className="logo">
             <Link to="/">
-              <img width={100} src="/images/logo.png" alt="logo-img" />
+              <img src="/images/logo.png" alt="logo-img" />
             </Link>
           </div>
         </div>
