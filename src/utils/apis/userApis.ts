@@ -109,10 +109,29 @@ const updateUserApi = async ({
   }
 };
 
-// 회원 상세 조회
+// 회원 상세 조회(userId로 조회)
 const getUserFindById = async (userId: string) => {
   try {
     const { data } = await api.get<IUserResponse>(`${USER_API}/${userId}`);
+    return data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError<ResponseErrorType>(error)) {
+      if (error.response?.status === 500) {
+        alertHandler.onToast({
+          msg: "서버 오류! 잠시후 다시 시작해주세요.",
+          icon: "error"
+        });
+      }
+    }
+    throw error;
+  }
+};
+// 회원 상세 조회(username으로 조회)
+const getUserFindByUserNick = async (userNick: string) => {
+  try {
+    const { data } = await api.get<IUserResponse>(
+      `${USER_API}/usernick/${userNick}`
+    );
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
@@ -161,5 +180,6 @@ export {
   deleteUserApi,
   updateUserApi,
   getUserFindById,
+  getUserFindByUserNick,
   checkemailApi
 };
