@@ -26,7 +26,7 @@ export const MyFeedContainer = styled.div`
 
 export const LeftSide = styled.aside`
   position: sticky;
-  top: 0;
+  top: 55px;
   width: 350px;
   height: 500px;
   .inner {

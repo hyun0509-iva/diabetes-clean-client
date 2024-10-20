@@ -35,10 +35,10 @@ const Comment = ({ comment }: Iprops) => {
   const { STORY } = ROUTER_PATH;
   const onCloseMenu = useCallback(() => {
     setIsShowSubMenu(false);
-  }, []);
+  }, [setIsShowSubMenu]);
   const onCloseCommentForm = useCallback(() => {
     setIsShowCommentForm(false);
-  }, []);
+  }, [setIsShowCommentForm]);
 
   const onReportComment = useCallback(() => {
     console.log("ReportPost >> 개발중");
@@ -110,8 +110,8 @@ const Comment = ({ comment }: Iprops) => {
                 })
           }
           imgSize={40}
-          userName={writer.nickname}
-          link={`${STORY}/${writer.nickname}`}
+          userName={writer?.nickname}
+          link={`${STORY}/${writer?.nickname}`}
         />
         {!isDeleted && (
           <Icons
