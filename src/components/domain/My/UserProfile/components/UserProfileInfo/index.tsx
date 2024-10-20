@@ -1,10 +1,14 @@
 import { useState, useCallback } from "react";
-import { ButtonGroup, UserInfo, UserProfileInfoWrap } from "../../styles";
 import Button from "components/common/Button";
 import Textarea from "components/common/Textarea";
 import userState from "store/userState";
 import { useDeleteUser, useUpdateUser } from "hooks/service/mutator";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
+import {
+  ButtonGroup,
+  UserInfo,
+  UserProfileInfoWrap
+} from "components/domain/My/styles";
 
 const UserProfileInfo = () => {
   const { userInfo: me, setUserInfo } = userState();

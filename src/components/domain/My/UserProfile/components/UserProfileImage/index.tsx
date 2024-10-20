@@ -9,10 +9,7 @@ import {
   useUploadImage
 } from "hooks/service/mutator";
 import userState from "store/userState";
-import {
-  ProfileImgBtn,
-  UserImageWrap
-} from "components/domain/My/UserProfile/styles";
+import { ProfileImgBtn, UserImageWrap } from "components/domain/My/styles";
 import { IUploadedImg } from "models/data";
 
 const UserProfileImage = () => {

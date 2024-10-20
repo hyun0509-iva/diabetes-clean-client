@@ -1,19 +1,17 @@
 import { Title } from "components/domain/My/styles";
-import { ProfileBlock, ProfileContainer } from "./styles";
 import UserProfileInfo from "./components/UserProfileInfo";
 import UserProfileImage from "./components/UserProfileImage";
+import { ProfileBlock, ProfileContainer } from "components/domain/My/styles";
 
 const UserProfile = () => {
   return (
-    <div>
-      <Title>프로필</Title>
-      <ProfileBlock>
-        <ProfileContainer>
-          <UserProfileImage />
-          <UserProfileInfo />
-        </ProfileContainer>
-      </ProfileBlock>
-    </div>
+    <ProfileBlock>
+      <ProfileContainer>
+        <Title>프로필</Title>
+        <UserProfileImage />
+        <UserProfileInfo />
+      </ProfileContainer>
+    </ProfileBlock>
   );
 };
 
