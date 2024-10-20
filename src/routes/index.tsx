@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import RootLayout from "layouts/RootLayout";
@@ -20,6 +20,7 @@ const WriteContents = lazy(() => import("pages/WriteContents"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
 const MyPost = lazy(() => import("components/domain/MyFeed/MyPost"));
 const LikedPost = lazy(() => import("components/domain/MyFeed/LikedPost"));
+const DiabetesReports = lazy(() => import("components/domain/DiabetesReports"));
 
 const {
   INDEX,
@@ -32,10 +33,11 @@ const {
   MYPAGE,
   SAVE_CONTENTS,
   UPDATE_CONTENTS,
-  MY_FEED_KEY,
+  MY_FEED,
   SEARCH,
   SEARCH_HOSPITAL,
-  EMPATHY
+  EMPATHY,
+  REPORT
 } = ROUTER_PATH;
 
 const Router = createBrowserRouter([
@@ -52,7 +54,8 @@ const Router = createBrowserRouter([
           { path: UPDATE_DIABETES, element: <WriteMemo /> },
           { path: SAVE_CONTENTS, element: <WriteContents /> },
           { path: UPDATE_CONTENTS, element: <WriteContents /> },
-          { path: MYPAGE, element: <My /> }
+          { path: MYPAGE, element: <My /> },
+          { path: REPORT, element: <DiabetesReports /> }
         ]
       },
       {
@@ -79,7 +82,7 @@ const Router = createBrowserRouter([
         element: <SearchHospital />
       },
       {
-        path: MY_FEED_KEY,
+        path: MY_FEED,
         element: <MyStory />,
         children: [
           { index: true, element: <MyPost /> },

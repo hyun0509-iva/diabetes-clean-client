@@ -1,5 +1,5 @@
 import React from "react";
-import { Title } from "../styles";
+import { Title } from "../../My/styles";
 
 const DiabetesStatus = () => {
   return (
