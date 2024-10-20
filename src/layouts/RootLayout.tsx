@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Cloudinary } from "@cloudinary/url-gen";
 import { Main } from "styles/common";
@@ -8,7 +8,6 @@ import GlobalModal from "components/common/GlobalModal";
 import modalState from "store/modalState";
 import cloudinaryState from "store/cloudinaryState";
 import Interceptors from "utils/axios/hook/Interceptors";
-import Spinner from "components/common/Spinner";
 const RootLayout = () => {
   const { modal } = modalState();
   const [isOpenModal, setOpenModal] = useState(false);

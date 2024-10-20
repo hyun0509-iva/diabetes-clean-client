@@ -16,7 +16,7 @@ export interface ResponseErrorType {
 }
 
 const Interceptors = () => {
-  const [isTokenRefleshing, setIsTokenRefleshing] = useState(false); //토큰 재발급 상태
+  const [isRefreshToken, setIsRefreshToken] = useState(false); //토큰 재발급 상태
   const navigate = useNavigate();
   const { removeIsAuth } = userState();
 
@@ -52,12 +52,12 @@ const Interceptors = () => {
       },
       async (error) => {
         const originalRequest = error.config;
-        if (error.response?.status === 401 && !isTokenRefleshing) {
-          setIsTokenRefleshing(true);
+        if (error.response?.status === 401 && !isRefreshToken) {
+          setIsRefreshToken(true);
           const data = await refleshToken();
           if (data?.isExpiredRefleshToken) {
             //reflesh token이 만료되면 로컬스토리지에 저장한 accessToken 삭제
-            setIsTokenRefleshing(false);
+            setIsRefreshToken(false);
             removeStorage("accessToken");
             removeIsAuth();
             alertHandler.onToast({
@@ -67,7 +67,7 @@ const Interceptors = () => {
             return navigate("/login", { replace: true });
           } else {
             setStorage("accessToken", data.accessToken);
-            setIsTokenRefleshing(false);
+            setIsRefreshToken(false);
             originalRequest.headers["Authorization"] = data.accessToken;
             return axios(originalRequest);
           }
@@ -90,7 +90,7 @@ const Interceptors = () => {
       api.interceptors.response.eject(requestInterceptors);
       api.interceptors.response.eject(responseInterceptor);
     };
-  }, [isTokenRefleshing, navigate, removeIsAuth]);
+  }, [isRefreshToken, navigate, removeIsAuth]);
 
   return <></>;
 };

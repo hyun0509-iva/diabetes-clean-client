@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import RootLayout from "layouts/RootLayout";
@@ -32,7 +32,7 @@ const {
   MYPAGE,
   SAVE_CONTENTS,
   UPDATE_CONTENTS,
-  MY_FEED_KEY,
+  MY_FEED,
   SEARCH,
   SEARCH_HOSPITAL,
   EMPATHY
@@ -79,7 +79,7 @@ const Router = createBrowserRouter([
         element: <SearchHospital />
       },
       {
-        path: MY_FEED_KEY,
+        path: MY_FEED,
         element: <MyStory />,
         children: [
           { index: true, element: <MyPost /> },

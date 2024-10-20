@@ -150,12 +150,14 @@ export interface IContents {
   _id: string;
   writer: TMyInfo | TBriefWriter;
   content: string;
+  msg?: string;
   imageData?: Array<IUploadedImg>;
   createdAt: Date | string;
   updateAt: Date | string;
   isDeleted: boolean;
 }
 export interface IContentsResponse {
+  msg?: string;
   likedPost?: any;
   isOk: boolean;
   contents: IContents[];

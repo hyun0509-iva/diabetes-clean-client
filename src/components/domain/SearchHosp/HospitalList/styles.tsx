@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
-import { palette } from "libs/palette";
 
-export const SearchHospWarp = styled.div`
-  padding: 15px 30px;
-  display: flex;
-  width: 100%;
-  position: relative;
-  top: 0;
-  left: 0;
-`;
-
-export const LeftHospList = styled.div`
-  padding: 0 15px;
-  flex: 3;
+export const HospList = styled.div`
+  flex: 2;
   height: 750px;
+  overflow: auto;
+  padding: 0 15px;
+
+  h2 {
+    margin-top: 20px;
+  }
+
   .hosp_menu {
     display: flex;
     flex-direction: column;
@@ -22,29 +18,27 @@ export const LeftHospList = styled.div`
 
   .hosp_menu_item {
     padding: 10px;
-    border: 1px solid ${palette.gray[3]};
+    border: 1px solid #ced4da;
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    cursor: pointer;
+
+    &:hover,
+    &.selected {
+      background: #d2d2d2;
+      box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 20%);
+    }
 
     .hosp_name {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 5px;
     }
+
     .detail_info {
       font-size: 15px;
       font-weight: 300;
     }
-  }
-`;
-
-export const HospContents = styled.div`
-  padding: 15px;
-  height: 900px;
-  flex: 10;
-
-  .hosp_map {
-    height: 500px;
   }
 `;

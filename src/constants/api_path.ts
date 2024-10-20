@@ -20,7 +20,11 @@ export const API_PATH = {
   LIKE_API: "/api/v1/like",
   //Image
   PROFILE_IMAGE_API: "/api/v1/image/uimg",
-  CONTENTS_IMAGE_API: "/api/v1/image/pimg"
+  CONTENTS_IMAGE_API: "/api/v1/image/pimg",
+
+  //OpenAPI
+  HOSP_END_POINT_API: "http://apis.data.go.kr/B551182/hospInfoServicev2"
+  // HOSP_END_POINT_API: `getHospBasisList?ServiceKey=${process.env.REACT_APP_SERVICE_KEY}&dgsbjtCd=01&numOfRows=15`
 };
 
 Object.freeze(API_PATH);
