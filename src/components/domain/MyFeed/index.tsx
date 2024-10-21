@@ -10,7 +10,7 @@ import userState from "store/userState";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
-import { getMyFeedInfo } from "utils/apis/contents";
+import { getMyFeedInfo, getUserContents } from "utils/apis/contents";
 import { getFollow } from "utils/apis/follow";
 import { QUERY_KEY } from "constants/query_key";
 import { IFollowResponse, IMyFeedResponse } from "models/data";
@@ -37,7 +37,7 @@ const MyFeed = () => {
     `${MY_FEED_KEY}/info`,
     getMyFeedInfo // myfeedInfo: {writer, contentsCount}
   );
-  const writer = data?.myfeedInfo.writer;
+  const writer = data?.writer;
   const { userInfo: currentUser } = userState(); //현재 인증된 유저
   const followMutate = useFollowMutation();
   const unFollowMutate = useUnFollowMutation();
@@ -136,7 +136,7 @@ const MyFeed = () => {
                   <li>
                     <span className="status-inner">
                       <span className="status">게시글</span>
-                      <span>{data?.myfeedInfo.contentsCount}</span>
+                      <span>{data?.contents.length}</span>
                     </span>
                   </li>
                 </ul>

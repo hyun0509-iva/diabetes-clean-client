@@ -5,7 +5,7 @@ import { IComment } from "models/data";
 import SubMenu from "components/common/SubMenu";
 import ContentsInfo from "components/domain/Feed/PostUserInfo";
 import CommentForm from "components/domain/Comments/CommentForm";
-import { Icons } from "components/domain/Posts/styles";
+import { Icons } from "components/common/Posts/styles";
 import alertHandler from "utils/functions/alertHandler";
 import userState from "store/userState";
 import { useDelComment } from "hooks/service/mutator";

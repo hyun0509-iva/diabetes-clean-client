@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import LikedPosts from "components/domain/Posts";
+import LikedPosts from "components/common/Posts";
 import { getLikedPosts } from "utils/apis/contents";
 
 // 관심글

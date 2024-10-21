@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FiMoreHorizontal } from "react-icons/fi";
 import gravatar from "gravatar";
 import SubMenu from "components/common/SubMenu";
-import { PostHeaderBlock, Icons } from "components/domain/Posts/styles";
+import { PostHeaderBlock, Icons } from "components/common/Posts/styles";
 import userState from "store/userState";
 import { IFollowResponse, TMyInfo } from "models/data";
 import { useDelContents } from "hooks/service/mutator";

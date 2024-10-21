@@ -8,9 +8,9 @@ import {
   EmptyPostItemWrap,
   ErrprPostItemWrap,
   PostCardWrap,
-  PostItemWrap
+  PostsSpinnerBlock
 } from "./styles";
-import alertHandler from "utils/functions/alertHandler";
+import { BollSpinner } from "../Spinner";
 
 interface IProps {
   params: string;
@@ -45,6 +45,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage]);
+
   const renderContext = () => {
     if (isSuccess) {
       return data.pages.map((page) => {
@@ -55,23 +56,19 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
             </PostCardWrap>
           );
         } else {
-          console.log({ page });
           return page.contents?.map((post) => (
             <PostCardWrap
               key={post._id}
               ref={page.contents?.length !== listSize ? null : ref}
             >
               <PostItem {...post} />
-              {page.contents?.length !== listSize && (
-                <PostItemWrap>더 이상 불러올 컨텐츠가 없습니다. </PostItemWrap>
-              )}
             </PostCardWrap>
           ));
         }
       });
     }
     if (axios.isAxiosError(error)) {
-      console.log(error);
+      // console.log(error);
       let errorMessage = "";
       if (error.response?.status === 400 || error.response?.status === 403) {
         errorMessage = error.response?.data?.msg;
@@ -87,14 +84,13 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
     }
   };
 
-  console.log(data?.pages[0].contents);
   return (
     <>
       {renderContext()}
       {isFetchingNextPage && (
-        <h3 style={{ position: "fixed", top: 10, left: 10, zIndex: 99 }}>
-          Loading...
-        </h3>
+        <PostsSpinnerBlock>
+          <BollSpinner />
+        </PostsSpinnerBlock>
       )}
     </>
   );

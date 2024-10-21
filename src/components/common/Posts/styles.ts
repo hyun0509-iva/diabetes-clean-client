@@ -190,3 +190,11 @@ export const PostBodyBlock = styled.div<{ moreImg?: number }>`
 export const ReviewBlock = styled.div`
   padding-top: 25px;
 `;
+
+export const PostsSpinnerBlock = styled.div`
+  position: fixed;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99;
+`;

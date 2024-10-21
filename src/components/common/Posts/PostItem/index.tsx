@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import Comments from "components/domain/Comments";
-import PostHeader from "components/domain/Posts/PostHeader";
-import PostStatus from "components/domain/Posts/PostStatus";
+import PostHeader from "components/common/Posts/PostHeader";
+import PostStatus from "components/common/Posts/PostStatus";
 import {
   ICommentResponse,
   IContents,
@@ -19,7 +19,7 @@ import {
   PostBodyBlock,
   ReviewBlock,
   PostItemWrap
-} from "components/domain/Posts/styles";
+} from "components/common/Posts/styles";
 import { getContentsLike } from "utils/apis/like";
 import NewLine from "components/common/NewLine";
 

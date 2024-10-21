@@ -10,7 +10,7 @@ export const TopHeader = styled(Header)<{
 }>`
   position: sticky;
   top: 0;
-  width: "100%";
+  width: 100%;
   box-shadow: ${({ isChangeHeaderHeight, theme }) =>
     isChangeHeaderHeight && theme.boxShadow.light};
   backdrop-filter: ${({ isOpen, isChangeHeaderHeight }) =>

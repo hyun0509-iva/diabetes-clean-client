@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 
-export const SpinnerWrap = styled.div`
+export const BollSpinnerWrap = styled.div`
   width: 100%;
-  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +15,7 @@ export const SpinnerWrap = styled.div`
   }
 
   .boll {
-    background-color: #a79486;
+    background-color: #dd8241;
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -40,6 +39,37 @@ export const SpinnerWrap = styled.div`
     }
     50% {
       transform: translateY(20px);
+    }
+  }
+`;
+
+export const OvalSpinnerWrap = styled.div`
+  width: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .oval {
+    display: inline-block;
+    border: 3px solid #f3f3f3; /* Light grey */
+    border-top: 3px solid #6ea9ce; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+    margin: 13px 10px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 `;

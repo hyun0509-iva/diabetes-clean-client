@@ -7,6 +7,7 @@ import alertHandler from "utils/functions/alertHandler";
 import { ROUTER_PATH } from "constants/router_path";
 import { Container } from "styles/common";
 import { MemoContents, MemoHeader } from "./styles";
+import { BollSpinner, OvalSpinner } from "components/common/Spinner";
 
 const MemoList = () => {
   const { SAVE_MEMO_DIABETES } = ROUTER_PATH;

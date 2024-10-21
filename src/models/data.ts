@@ -190,14 +190,15 @@ export interface IContentsDetailResponse {
 
 /* <--- MyFeed Type ---> */
 
-export interface IMyFeedInfo {
-  writer: TMyInfo;
-  contentsCount: number;
-}
+// export interface IMyFeedInfo {
+//   writer: TMyInfo;
+//   contentsCount: number;
+// }
 
 export interface IMyFeedResponse {
   isOk: boolean;
-  myfeedInfo: IMyFeedInfo;
+  contents: IContents[];
+  writer: TMyInfo;
 }
 
 /* <--- Comment Type ---> */

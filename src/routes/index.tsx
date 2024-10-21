@@ -7,7 +7,7 @@ import LoggedInRoutes from "./LoggedInRoutes";
 import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import SearchHospital from "pages/SearchHospital";
-import Spinner from "components/common/Spinner";
+import { OvalSpinner } from "components/common/Spinner";
 
 const Login = lazy(() => import("pages/Login"));
 const SignUp = lazy(() => import("pages/SignUp"));
@@ -95,7 +95,7 @@ const Router = createBrowserRouter([
 
 const Routes = () => {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<OvalSpinner />}>
       <RouterProvider router={Router} />
     </Suspense>
   );

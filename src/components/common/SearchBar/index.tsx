@@ -24,7 +24,7 @@ const SearchBar = () => {
   }, []);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
+    setSearchText(e.target.value.trim());
   }, []);
 
   const onSubmit = useCallback(

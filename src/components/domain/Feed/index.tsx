@@ -1,6 +1,6 @@
 import { Suspense, useMemo } from "react";
 import { ROUTER_PATH } from "constants/router_path";
-import FeedPost from "components/domain/Posts";
+import FeedPost from "components/common/Posts";
 import SideBtnMenu from "components/common/SideBtnMenu";
 import userState from "store/userState";
 import { StoryWarp } from "./styles";

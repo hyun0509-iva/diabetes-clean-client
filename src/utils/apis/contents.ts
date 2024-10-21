@@ -95,6 +95,7 @@ const getAllContents = async (page: string) => {
       return { contents: null };
     }
     const data = res.data;
+    console.log(data);
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
@@ -113,9 +114,14 @@ const getAllContents = async (page: string) => {
 const getUserContents = async (page: string, context: string) => {
   const limit = 10;
   try {
-    const { data } = await api.get<IContentsResponse>(
+    const res = await api.get<IContentsResponse>(
       `${CONTENTS_API}/users/${context}?page=${page}&size=${limit}`
     );
+    if (res.status === 204) {
+      return { contents: null };
+    }
+    const data = res.data;
+    console.log({ myfeed: data });
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
@@ -135,10 +141,14 @@ const getLikedPosts = async (page: string, context: string) => {
   const limit = 10;
   try {
     //contents/like/users/username?page=1&size=10
-    const { data } = await api.get<IContentsResponse>(
+    const res = await api.get<IContentsResponse>(
       `${CONTENTS_API}/like/users/${context}?page=${page}&size=${limit}`
     );
     //응답 데이터를 contents와 맞추기 위해 가공함.
+    if (res.status === 204) {
+      return { contents: null };
+    }
+    const data = res.data;
     if (!data.likedPost?.length)
       return {
         isOk: false,
