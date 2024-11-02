@@ -5,15 +5,100 @@ import {
   MapMarker,
   MarkerClusterer
 } from "react-kakao-maps-sdk";
-import styled from "@emotion/styled";
-import { IPosType } from "../KakaoMap/hooks/useGeolocation";
 
 const { kakao } = window;
 
-const KEYWORD_LIST = [{ id: 1, value: "내과", emoji: "☕️" }];
+export interface IPosType {
+  center: { lat: number; lng: number };
+  errMsg: string | null;
+  isLoading: boolean;
+}
 
-const Exampl = () => {
+const dsearch = {
+  address_name: "경기 부천시 원미구 중동 1122",
+  category_group_code: "HP8",
+  category_group_name: "병원",
+  category_name: "의료,건강 > 병원 > 내과",
+  distance: "393",
+  id: "1598040675",
+  phone: "032-228-2700",
+  place_name: "본디안내과의원",
+  place_url: "http://place.map.kakao.com/1598040675",
+  road_address_name: "경기 부천시 원미구 부흥로303번길 8",
+  x: "126.776554184034",
+  y: "37.4950987368486"
+};
+
+// 공공데이터에서 받아온건 상세 정보를 보여주는 용으로(아래 데이터를 가공해서 디비에 저장하기)
+const publicDataType = {
+  XPos: 126.7629626,
+  YPos: 37.4986998,
+  addr: "경기도 부천시 원미구 조마루로 170, (중동)",
+  clCd: "01",
+  clCdNm: "상급종합",
+  cmdcGdrCnt: 0,
+  cmdcIntnCnt: 0,
+  cmdcResdntCnt: 0,
+  cmdcSdrCnt: 0,
+  detyGdrCnt: 1,
+  detyIntnCnt: 0,
+  detyResdntCnt: 0,
+  detySdrCnt: 6,
+  drTotCnt: 236,
+  emdongNm: "중동",
+  estbDd: 20010129,
+  hospUrl: "www.schmc.ac.kr/bucheon/kor/index.do",
+  mdeptGdrCnt: 0,
+  mdeptIntnCnt: 0,
+  mdeptResdntCnt: 1,
+  mdeptSdrCnt: 228,
+  pnursCnt: 0,
+  postNo: 14584,
+  sgguCd: 310303,
+  sgguCdNm: "부천원미구",
+  sidoCd: 310000,
+  sidoCdNm: "경기",
+  telno: "032-621-5114",
+  yadmNm: "순천향대학교부속부천병원",
+  ykiho: "JDQ4MTYyMiM1MSMkMSMkMCMkODkkMzgxMzUxIzExIyQxIyQzIyQ5MiQzN"
+};
+
+const dd = [publicDataType].map((item: any) => ({
+  address_name: item.addr,
+  category_group_code: "HP8",
+  category_group_name: "병원",
+  category_name: "의료,건강 > 병원 > 내과",
+  // distance: "",
+  phone: item.telno,
+  place_name: item.yadmNm,
+  place_url: item.hospUrl,
+  road_address_name: item.addr,
+  x: item.XPos, //lng x
+  y: item.YPos //y
+}));
+
+console.log({ dd });
+
+const Exampl = ({ data }: any) => {
   const [search, setSearch] = useState<Array<any>>([]);
+
+  //공공데이터 가공
+  const list = data.map((item: any, idx: number) => ({
+    id: idx,
+    address_name: item.addr,
+    category_group_code: "HP8",
+    category_group_name: "병원",
+    category_name: "의료,건강 > 병원 > 내과",
+    // distance: "",
+    phone: item.telno,
+    place_name: item.yadmNm,
+    place_url: item.hospUrl,
+    road_address_name: item.addr,
+    x: item.XPos, //lng x
+    y: item.YPos //y
+  }));
+
+  console.log({ list });
 
   // 기본 위치 상태
   const [state, setState] = useState<IPosType>({
@@ -55,7 +140,6 @@ const Exampl = () => {
     },
     [state.center]
   );
-
   // 현재 사용자 위치 받아오기 (geolocation)
   useEffect(() => {
     if (navigator.geolocation) {
@@ -90,6 +174,7 @@ const Exampl = () => {
   useEffect(() => {
     searchPlaces("내과");
   }, [searchPlaces]);
+  console.log({ search });
   return (
     <>
       {/* 지도 컴포넌트 */}
@@ -103,8 +188,9 @@ const Exampl = () => {
         level={3}
       >
         {/* 현재 위치 마커 표시 */}
-        {/* <MapMarker
-          position={state.center}
+        <MapMarker
+          // position={state.center}
+          position={{ lng: dd[0].x, lat: dd[0].y }}
           image={{
             src: "https://cdn-icons-png.flaticon.com/128/7124/7124723.png",
             size: {
@@ -112,7 +198,7 @@ const Exampl = () => {
               height: 50
             }
           }}
-        /> */}
+        />
         {/* 검색된 장소 마커 표시 */}
         <MarkerClusterer
           averageCenter={true}
@@ -130,9 +216,10 @@ const Exampl = () => {
             }
           ]}
         >
-          {search.map((data) => (
+          {/* {search.map((data) => ( */}
+          {list.map((data: any) => (
             <div key={data.id}>
-              <MapMarker position={{ lat: data.y, lng: data.x }} />
+              {/* <MapMarker position={{ lat: data.y, lng: data.x }} /> */}
               <CustomOverlayMap
                 position={{ lat: data.y, lng: data.x }}
                 yAnchor={1}

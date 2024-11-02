@@ -20,8 +20,8 @@ const SearchHosp = () => {
   });
   const d = "상세정보";
 
-  const ps = new kakao.maps.services.Places();
-  console.log({ ps });
+  // const ps = new kakao.maps.services.Places();
+  // console.log({ ps });
 
   const fetch = useCallback(() => {
     // 병원 조회
@@ -57,7 +57,7 @@ const SearchHosp = () => {
       <HospContents>
         <div className="hosp_map">
           <KakaoMap data={""} />
-          {/* <Exampl /> */}
+          {/* <Exampl data={data} /> */}
         </div>
         <div className="hosp_cnt">
           <ul className="hosp_cnt_menu">

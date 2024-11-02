@@ -11,14 +11,14 @@ interface ICenterPos {
   lat: number;
   lng: number;
 }
+
 interface IProps {
   data: any;
 }
+
 export const KakaoMap = ({ data }: IProps) => {
   const [userPos] = useGeolocation();
   const [searchKeyword, setSearchKeyword] = useState<Array<any>>([]);
-
-  console.log({ userPos, searchKeyword });
 
   // 카테고리 검색으로 주변 위치 검색하기
   const searchPlaces = useCallback(
@@ -36,28 +36,33 @@ export const KakaoMap = ({ data }: IProps) => {
       };
 
       // Places 서비스의 keywordSearch 메소드 호출
-      ps.keywordSearch(
-        keyword,
-        (data, status, _pagination) => {
-          if (status === kakao.maps.services.Status.OK) {
-            setSearchKeyword(data); // 검색 결과를 search 상태에 저장
-          } else {
-            console.error("검색에 실패하였습니다.");
-          }
-        },
-        options // 검색 옵션 전달
-      );
+      console.log({ keyword });
+      if (keyword) {
+        ps.keywordSearch(
+          keyword,
+          (data, status, _pagination) => {
+            console.log({ data, status, _pagination });
+            if (status === kakao.maps.services.Status.OK) {
+              setSearchKeyword(data); // 검색 결과를 search 상태에 저장
+            } else {
+              console.error("검색에 실패하였습니다.");
+            }
+          },
+          options // 검색 옵션 전달
+        );
+      }
     },
     [userPos.center]
   );
 
   useEffect(() => {
+    // searchPlaces("큰내과");
     searchPlaces("내과");
   }, [searchPlaces]);
 
-  return (
+  return userPos.done ? (
     <Map
-      center={userPos.center}
+      center={userPos.center as ICenterPos}
       style={{
         width: "100%",
         height: "calc(100vh - 109px)",
@@ -136,5 +141,7 @@ export const KakaoMap = ({ data }: IProps) => {
         ))}
       </MarkerClusterer>
     </Map>
+  ) : (
+    <div>불러오는중...</div>
   );
 };

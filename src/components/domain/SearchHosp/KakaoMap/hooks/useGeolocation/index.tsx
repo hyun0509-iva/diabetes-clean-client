@@ -1,50 +1,52 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface IPosType {
-  center: { lat: number; lng: number };
+  center: { lat: number; lng: number } | null;
   errMsg: string | null;
-  isLoading: boolean;
+  done: boolean;
 }
+
 const useGeolocation = () => {
   const [userPos, setUserPos] = useState<IPosType>({
-    center: {
-      // 초기 중심좌표
-      lat: 33.450701,
-      lng: 126.570667
-    },
+    center: null,
     errMsg: null,
-    isLoading: true
+    done: false
   });
+
   useEffect(() => {
     if (navigator.geolocation) {
       // 현재 사용자 위치 받아오기 (geolocation)
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserPos((prev) => ({
-            ...prev,
-            center: {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            },
-            isLoading: false
-          }));
+          setUserPos((prev) =>
+            Object.assign(prev, {
+              center: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              },
+              done: true
+            })
+          );
         },
         (err) => {
-          setUserPos((prev) => ({
-            ...prev,
-            errMsg: err.message,
-            isLoading: false
-          }));
+          setUserPos((prev) =>
+            Object.assign(prev, {
+              errMsg: err.message,
+              done: true
+            })
+          );
         }
       );
     } else {
-      setUserPos((prev) => ({
-        ...prev,
-        errMsg: "geolocation을 사용할수 없어요..",
-        isLoading: false
-      }));
+      setUserPos((prev) =>
+        Object.assign(prev, {
+          errMsg: "geolocation을 사용할수 없어요..",
+          done: true
+        })
+      );
     }
   }, []);
+
   return [userPos];
 };
 
