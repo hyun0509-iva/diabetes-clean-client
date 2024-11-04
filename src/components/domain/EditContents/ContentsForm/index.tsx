@@ -116,7 +116,7 @@ const ContentsForm = ({ mode, data }: Props) => {
         value={content}
         rows={13}
         onChange={onChangeContent}
-        placeholder={content ? "" : "댓글을 입력해주세요."}
+        placeholder={content ? "" : "컨텐츠를 작성해주세요."}
       />
       <InputGroup>
         <LabelWrap>

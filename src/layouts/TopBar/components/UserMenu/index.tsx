@@ -5,7 +5,7 @@ import gravatar from "gravatar";
 import { IUserResponse } from "models/data";
 import Avatar from "components/common/Avatar";
 import UserSubMenu from "layouts/TopBar/components/UserSubMenu";
-import { getUserIdByToken } from "utils/apis/userApis";
+import { getUserIdByToken } from "utils/apis/authApis";
 import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 
@@ -20,7 +20,10 @@ const UserMenu = () => {
   const { isAuth } = userState();
 
   // 유저 인증 상태
-  const { data: me } = useAPIQuery<IUserResponse>(USER_KEY, getUserIdByToken);
+  const { data: me, error } = useAPIQuery<IUserResponse>(
+    USER_KEY,
+    getUserIdByToken
+  );
 
   const [showUserSubMenu, setShowUserSubMenu] = useState(false);
   const onShowUserSubMenu = useCallback(() => {

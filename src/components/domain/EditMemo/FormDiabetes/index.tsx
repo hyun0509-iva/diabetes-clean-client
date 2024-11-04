@@ -18,13 +18,13 @@ import {
 } from "./styles";
 import Button from "components/common/Button";
 import { useInput } from "hooks/common/useInput";
-import { IDiabetesInfo, IDiabetesRequest } from "models/data";
+import { IDiabetesResponse, IDiabetesRequest } from "models/data";
 import useUpdateDiabetes from "hooks/service/mutator/diabetes/useUpdateDiabetes";
 import modalState from "store/modalState";
 
 interface Props {
   mode: string;
-  data: IDiabetesInfo | null;
+  data: IDiabetesResponse | null;
 }
 const FormDiabetes = ({ mode, data }: Props) => {
   const date = (data?.createdAt as string)?.split(" ")[0];

@@ -1,7 +1,7 @@
 import { QUERY_KEY } from "constants/query_key";
 import dayjs from "dayjs";
 import { useAPIByParamQuery } from "hooks/service/queries";
-import { IDiabetesInfo, IDiabetesResponse } from "models/data";
+import { IDiabetesResponse } from "models/data";
 import { useMemo, useState } from "react";
 import {
   ResponsiveContainer,
@@ -22,12 +22,12 @@ const ReportChart = () => {
   const [today] = useState(dayjs().format("YYYY-MM-DD"));
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
-  const { data: diabetesData } = useAPIByParamQuery<IDiabetesResponse>(
+  const { data: diabetesData } = useAPIByParamQuery<Array<IDiabetesResponse>>(
     userId,
     DIABETES_KEY,
     getDiabetes
   );
-  const data = diabetesData?.diabetesInfo as IDiabetesInfo[];
+  const data = diabetesData;
   const todayData = useMemo(() => {
     return data
       ?.filter((item) => dayjs(item.createdAt).format("YYYY-MM-DD") === today)
@@ -53,6 +53,7 @@ const ReportChart = () => {
       })
       .reverse();
   }, [data, today]);
+
   const month = 0;
   const threeMonth = 0;
   return (

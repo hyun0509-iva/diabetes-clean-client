@@ -99,7 +99,7 @@ const CommentForm = ({
             value={content}
             onChange={onChange}
             rows={3}
-            placeholder={content || "댓글을 입력해주세요."}
+            placeholder={content || "댓글을 작성해주세요."}
           />
         </div>
         <div className="button-wrap">

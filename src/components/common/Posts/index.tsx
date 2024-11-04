@@ -34,7 +34,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
     queryFn: ({ pageParam = 1 }) => fetcher(pageParam, params),
     staleTime: 1000 * 60, // 1분간 refetch 안함
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.contents?.length === listSize
+      return lastPage.data?.length === listSize
         ? allPages.length + 1
         : undefined;
     }
@@ -49,17 +49,18 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
   const renderContext = () => {
     if (isSuccess) {
       return data.pages.map((page) => {
-        if (page.contents === null) {
+        if (page.data === null) {
           return (
             <PostCardWrap key="0">
               <EmptyPostItemWrap>컨텐츠가 존재하지 않습니다.</EmptyPostItemWrap>
             </PostCardWrap>
           );
         } else {
-          return page.contents?.map((post) => (
+          console.log(page);
+          return page.data?.map((post) => (
             <PostCardWrap
               key={post._id}
-              ref={page.contents?.length !== listSize ? null : ref}
+              ref={page.data?.length !== listSize ? null : ref}
             >
               <PostItem {...post} />
             </PostCardWrap>

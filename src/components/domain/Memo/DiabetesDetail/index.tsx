@@ -12,7 +12,7 @@ import {
   DetailModalHeader
 } from "components/common/GlobalModal/styles";
 import { QUERY_KEY } from "constants/query_key";
-import { IDiabetesInfo, IDiabetesResponse } from "models/data";
+import { IDiabetesResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import modalState from "store/modalState";
@@ -32,7 +32,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
     DIABETES_KEY,
     getDiabetesFindById
   );
-  const diabetes = data?.diabetesInfo as IDiabetesInfo;
+  const diabetes = data;
 
   const iconData = timeIcons.find(({ itemIcons_desc }) =>
     diabetes?.slot?.includes(itemIcons_desc)

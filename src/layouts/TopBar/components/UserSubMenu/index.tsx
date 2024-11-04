@@ -24,16 +24,14 @@ const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleLogOut = useCallback(() => {
-    api
-      .get(`${LOG_OUT}/${userInfo?._id}`, { withCredentials: true })
-      .then(() => {
-        queryClient.setQueryData([USER_KEY], false);
+    api.post(LOG_OUT, { withCredentials: true }).then(() => {
+      queryClient.setQueryData([USER_KEY], false);
 
-        removeUserInfo();
-        navigate("/login", { replace: true });
-        removeStorage("accessToken");
-        removeIsAuth();
-      });
+      removeUserInfo();
+      navigate("/login", { replace: true });
+      removeStorage("accessToken");
+      removeIsAuth();
+    });
     onCloseMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

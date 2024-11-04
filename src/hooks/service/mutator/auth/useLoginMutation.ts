@@ -4,7 +4,7 @@ import { QUERY_KEY } from "constants/query_key";
 import { IAuthResponse, TLoginRequest } from "models/data";
 import { useNavigate } from "react-router-dom";
 import userState from "store/userState";
-import { logInApi } from "utils/apis/userApis";
+import { logInApi } from "utils/apis/authApis";
 import alertHandler from "utils/functions/alertHandler";
 import useStorage from "utils/functions/useStorage";
 

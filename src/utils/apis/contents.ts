@@ -94,9 +94,7 @@ const getAllContents = async (page: string) => {
     if (res.status === 204) {
       return { contents: null };
     }
-    const data = res.data;
-    console.log(data);
-    return data;
+    return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
       if (error.response?.status === 500) {
@@ -121,7 +119,6 @@ const getUserContents = async (page: string, context: string) => {
       return { contents: null };
     }
     const data = res.data;
-    console.log({ myfeed: data });
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError<ResponseErrorType>(error)) {
@@ -149,17 +146,20 @@ const getLikedPosts = async (page: string, context: string) => {
       return { contents: null };
     }
     const data = res.data;
-    if (!data.likedPost?.length)
+    if (!data.likedPost?.length) {
       return {
         isOk: false,
         contents: []
       };
+    }
+
     const contents = data?.likedPost
       .map((item: any) => item.contents)
       .reverse();
+
     const data_: IContentsResponse = {
       isOk: true,
-      contents
+      ...contents
     };
 
     return data_;

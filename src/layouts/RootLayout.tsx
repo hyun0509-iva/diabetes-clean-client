@@ -7,7 +7,7 @@ import ScrollTop from "components/common/ScrollTop";
 import GlobalModal from "components/common/GlobalModal";
 import modalState from "store/modalState";
 import cloudinaryState from "store/cloudinaryState";
-import Interceptors from "utils/axios/hook/Interceptors";
+import InterceptorProvider from "utils/axios/hook/InterceptorProvider";
 const RootLayout = () => {
   const { modal } = modalState();
   const [isOpenModal, setOpenModal] = useState(false);
@@ -31,7 +31,7 @@ const RootLayout = () => {
 
   return (
     <div>
-      <Interceptors />
+      <InterceptorProvider />
       <Topbar />
       <Main>
         <Outlet />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useAPIByParamQuery } from "hooks/service/queries";
-import { IDiabetesInfo, IDiabetesResponse } from "models/data";
+import { IDiabetesResponse } from "models/data";
 import { ISortedData, getSortedData } from "utils/functions/getSortedData";
 import { getDiabetes } from "utils/apis/diabetesApis";
 import { getThisMonthData } from "utils/functions/getThisMonthData";
@@ -30,20 +30,25 @@ const DiabetesList = ({ curDate }: Props) => {
     data: diabetesData,
     isError,
     isLoading
-  } = useAPIByParamQuery<IDiabetesResponse>(userId, DIABETES_KEY, getDiabetes);
-  const diabetesInfo = diabetesData?.diabetesInfo as IDiabetesInfo[];
+  } = useAPIByParamQuery<Array<IDiabetesResponse>>(
+    userId,
+    DIABETES_KEY,
+    getDiabetes
+  );
   useEffect(() => {
     const thisMonthData =
-      diabetesInfo && getThisMonthData(diabetesInfo, curDate);
+      diabetesData && getThisMonthData(diabetesData, curDate);
 
     if (thisMonthData) {
       const data = getSortedData(thisMonthData);
       setProcessData(data);
     }
-  }, [curDate, diabetesData, diabetesInfo]);
+  }, [curDate, diabetesData]);
 
   if (isLoading) return <div>당수치 내역을 불러오는중입니다.</div>;
   if (isError) return <div>데이터를 가져오는 실패했어요</div>;
+
+  console.log(getDiabetes);
 
   return (
     <DiabetesListWrap className="diabetes-wrap">

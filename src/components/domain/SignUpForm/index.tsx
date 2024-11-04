@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { TCreateUserSchema, createUserSchema } from "schema/auth.schema";
 import alertHandler from "utils/functions/alertHandler";
-import { checkemailApi } from "utils/apis/userApis";
+import { checkemailApi } from "utils/apis/authApis";
 import { useCreateUser } from "hooks/service/mutator";
 import {
   FormWrap,
