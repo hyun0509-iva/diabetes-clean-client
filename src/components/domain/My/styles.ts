@@ -1,31 +1,12 @@
 import styled from "@emotion/styled";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 
-export const MyContainer = styled(Container)`
+export const MyWarp = styled(Wapper)`
   margin: 30px auto;
   padding: 10px 25px;
-  max-width: 680px;
 `;
 
-export const ProfileBlock = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin: 30px 0px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 23px -5px rgb(0 0 0 / 45%);
-`;
-
-export const Title = styled.header`
-  font-size: 20px;
-  position: relative;
-  left: 0;
-  top: 0;
-`;
-export const ProfileContainer = styled.div`
+export const ProfileWarp = styled.div`
   padding: 45px 0;
   left: 0;
   top: 0;
@@ -42,6 +23,18 @@ export const ProfileContainer = styled.div`
     top: 0;
   }
 `;
+
+export const ProfileHeader = styled.div`
+  .title {
+    font-size: 20px;
+    padding: 20px 5px;
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+`;
+
+export const ProfileContext = styled.div``;
 
 export const UserImageWrap = styled.div`
   position: relative;

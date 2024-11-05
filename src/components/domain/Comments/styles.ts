@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
 
-export const CommentsContainer = styled.div`
+export const CommentsWrap = styled.div`
   padding-top: 20px;
 `;

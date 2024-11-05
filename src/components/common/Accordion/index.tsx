@@ -1,4 +1,4 @@
-import { Accordion_wrap } from "./styles";
+import { AccordionWarp } from "./styles";
 import AccordionItem from "./AccordionItem";
 
 export interface IAccordion {
@@ -12,11 +12,11 @@ export interface IData {
 
 const Accordion = ({ data }: IData) => {
   return (
-    <Accordion_wrap>
+    <AccordionWarp>
       {data.map((item, idx) => (
         <AccordionItem key={idx} {...item} />
       ))}
-    </Accordion_wrap>
+    </AccordionWarp>
   );
 };
 

@@ -1,4 +1,4 @@
-import { AvatarStyle } from "./styles";
+import { AvatarWarp } from "./styles";
 
 interface IAatarProps {
   size?: number;
@@ -15,9 +15,9 @@ const Avatar = ({
   imgUrl
 }: IAatarProps) => {
   return (
-    <AvatarStyle size={size} posX={posX} posY={posY}>
+    <AvatarWarp size={size} posX={posX} posY={posY}>
       <img src={imgUrl} alt={imgName} />
-    </AvatarStyle>
+    </AvatarWarp>
   );
 };
 

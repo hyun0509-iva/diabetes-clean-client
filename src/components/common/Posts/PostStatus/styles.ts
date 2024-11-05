@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { palette } from "libs/palette";
 
-export const PostStatusContainer = styled.div`
+export const PostStatusWrap = styled.div`
   .status_inner {
     display: flex;
     align-items: center;

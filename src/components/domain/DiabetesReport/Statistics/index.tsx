@@ -1,9 +1,14 @@
 import { useMemo } from "react";
 import NavMenu from "components/common/NavMenu";
-import ReportChart from "components/domain/DiabetesReports/ReportChart";
-import { Title } from "components/domain/My/styles";
+import ReportChart from "components/domain/DiabetesReport/ReportChart";
 import { palette } from "libs/palette";
-const DiabetesReport = () => {
+import {
+  StatisticsWrap,
+  StatisticsHeader,
+  StatisticsContent
+} from "components/domain/DiabetesReport/style";
+
+const Statistics = () => {
   const periods = useMemo(
     () => [
       { id: 1, label: "오늘", url: "/report" },
@@ -15,21 +20,21 @@ const DiabetesReport = () => {
   );
 
   return (
-    <div style={{ margin: "30px 0" }}>
-      <Title>
-        <span>당수치 통계</span>
-      </Title>
-      <div>
+    <StatisticsWrap>
+      <StatisticsHeader>
+        <h1 className="title">당수치 통계</h1>
         <div>범위</div>
         <NavMenu
           lists={periods}
           borderColor={palette.indigo[3]}
           fontSize={"18px"}
         />
+      </StatisticsHeader>
+      <StatisticsContent>
         <ReportChart />
-      </div>
-    </div>
+      </StatisticsContent>
+    </StatisticsWrap>
   );
 };
 
-export default DiabetesReport;
+export default Statistics;

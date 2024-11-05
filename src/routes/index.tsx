@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import RootLayout from "layouts/RootLayout";

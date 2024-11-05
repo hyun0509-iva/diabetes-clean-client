@@ -1,4 +1,3 @@
-import { theme } from "libs/palette";
 import styled from "@emotion/styled";
 
 export const PostCardWrap = styled.div`
@@ -76,12 +75,12 @@ export const EmptyPostItemWrap = styled(ErrprPostItemWrap)`
   align-items: center;
 `;
 
-export const PostBody = styled.section`
+export const PostContent = styled.section`
   position: relative;
   padding-top: 10px;
 `;
 
-export const PostBodyBlock = styled.div<{ moreImg?: number }>`
+export const PostContentBlock = styled.div<{ moreImg?: number }>`
   padding: 0 5px;
 
   .content-wrap {

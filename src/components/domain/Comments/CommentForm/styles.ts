@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const CommentsFormContainer = styled.div`
+export const CommentsFormWapper = styled.div`
   .comments-form {
     padding: 15px 0;
     width: 100%;

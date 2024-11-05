@@ -1,4 +1,4 @@
-import { PostStatusContainer } from "./styles";
+import { PostStatusWrap } from "./styles";
 import LikeStatus from "../PostLikeStatus";
 import { ILike } from "models/data";
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 const PostStatus = ({ contentsId, likes, commentCount }: IProps) => {
   return (
-    <PostStatusContainer>
+    <PostStatusWrap>
       <div className="status_inner">
         <LikeStatus
           likes={likes}
@@ -21,7 +21,7 @@ const PostStatus = ({ contentsId, likes, commentCount }: IProps) => {
           <div className="count">{commentCount}</div>
         </div>
       </div>
-    </PostStatusContainer>
+    </PostStatusWrap>
   );
 };
 

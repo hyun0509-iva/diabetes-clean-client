@@ -1,5 +1,5 @@
 import { IComment } from "models/data";
-import { CommentsContainer } from "./styles";
+import { CommentsWrap } from "./styles";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 
@@ -9,12 +9,12 @@ interface IProps {
 }
 const Comments = ({ postId, comments }: IProps) => {
   return (
-    <CommentsContainer>
+    <CommentsWrap>
       <CommentForm contentsId={postId} />
       {comments?.map((comment) => (
         <Comment key={comment._id} comment={comment} />
       ))}
-    </CommentsContainer>
+    </CommentsWrap>
   );
 };
 

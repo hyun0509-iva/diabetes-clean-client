@@ -124,13 +124,13 @@ const MyFeed = () => {
                   <li>
                     <span className="status-inner">
                       <span className="status">팔로잉</span>
-                      <span>{followData?.followInfo?.followings.length}</span>
+                      <span>{followData?.followInfo?.followings?.length}</span>
                     </span>
                   </li>
                   <li>
                     <span className="status-inner">
                       <span className="status">팔로워</span>
-                      <span>{followData?.followInfo?.followers.length}</span>
+                      <span>{followData?.followInfo?.followers?.length}</span>
                     </span>
                   </li>
                   <li>

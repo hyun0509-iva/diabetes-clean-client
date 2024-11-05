@@ -100,12 +100,12 @@ const ContentsForm = ({ mode, data }: Props) => {
     },
     [
       content,
-      createMutation,
+      createContents,
       data?._id,
       imageData,
       mode,
       navigate,
-      updateMutation,
+      updateContents,
       userId
     ]
   );

@@ -10,7 +10,7 @@ import alertHandler from "utils/functions/alertHandler";
 import userState from "store/userState";
 import { useDelComment } from "hooks/service/mutator";
 import { useToggle } from "hooks/common/useToggle";
-import { CommentContainer, CommentContents, CommentHeader } from "./styles";
+import { CommentWrap, CommentContent, CommentHeader } from "./styles";
 import { ROUTER_PATH } from "constants/router_path";
 
 interface Iprops {
@@ -97,7 +97,7 @@ const Comment = ({ comment }: Iprops) => {
     onDelComment
   ]);
   return (
-    <CommentContainer>
+    <CommentWrap>
       <CommentHeader>
         <ContentsInfo
           createdAt={createdAt}
@@ -134,7 +134,7 @@ const Comment = ({ comment }: Iprops) => {
           />
         )}
       </CommentHeader>
-      <CommentContents>
+      <CommentContent>
         <>
           {isDeleted ? (
             "해당 댓글이 삭제되었습니다."
@@ -154,8 +154,8 @@ const Comment = ({ comment }: Iprops) => {
             </>
           )}
         </>
-      </CommentContents>
-    </CommentContainer>
+      </CommentContent>
+    </CommentWrap>
   );
 };
 

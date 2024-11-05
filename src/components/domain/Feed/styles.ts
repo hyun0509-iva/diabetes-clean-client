@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { palette } from "libs/palette";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 
-export const StoryWarp = styled(Container)`
+export const StoryWarp = styled(Wapper)`
   padding: 15px 10px;
-  max-width: 680px;
   position: relative;
   top: 0;
   left: 0;

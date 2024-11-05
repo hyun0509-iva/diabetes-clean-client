@@ -6,8 +6,8 @@ import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import { IDiabetesResponse } from "models/data";
-import { Container } from "styles/common";
-import { EditBody, EditHeader } from "./styles";
+import { Wapper } from "styles/common";
+import { EditHeader, EditContent } from "./styles";
 
 const { DIABETES_KEY } = QUERY_KEY;
 
@@ -36,7 +36,7 @@ const EditMemo = () => {
   }
 
   return (
-    <Container>
+    <Wapper>
       <EditHeader>
         <div className="memo-title">
           <span>당수치 {mode === "create" ? "기록하기" : "수정하기"}</span>
@@ -50,19 +50,14 @@ const EditMemo = () => {
           }}
         />
       </EditHeader>
-      <EditBody>
+      <EditContent>
         {mode === "create" ? (
           <FormDiabetes data={null} />
         ) : (
           data && <FormDiabetes mode="update" data={data} />
         )}
-      </EditBody>
-      {/* 
-       식단 CRUD 개발후 활성화
-      <EditBody>
-        <Outlet />
-      </EditBody> */}
-    </Container>
+      </EditContent>
+    </Wapper>
   );
 };
 

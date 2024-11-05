@@ -11,7 +11,7 @@ import Textarea from "components/common/Textarea";
 import { useCreateComment, useUpdateComment } from "hooks/service/mutator";
 import userState from "store/userState";
 import alertHandler from "utils/functions/alertHandler";
-import { CommentsFormContainer } from "./styles";
+import { CommentsFormWapper } from "./styles";
 
 interface IProps {
   contentsId: string;
@@ -91,7 +91,7 @@ const CommentForm = ({
     ]
   );
   return (
-    <CommentsFormContainer>
+    <CommentsFormWapper>
       <div className="comments-form">
         <div className="input-wrap">
           <Textarea
@@ -117,7 +117,7 @@ const CommentForm = ({
           />
         </div>
       </div>
-    </CommentsFormContainer>
+    </CommentsFormWapper>
   );
 };
 

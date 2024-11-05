@@ -18,7 +18,7 @@ const { USER_KEY } = QUERY_KEY;
 const { LOG_OUT } = API_PATH;
 
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
-  const { MYPAGE, STORY } = ROUTER_PATH;
+  const { MYPAGE, STORY, REPORT } = ROUTER_PATH;
   const { userInfo, removeIsAuth, removeUserInfo } = userState();
   const { removeStorage } = useStorage;
   const queryClient = useQueryClient();
@@ -40,18 +40,23 @@ const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
     () => [
       {
         id: 1,
-        path: `${MYPAGE}`,
-        label: "마이페이지"
+        label: "마이페이지",
+        path: `${MYPAGE}`
       },
       {
         id: 2,
-        path: `${STORY}/${userInfo?.nickname}`,
-        label: "내피드"
+        label: "당수치 분석",
+        path: `${REPORT}`
       },
       {
         id: 3,
-        path: null,
+        label: "내피드",
+        path: `${STORY}/${userInfo?.nickname}`
+      },
+      {
+        id: 4,
         label: "로그아웃",
+        path: null,
         handler: handleLogOut
       }
     ],

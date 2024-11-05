@@ -6,7 +6,7 @@ interface IStyleProps {
   posY?: number;
 }
 
-export const AvatarStyle = styled.span<IStyleProps>`
+export const AvatarWarp = styled.span<IStyleProps>`
   display: inline-block;
   width: ${({ size }) => size ?? 80}px;
   height: ${({ size }) => size ?? 80}px;

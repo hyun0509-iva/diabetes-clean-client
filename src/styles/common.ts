@@ -9,8 +9,9 @@ export const Main = styled.main`
   width: 100%;
 `;
 
-export const Container = styled.div`
-  max-width: 480px;
+export const Wapper = styled.div`
+  width: 100%;
+  max-width: 680px;
   margin: 0 auto;
   padding: 10px;
 `;

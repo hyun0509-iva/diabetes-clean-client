@@ -1,10 +1,9 @@
 import { QUERY_KEY } from "constants/query_key";
 import dayjs from "dayjs";
 import { useAPIByParamQuery } from "hooks/service/queries";
-import { IDiabetesResponse } from "models/data";
+import { Idiabetes, IDiabetesResponse } from "models/data";
 import { useMemo, useState } from "react";
 import {
-  ResponsiveContainer,
   ComposedChart,
   CartesianGrid,
   XAxis,
@@ -15,6 +14,7 @@ import {
 } from "recharts";
 import userState from "store/userState";
 import { getDiabetes } from "utils/apis/diabetesApis";
+import { ReportChartWrap } from "../style";
 
 const { DIABETES_KEY } = QUERY_KEY;
 
@@ -22,21 +22,21 @@ const ReportChart = () => {
   const [today] = useState(dayjs().format("YYYY-MM-DD"));
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
-  const { data: diabetesData } = useAPIByParamQuery<Array<IDiabetesResponse>>(
+  const { data } = useAPIByParamQuery<IDiabetesResponse>(
     userId,
     DIABETES_KEY,
     getDiabetes
   );
-  const data = diabetesData;
+
   const todayData = useMemo(() => {
-    return data
+    return (data?.diabetes as Idiabetes[])
       ?.filter((item) => dayjs(item.createdAt).format("YYYY-MM-DD") === today)
       .reverse();
   }, [data, today]);
   // console.log(data, todayData);
 
   const weekData = useMemo(() => {
-    return data
+    return (data?.diabetes as Idiabetes[])
       ?.filter((item) => {
         const startOfDate = dayjs(today)
           .startOf("weeks")
@@ -57,7 +57,7 @@ const ReportChart = () => {
   const month = 0;
   const threeMonth = 0;
   return (
-    <ResponsiveContainer height={400}>
+    <ReportChartWrap height={400}>
       <ComposedChart className="chart" data={todayData}>
         <CartesianGrid strokeDasharray="3 3" />
         {/* <XAxis dataKey="slot" /> */}
@@ -70,7 +70,7 @@ const ReportChart = () => {
         <Legend verticalAlign="top" height={30} />
         <Bar dataKey="sugar_level" name="당수치" barSize={20} fill="#5ea7d1" />
       </ComposedChart>
-    </ResponsiveContainer>
+    </ReportChartWrap>
   );
 };
 

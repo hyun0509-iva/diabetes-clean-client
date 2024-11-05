@@ -1,10 +1,9 @@
 import { palette } from "libs/palette";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 import { StoryWarp } from "components/domain/Feed/styles";
 import styled from "@emotion/styled";
 
-export const MyFeedWrap = styled(Container)`
-  max-width: inherit;
+export const MyFeedWrap = styled(Wapper)`
   width: 90%;
 `;
 export const Header = styled.header`

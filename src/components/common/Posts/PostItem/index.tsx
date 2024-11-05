@@ -15,8 +15,8 @@ import { getAllComment } from "utils/apis/comment";
 
 import { Contour } from "styles/common";
 import {
-  PostBody,
-  PostBodyBlock,
+  PostContent,
+  PostContentBlock,
   ReviewBlock,
   PostItemWrap
 } from "components/common/Posts/styles";
@@ -78,13 +78,13 @@ const PostItem = ({
         isDeleted={isDeleted}
       />
       {isDeleted ? (
-        <PostBody>
-          <PostBodyBlock>해당 게시물이 삭제되었습니다.</PostBodyBlock>
-        </PostBody>
+        <PostContent>
+          <PostContentBlock>해당 게시물이 삭제되었습니다.</PostContentBlock>
+        </PostContent>
       ) : (
         <>
-          <PostBody>
-            <PostBodyBlock>
+          <PostContent>
+            <PostContentBlock>
               <div className="content-wrap">
                 <p>
                   <NewLine context={content} />
@@ -114,21 +114,21 @@ const PostItem = ({
                   : null}
               </ul>
               {isOpenImgDetail && <div>이미지 상세 모달 형식의 페이지</div>}
-            </PostBodyBlock>
-            <PostBodyBlock>
+            </PostContentBlock>
+            <PostContentBlock>
               <PostStatus
                 contentsId={_id}
                 likes={contentsLike?.like}
                 commentCount={comments?.comment?.length}
               />
-            </PostBodyBlock>
+            </PostContentBlock>
             <Contour />
             <ReviewBlock>
               {comments && (
                 <Comments postId={_id} comments={comments?.comment} />
               )}
             </ReviewBlock>
-          </PostBody>
+          </PostContent>
         </>
       )}
     </PostItemWrap>

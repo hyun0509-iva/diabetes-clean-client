@@ -61,29 +61,13 @@ const SignUpForm = () => {
       });
       return;
     }
-    try {
-      const res = await checkemailApi<string>(emailFiled);
-      console.log(res);
-      if (res.isOk) {
-        setIsDisabledEmailField(true);
-        alertHandler.onToast({ msg: res.msg });
-      }
-    } catch (error: any) {
-      const errorRes = error.response;
-      if (errorRes.status === 409) {
-        // 존재하는 이메일인 경우
-        setIsDisabledEmailField(false);
-        alertHandler.onToast({ msg: errorRes.data.msg, icon: "warning" });
-        resetField("email");
-      } else {
-        setIsDisabledEmailField(false);
-        alertHandler.onToast({
-          msg: "서버 오류, 잠시후 시도해주세요",
-          icon: "error"
-        });
-      }
+    const res = await checkemailApi<string>(emailFiled);
+    console.log(res);
+    if (res.isOk) {
+      setIsDisabledEmailField(true);
+      alertHandler.onToast({ msg: res.msg });
     }
-  }, [emailFiled, resetField, trigger]);
+  }, [emailFiled, trigger]);
 
   const onShowPassword = useCallback(() => {
     setIsVisiblePassword((prev) => !prev);

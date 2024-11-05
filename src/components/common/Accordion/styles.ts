@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Accordion_wrap = styled.div`
+export const AccordionWarp = styled.div`
   padding: 15px 8px;
   display: flex;
   flex-direction: column;

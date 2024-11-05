@@ -1,4 +1,4 @@
-import DiabetesReport from "components/domain/DiabetesReports";
+import DiabetesReport from "components/domain/DiabetesReport";
 
 const Report = () => {
   return <DiabetesReport />;
