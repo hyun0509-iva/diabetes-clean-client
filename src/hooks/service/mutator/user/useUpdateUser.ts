@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, TUserUpdateRequest } from "models/data";
-import { updateUserApi } from "utils/apis/userApis";
+import { updateUserAPI } from "utils/apis/users";
 import alertHandler from "utils/functions/alertHandler";
 
 const { USER_KEY } = QUERY_KEY;
@@ -17,7 +17,7 @@ const useUpdateUser = () => {
       userId: string;
       userData: TUserUpdateRequest;
     }
-  >(updateUserApi, {
+  >(updateUserAPI, {
     onSuccess: (data) => {
       if (data.isOk) {
         queryClient.invalidateQueries<string>([USER_KEY]);

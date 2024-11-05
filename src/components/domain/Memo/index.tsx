@@ -58,9 +58,9 @@ const MemoList = () => {
   return (
     <Wapper>
       <MemoHeader>
-        <h1 className="title">
+        <h2 className="title">
           <span>기록 내역</span>
-        </h1>
+        </h2>
         {/* <Submenu /> */} {/* <-- 식단 기능 추가후 활성화 --> */}
         <DateArea
           currentDate={currentDate}

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import LikedPosts from "components/common/Posts";
-import { getLikedPosts } from "utils/apis/contents";
+import { getLikedPostsAPI } from "utils/apis/contents";
 
 // 관심글
 const LikedPost = () => {
@@ -10,7 +10,7 @@ const LikedPost = () => {
     <LikedPosts
       params={usernick as string}
       queryKey="liked_contents"
-      fetcher={getLikedPosts}
+      fetcher={getLikedPostsAPI}
     />
   );
 };

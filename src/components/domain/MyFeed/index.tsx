@@ -10,8 +10,8 @@ import userState from "store/userState";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
-import { getMyFeedInfo, getUserContents } from "utils/apis/contents";
-import { getFollow } from "utils/apis/follow";
+import { getMyFeedInfoAPI, getUserContentsAPI } from "utils/apis/contents";
+import { getFollowAPI } from "utils/apis/follow";
 import { QUERY_KEY } from "constants/query_key";
 import { IFollowResponse, IMyFeedResponse } from "models/data";
 import SideBtnMenu from "components/common/SideBtnMenu";
@@ -35,7 +35,7 @@ const MyFeed = () => {
   const { data, isLoading } = useAPIByParamQuery<IMyFeedResponse>(
     usernick as string,
     `${MY_FEED_KEY}/info`,
-    getMyFeedInfo // myfeedInfo: {writer, contentsCount}
+    getMyFeedInfoAPI // myfeedInfo: {writer, contentsCount}
   );
   const writer = data?.writer;
   const { userInfo: currentUser } = userState(); //현재 인증된 유저
@@ -56,7 +56,7 @@ const MyFeed = () => {
   const { data: followData } = useAPIByParamQuery<IFollowResponse>(
     writer?._id as string,
     FOLLOW_KEY,
-    getFollow
+    getFollowAPI
   );
   useEffect(() => {
     if (followData && currentUser) {

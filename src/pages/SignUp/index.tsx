@@ -5,9 +5,9 @@ import SignUpForm from "components/domain/SignUpForm";
 const SignUp = () => {
   return (
     <AuthContainer>
-      <h1 className="title">
+      <h2 className="title">
         <span style={{ fontSize: "25px" }}>회원가입</span>
-      </h1>
+      </h2>
       <SignUpForm />
     </AuthContainer>
   );

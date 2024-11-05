@@ -26,11 +26,11 @@ export const ProfileWarp = styled.div`
 
 export const ProfileHeader = styled.div`
   .title {
-    font-size: 20px;
     padding: 20px 5px;
     position: relative;
     left: 0;
     top: 0;
+    font-size: 20px;
   }
 `;
 

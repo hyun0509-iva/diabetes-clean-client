@@ -5,7 +5,7 @@ import { timeIcons } from "libs/time-icons";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import { useDelDiabetes } from "hooks/service/mutator";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
-import { getDiabetesFindById } from "utils/apis/diabetesApis";
+import { getDiabetesFindByIdAPI } from "utils/apis/diabetes";
 import {
   DetailContainer,
   DetailModalContent,
@@ -30,7 +30,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
   const { data, isError } = useAPIByParamQuery<IDiabetesResponse>(
     id,
     DIABETES_KEY,
-    getDiabetesFindById
+    getDiabetesFindByIdAPI
   );
 
   const diabetes = data?.diabetes as Idiabetes;

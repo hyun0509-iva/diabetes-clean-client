@@ -8,6 +8,7 @@ import { QUERY_KEY } from "constants/query_key";
 import userState from "store/userState";
 import useStorage from "utils/functions/useStorage";
 import { API_PATH } from "constants/api_path";
+import { useLogOutMutation } from "hooks/service/mutator";
 
 interface IProps {
   showSubMenu: boolean;
@@ -19,19 +20,14 @@ const { LOG_OUT } = API_PATH;
 
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
   const { MYPAGE, STORY, REPORT } = ROUTER_PATH;
-  const { userInfo, removeIsAuth, removeUserInfo } = userState();
-  const { removeStorage } = useStorage;
-  const queryClient = useQueryClient();
+  const { userInfo } = userState();
   const navigate = useNavigate();
-  const handleLogOut = useCallback(() => {
-    api.post(LOG_OUT, { withCredentials: true }).then(() => {
-      queryClient.setQueryData([USER_KEY], false);
 
-      removeUserInfo();
-      navigate("/login", { replace: true });
-      removeStorage("accessToken");
-      removeIsAuth();
-    });
+  const mutation = useLogOutMutation();
+
+  const handleLogOut = useCallback(() => {
+    mutation.mutate();
+    navigate("/login", { replace: true });
     onCloseMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -60,7 +56,7 @@ const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
         handler: handleLogOut
       }
     ],
-    [MYPAGE, STORY, handleLogOut, userInfo?.nickname]
+    [MYPAGE, REPORT, STORY, handleLogOut, userInfo?.nickname]
   );
 
   return (

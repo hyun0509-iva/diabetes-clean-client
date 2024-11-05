@@ -1,10 +1,12 @@
 import React from "react";
-import { DiabetesStatusWrap } from "../style";
+import { DiabetesStatusHeader, DiabetesStatusWrap } from "../style";
 
 const DiabetesStatus = () => {
   return (
     <DiabetesStatusWrap>
-      <span>예상 당화혈색소</span>
+      <DiabetesStatusHeader>
+        <h2 className="title">예상 당화혈색소</h2>
+      </DiabetesStatusHeader>
     </DiabetesStatusWrap>
   );
 };

@@ -3,7 +3,7 @@ import ContentsForm from "components/domain/EditContents/ContentsForm";
 import { IContentsDetailResponse } from "models/data";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByParamQuery } from "hooks/service/queries";
-import { getContentsFindById } from "utils/apis/contents";
+import { getContentsFindByIdAPI } from "utils/apis/contents";
 import { EditHeader, EditContent, EditContentsWrap } from "./styles";
 
 const { CONTENTS_KEY } = QUERY_KEY;
@@ -13,7 +13,7 @@ const EditContents = () => {
   const { data, isError } = useAPIByParamQuery<IContentsDetailResponse>(
     contentsId,
     CONTENTS_KEY,
-    getContentsFindById
+    getContentsFindByIdAPI
   );
   const mode = pathname.split("/")[1];
   if (isError) {

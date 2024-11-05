@@ -7,7 +7,7 @@ const My = () => {
     <MyWarp>
       <ProfileWarp>
         <ProfileHeader>
-          <h1 className="title">프로필</h1>
+          <h2 className="title">프로필</h2>
         </ProfileHeader>
         <ProfileContext>
           <UserProfileImage />

@@ -13,7 +13,7 @@ import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
-import { getFollow } from "utils/apis/follow";
+import { getFollowAPI } from "utils/apis/follow";
 import { useAPIByParamQuery } from "hooks/service/queries";
 
 interface IProps {
@@ -36,7 +36,7 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
   const { data: followData } = useAPIByParamQuery<IFollowResponse>(
     writer?._id as string,
     FOLLOW_KEY,
-    getFollow
+    getFollowAPI
   );
   useEffect(() => {
     if (followData && currentUser) {

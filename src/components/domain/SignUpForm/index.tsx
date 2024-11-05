@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { TCreateUserSchema, createUserSchema } from "schema/auth.schema";
 import alertHandler from "utils/functions/alertHandler";
-import { checkemailApi } from "utils/apis/authApis";
+import { checkemailAPI } from "utils/apis/auth";
 import { useCreateUser } from "hooks/service/mutator";
 import {
   FormWrap,
@@ -61,7 +61,7 @@ const SignUpForm = () => {
       });
       return;
     }
-    const res = await checkemailApi<string>(emailFiled);
+    const res = await checkemailAPI<string>(emailFiled);
     console.log(res);
     if (res.isOk) {
       setIsDisabledEmailField(true);

@@ -22,7 +22,7 @@ const Statistics = () => {
   return (
     <StatisticsWrap>
       <StatisticsHeader>
-        <h1 className="title">당수치 통계</h1>
+        <h2 className="title">당수치 통계</h2>
         <div>범위</div>
         <NavMenu
           lists={periods}

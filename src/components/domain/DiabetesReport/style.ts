@@ -10,7 +10,7 @@ export const StatisticsWrap = styled(Wapper)`
 export const StatisticsHeader = styled.header`
   .title {
     padding: 20px 5px;
-    font-size: 28px;
+    font-size: 20px;
   }
 `;
 
@@ -24,6 +24,13 @@ export const StatisticsContent = styled.div`
 export const DiabetesStatusWrap = styled.div`
   margin: 30px 0;
   height: 150px;
+`;
+
+export const DiabetesStatusHeader = styled.div`
+  .title {
+    padding: 20px 5px;
+    font-size: 20px;
+  }
 `;
 
 export const ReportChartWrap = styled(ResponsiveContainer)``;

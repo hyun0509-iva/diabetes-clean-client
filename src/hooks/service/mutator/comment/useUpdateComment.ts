@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse } from "models/data";
-import { updateComment } from "utils/apis/comment";
+import { updateCommentAPI } from "utils/apis/comment";
 import alertHandler from "utils/functions/alertHandler";
 
 const { COMMENT_KEY } = QUERY_KEY;
@@ -13,7 +13,7 @@ const useUpdateComment = () => {
     CommonResponse,
     AxiosError,
     { content: string; commentId: string }
-  >(updateComment, {
+  >(updateCommentAPI, {
     onSuccess: (data) => {
       if (data.isOk) {
         queryClient.invalidateQueries<string>([COMMENT_KEY]);

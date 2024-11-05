@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
-import { deleteUserApi } from "utils/apis/userApis";
+import { deleteUserAPI } from "utils/apis/users";
 import alertHandler from "utils/functions/alertHandler";
 
 const { USER_KEY } = QUERY_KEY;
@@ -12,7 +12,7 @@ const useDeleteUser = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  return useMutation<CommonResponse, AxiosError, string>(deleteUserApi, {
+  return useMutation<CommonResponse, AxiosError, string>(deleteUserAPI, {
     onSuccess: (data, variables, context) => {
       if (data.isOk) {
         alertHandler

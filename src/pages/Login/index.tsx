@@ -5,9 +5,9 @@ import { AuthContainer } from "pages/SignUp/styles";
 const Login = () => {
   return (
     <AuthContainer>
-      <h1 className="title">
+      <h2 className="title">
         <span style={{ fontSize: "25px" }}>로그인</span>
-      </h1>
+      </h2>
       <div className="login-form">
         <LoginForm />
       </div>

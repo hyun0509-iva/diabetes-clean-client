@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import useStorage from "utils/functions/useStorage";
 import alertHandler from "utils/functions/alertHandler";
-import { refleshToken } from "utils/apis/authApis";
+import { refleshTokenAPI } from "utils/apis/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "utils/axios";
@@ -9,14 +9,19 @@ import userState from "store/userState";
 const { setStorage, removeStorage, getStorage } = useStorage;
 
 const useInterceptor = () => {
+  const token = getStorage("accessToken");
   const [isRefreshToken, setIsRefreshToken] = useState(false); //토큰 재발급 상태
   const navigate = useNavigate();
-  const { removeIsAuth } = userState();
+  const { setIsAuth } = userState();
+
+  /* axios 인스턴스 기본 설정 */
+  api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  api.defaults.headers.post["Content-Type"] =
+    "application/x-www-form-urlencoded";
 
   useEffect(() => {
     const requestInterceptors = api.interceptors.request.use(
       async (config) => {
-        const token = getStorage("accessToken");
         if (!token) {
           return {
             ...config,
@@ -45,8 +50,6 @@ const useInterceptor = () => {
       },
       async (error: AxiosError) => {
         const originalRequest = error.config;
-        // console.log("응답 전역");
-        // console.log(error.response?.status);
         if (
           error.response &&
           error.response?.status >= 400 &&
@@ -83,24 +86,20 @@ const useInterceptor = () => {
 
     const responseErrorHandler = async (responseError: any) => {
       const { data, status, config } = responseError;
-
       if (status === 401 && !isRefreshToken) {
         setIsRefreshToken(true);
 
         if (data.errorMsg === "Invalid token") {
-          alertHandler.onToast({
-            msg: "로그인을 해주세요!",
-            icon: "info"
-          });
+          console.log("로그인을 해주세요");
         } else if (data.errorMsg === "Expired token") {
           // console.log("토큰이 만료되어 재발행합니다.");
-          const data = await refleshToken();
+          const data = await refleshTokenAPI();
 
           if (data?.isExpiredRefleshToken) {
             //reflesh token이 만료되면 로컬스토리지에 저장한 accessToken 삭제
             setIsRefreshToken(false);
             removeStorage("accessToken");
-            removeIsAuth();
+            setIsAuth(false);
 
             alertHandler.onToast({
               msg: "인증이 만료되어 재로그인이 필요합니다.",
@@ -111,7 +110,8 @@ const useInterceptor = () => {
             // reflesh token이 유효하다면 accessToken 갱신
             setIsRefreshToken(false);
             setStorage("accessToken", data.accessToken);
-            config.headers["Authorization"] = data.accessToke;
+            console.log(data.accessToken);
+            config.headers["Authorization"] = data.accessToken;
             return axios(config);
           }
         }
@@ -127,7 +127,7 @@ const useInterceptor = () => {
       api.interceptors.response.eject(requestInterceptors);
       api.interceptors.response.eject(responseInterceptor);
     };
-  }, [isRefreshToken, navigate, removeIsAuth]);
+  }, [isRefreshToken, navigate, setIsAuth, token]);
 
   return null;
 };

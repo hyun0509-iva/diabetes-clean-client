@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import MyPosts from "components/common/Posts";
-import { getUserContents } from "utils/apis/contents";
+import { getUserContentsAPI } from "utils/apis/contents";
 import { QUERY_KEY } from "constants/query_key";
 
 const { MY_FEED_KEY } = QUERY_KEY;
@@ -13,7 +13,7 @@ const MyPost = () => {
     <MyPosts
       params={usernick as string}
       queryKey={MY_FEED_KEY}
-      fetcher={getUserContents}
+      fetcher={getUserContentsAPI}
     />
   );
 };

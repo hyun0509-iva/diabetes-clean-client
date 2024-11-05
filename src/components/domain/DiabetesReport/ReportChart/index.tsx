@@ -13,7 +13,7 @@ import {
   Bar
 } from "recharts";
 import userState from "store/userState";
-import { getDiabetes } from "utils/apis/diabetesApis";
+import { getDiabetesAPI } from "utils/apis/diabetes";
 import { ReportChartWrap } from "../style";
 
 const { DIABETES_KEY } = QUERY_KEY;
@@ -25,7 +25,7 @@ const ReportChart = () => {
   const { data } = useAPIByParamQuery<IDiabetesResponse>(
     userId,
     DIABETES_KEY,
-    getDiabetes
+    getDiabetesAPI
   );
 
   const todayData = useMemo(() => {

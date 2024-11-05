@@ -49,13 +49,14 @@ const LoginForm = () => {
     async (data: TLoginUserSchema) => {
       if (isCompleteFrmData) {
         const resData = await mutation.mutateAsync(data);
+        console.log({ resData });
         if (resData.isOk) {
           navigate("/");
-          reset();
+          // reset();
         }
       }
     },
-    [isCompleteFrmData, mutation, navigate, reset]
+    [isCompleteFrmData, mutation, navigate]
   );
 
   return (

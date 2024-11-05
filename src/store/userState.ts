@@ -8,7 +8,6 @@ interface IUserState {
   setUserInfo: (userData: Partial<IUserInfo>) => void;
   removeUserInfo: () => void;
   setIsAuth: (isAuth: boolean) => void;
-  removeIsAuth: () => void;
 }
 
 const userState = create<IUserState>()(
@@ -29,11 +28,6 @@ const userState = create<IUserState>()(
         setIsAuth: (isAuth: boolean) => {
           set(() => ({
             isAuth
-          }));
-        },
-        removeIsAuth: () => {
-          set(() => ({
-            isAuth: null
           }));
         }
       }),

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse, IDiabetesRequest } from "models/data";
 import { useNavigate } from "react-router-dom";
-import { updateDiabetes } from "utils/apis/diabetesApis";
+import { updateDiabetesAPI } from "utils/apis/diabetes";
 import alertHandler from "utils/functions/alertHandler";
 
 const { DIABETES_KEY } = QUERY_KEY;
@@ -18,7 +18,7 @@ const useUpdateDiabetes = () => {
       diabetesId: string;
       diabetesData: IDiabetesRequest;
     }
-  >(updateDiabetes, {
+  >(updateDiabetesAPI, {
     onSuccess: (data) => {
       if (data.isOk) {
         queryClient.invalidateQueries<string>([DIABETES_KEY]);

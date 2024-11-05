@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import NavMenu from "components/common/NavMenu";
 import FormDiabetes from "./FormDiabetes";
-import { getDiabetesFindById } from "utils/apis/diabetesApis";
+import { getDiabetesFindByIdAPI } from "utils/apis/diabetes";
 import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByParamQuery } from "hooks/service/queries";
@@ -16,7 +16,7 @@ const EditMemo = () => {
   const { data, isError } = useAPIByParamQuery<IDiabetesResponse>(
     DiabetesId,
     DIABETES_KEY,
-    getDiabetesFindById
+    getDiabetesFindByIdAPI
   );
   const mode = pathname.split("/")[1];
   const { SAVE_MEMO_DIABETES, SAVE_MEMO_DIET } = ROUTER_PATH;

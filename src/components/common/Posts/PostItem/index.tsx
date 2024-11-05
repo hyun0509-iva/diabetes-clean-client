@@ -11,7 +11,7 @@ import {
 } from "models/data";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import { QUERY_KEY } from "constants/query_key";
-import { getAllComment } from "utils/apis/comment";
+import { getAllCommentAPI } from "utils/apis/comment";
 
 import { Contour } from "styles/common";
 import {
@@ -20,7 +20,7 @@ import {
   ReviewBlock,
   PostItemWrap
 } from "components/common/Posts/styles";
-import { getContentsLike } from "utils/apis/like";
+import { getContentsLikeAPI } from "utils/apis/like";
 import NewLine from "components/common/NewLine";
 
 const { COMMENT_KEY, Like_key } = QUERY_KEY;
@@ -37,12 +37,12 @@ const PostItem = ({
   const { data: contentsLike } = useAPIByParamQuery<ILikeResponse>(
     _id,
     Like_key,
-    getContentsLike
+    getContentsLikeAPI
   );
   const { data: comments } = useAPIByParamQuery<ICommentResponse>(
     _id,
     COMMENT_KEY,
-    getAllComment
+    getAllCommentAPI
   );
 
   const [isOpenImgDetail, setIsOpenImgDetail] = useState(false);

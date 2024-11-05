@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { CommonResponse } from "models/data";
-import { deleteContents } from "utils/apis/contents";
+import { deleteContentsAPI } from "utils/apis/contents";
 import alertHandler from "utils/functions/alertHandler";
 
 const { CONTENTS_KEY } = QUERY_KEY;
 
 const useDelContentsMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<CommonResponse, AxiosError, string>(deleteContents, {
+  return useMutation<CommonResponse, AxiosError, string>(deleteContentsAPI, {
     onSuccess: (data, variables, context) => {
       console.log({ data, variables, context });
       if (data.isOk) {

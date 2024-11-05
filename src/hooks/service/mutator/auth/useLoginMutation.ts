@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { IAuthResponse, TLoginRequest } from "models/data";
 import userState from "store/userState";
-import { logInApi } from "utils/apis/authApis";
+import { logInAPI } from "utils/apis/auth";
 import alertHandler from "utils/functions/alertHandler";
 import useStorage from "utils/functions/useStorage";
 
@@ -11,22 +11,22 @@ const { USER_KEY } = QUERY_KEY;
 
 const useLoginMutation = () => {
   const queryClient = useQueryClient();
-  const { isAuth, setIsAuth, setUserInfo } = userState();
+  const { setIsAuth, setUserInfo } = userState();
   const { setStorage } = useStorage;
 
   return useMutation<IAuthResponse, AxiosError, TLoginRequest>(
-    logInApi<TLoginRequest>,
+    logInAPI<TLoginRequest>,
     {
       onSuccess(data) {
         if (data.isOk) {
           const { userInfo, accessToken } = data;
-          if (isAuth) return;
+          console.log({ mu: userInfo });
 
           setStorage("accessToken", accessToken);
           setUserInfo(userInfo);
           setIsAuth(true);
+          queryClient.invalidateQueries({ queryKey: [USER_KEY] });
         }
-        queryClient.refetchQueries({ queryKey: [USER_KEY] });
       },
       onError(error: any) {
         console.log({ loginError: error });
