@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError } from "axios";
 import useStorage from "utils/functions/useStorage";
 import alertHandler from "utils/functions/alertHandler";
 import { refleshToken } from "utils/apis/authApis";
@@ -8,7 +8,7 @@ import api from "utils/axios";
 import userState from "store/userState";
 const { setStorage, removeStorage, getStorage } = useStorage;
 
-const Interceptors = () => {
+const useInterceptor = () => {
   const [isRefreshToken, setIsRefreshToken] = useState(false); //토큰 재발급 상태
   const navigate = useNavigate();
   const { removeIsAuth } = userState();
@@ -17,7 +17,6 @@ const Interceptors = () => {
     const requestInterceptors = api.interceptors.request.use(
       async (config) => {
         const token = getStorage("accessToken");
-        console.log({ token });
         if (!token) {
           return {
             ...config,
@@ -46,14 +45,14 @@ const Interceptors = () => {
       },
       async (error: AxiosError) => {
         const originalRequest = error.config;
-        console.log("응답 전역");
-        console.log(error.response?.status);
+        // console.log("응답 전역");
+        // console.log(error.response?.status);
         if (
           error.response &&
           error.response?.status >= 400 &&
           error.response?.status < 500
         ) {
-          // 400번대 error 에러 처리
+          // 400번대 에러 처리
           await responseErrorHandler(error.response);
 
           return {
@@ -84,7 +83,6 @@ const Interceptors = () => {
 
     const responseErrorHandler = async (responseError: any) => {
       const { data, status, config } = responseError;
-      console.log({ data, status });
 
       if (status === 401 && !isRefreshToken) {
         setIsRefreshToken(true);
@@ -95,7 +93,7 @@ const Interceptors = () => {
             icon: "info"
           });
         } else if (data.errorMsg === "Expired token") {
-          console.log("토큰이 만료");
+          // console.log("토큰이 만료되어 재발행합니다.");
           const data = await refleshToken();
 
           if (data?.isExpiredRefleshToken) {
@@ -117,6 +115,11 @@ const Interceptors = () => {
             return axios(config);
           }
         }
+      } else if (status === 400) {
+        return alertHandler.onToast({
+          msg: data?.errorMsg,
+          icon: "error"
+        });
       }
     };
 
@@ -126,7 +129,7 @@ const Interceptors = () => {
     };
   }, [isRefreshToken, navigate, removeIsAuth]);
 
-  return <></>;
+  return null;
 };
 
-export default Interceptors;
+export default useInterceptor;

@@ -7,8 +7,11 @@ import ScrollTop from "components/common/ScrollTop";
 import GlobalModal from "components/common/GlobalModal";
 import modalState from "store/modalState";
 import cloudinaryState from "store/cloudinaryState";
-import InterceptorProvider from "utils/axios/hook/InterceptorProvider";
+import useInterceptor from "utils/axios/hook/useInterceptor";
+
 const RootLayout = () => {
+  useInterceptor();
+
   const { modal } = modalState();
   const [isOpenModal, setOpenModal] = useState(false);
   const { setCid } = cloudinaryState();
@@ -31,7 +34,6 @@ const RootLayout = () => {
 
   return (
     <div>
-      <InterceptorProvider />
       <Topbar />
       <Main>
         <Outlet />
