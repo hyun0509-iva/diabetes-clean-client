@@ -20,7 +20,7 @@ const WriteContents = lazy(() => import("pages/WriteContents"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
 const MyPost = lazy(() => import("components/domain/MyFeed/MyPost"));
 const LikedPost = lazy(() => import("components/domain/MyFeed/LikedPost"));
-const DiabetesReports = lazy(() => import("components/domain/DiabetesReports"));
+const DiabetesReports = lazy(() => import("components/domain/DiabetesReport"));
 
 const {
   INDEX,

@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const Sidebar = ({ isOpen, showCloseSidebar }: IProps) => {
-  const { MEMO_DIABETES, STORY, MYPAGE, SEARCH_HOSPITAL, REPORT } = ROUTER_PATH;
+  const { MEMO_DIABETES, STORY, SEARCH_HOSPITAL } = ROUTER_PATH;
   const userMenuItem = useMemo(
     () => [
       {
@@ -19,21 +19,16 @@ const Sidebar = ({ isOpen, showCloseSidebar }: IProps) => {
       },
       {
         id: 2,
-        label: "당수치 분석",
-        path: `${REPORT}`
-      },
-      {
-        id: 3,
         label: "스토리",
         path: `${STORY}`
       },
       {
-        id: 4,
+        id: 3,
         label: "병원 찾기",
         path: `${SEARCH_HOSPITAL}`
       }
     ],
-    [MEMO_DIABETES, REPORT, SEARCH_HOSPITAL, STORY]
+    [MEMO_DIABETES, SEARCH_HOSPITAL, STORY]
   );
 
   return (
