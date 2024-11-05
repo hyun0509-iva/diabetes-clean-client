@@ -68,6 +68,7 @@ const PostItem = ({
       }
     })();
   };
+
   return (
     <PostItemWrap key={_id}>
       <PostHeader
@@ -118,7 +119,7 @@ const PostItem = ({
               <PostStatus
                 contentsId={_id}
                 likes={contentsLike?.like}
-                commentCount={comments?.comment.length}
+                commentCount={comments?.comment?.length}
               />
             </PostBodyBlock>
             <Contour />

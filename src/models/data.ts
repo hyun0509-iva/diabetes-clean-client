@@ -119,6 +119,11 @@ export interface IDiabetesRequest {
 }
 
 export interface IDiabetesResponse {
+  isOk: boolean;
+  diabetes: Idiabetes[] | Idiabetes;
+}
+
+export interface Idiabetes {
   readonly _id: string;
   writer?: Pick<TBriefWriter, "_id" | "nickname">;
   sugar_level: number;
@@ -126,20 +131,6 @@ export interface IDiabetesResponse {
   createdAt: Date | string;
   note?: string;
 }
-
-// export interface IDiabetesResponse {
-//   readonly _id: string;
-//   writer?: Pick<TBriefWriter, "_id" | "nickname">;
-//   sugar_level: number;
-//   slot: string;
-//   createdAt: Date | string;
-//   note?: string;
-// }
-
-// export interface IDiabetesResponse {
-//   isOk: boolean;
-//   diabetesInfo: IDiabetesResponse[] | IDiabetesResponse;
-// }
 
 export interface IUpdateDiabetes {
   id: string;
@@ -169,8 +160,7 @@ export interface IContentsResponse {
   msg?: string;
   likedPost?: any;
   isOk: boolean;
-  // contents: IContents[];
-  data: IContents[];
+  contents: IContents[];
   total?: number;
 }
 

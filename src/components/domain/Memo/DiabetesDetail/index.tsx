@@ -12,7 +12,7 @@ import {
   DetailModalHeader
 } from "components/common/GlobalModal/styles";
 import { QUERY_KEY } from "constants/query_key";
-import { IDiabetesResponse } from "models/data";
+import { Idiabetes, IDiabetesResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import modalState from "store/modalState";
@@ -32,8 +32,8 @@ const DiabetesDetail = ({ id }: Iprops) => {
     DIABETES_KEY,
     getDiabetesFindById
   );
-  const diabetes = data;
 
+  const diabetes = data?.diabetes as Idiabetes;
   const iconData = timeIcons.find(({ itemIcons_desc }) =>
     diabetes?.slot?.includes(itemIcons_desc)
   );
@@ -48,7 +48,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            useMutate.mutate(diabetes._id);
+            useMutate.mutate(diabetes?._id);
             alertHandler.onToast({ msg: alertMessage.delMsg });
             closeModal();
           } else if (result.isDismissed) {
@@ -57,7 +57,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
           }
         });
     }
-  }, [diabetes?._id, closeModal, useMutate]);
+  }, [diabetes?._id, useMutate, closeModal]);
 
   const onEditDiabetes = useCallback(() => {
     navigate(`${UPDATE_DIABETES}`, { state: id });

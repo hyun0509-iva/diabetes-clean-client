@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
-import { IDiabetesResponse } from "models/data";
+import { Idiabetes } from "models/data";
 
 export interface ISortedData {
-  [key: string]: IDiabetesResponse[];
+  [key: string]: Idiabetes[];
 }
 
 /**
@@ -10,9 +10,9 @@ export interface ISortedData {
  * @param {IDiabetesResponse[]} originData
  * @returns {ISortedData}
  */
-export const getSortedData = (originData: IDiabetesResponse[]): ISortedData => {
-  const sortedObj: { [key: string]: IDiabetesResponse[] } = {};
-  originData.forEach((item: IDiabetesResponse) => {
+export const getSortedData = (originData: Idiabetes[]): ISortedData => {
+  const sortedObj: { [key: string]: Idiabetes[] } = {};
+  originData.forEach((item: Idiabetes) => {
     const createdDate = dayjs(item.createdAt).format("YYYY-MM-DD dddd");
     if (Array.isArray(sortedObj[createdDate])) {
       sortedObj[createdDate].push(item);

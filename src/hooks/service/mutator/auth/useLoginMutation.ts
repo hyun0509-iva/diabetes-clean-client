@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
 import { IAuthResponse, TLoginRequest } from "models/data";
-import { useNavigate } from "react-router-dom";
 import userState from "store/userState";
 import { logInApi } from "utils/apis/authApis";
 import alertHandler from "utils/functions/alertHandler";
@@ -14,13 +13,12 @@ const useLoginMutation = () => {
   const queryClient = useQueryClient();
   const { isAuth, setIsAuth, setUserInfo } = userState();
   const { setStorage } = useStorage;
-  const navigate = useNavigate();
 
   return useMutation<IAuthResponse, AxiosError, TLoginRequest>(
     logInApi<TLoginRequest>,
     {
       onSuccess(data) {
-        if (data) {
+        if (data.isOk) {
           const { userInfo, accessToken } = data;
           if (isAuth) return;
 
