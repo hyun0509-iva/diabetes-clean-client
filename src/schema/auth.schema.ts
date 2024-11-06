@@ -25,7 +25,7 @@ const passwordField = z
 const nicknameField = z
   .string()
   .min(1, { message: `닉네임${SCHEMA_ERROR_MESSAGE.VOID}` })
-  .min(6, { message: SCHEMA_ERROR_MESSAGE.NICKNAME })
+  .min(3, { message: SCHEMA_ERROR_MESSAGE.NICKNAME })
   .max(13, { message: SCHEMA_ERROR_MESSAGE.NICKNAME });
 
 /* schema */
