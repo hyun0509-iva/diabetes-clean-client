@@ -30,7 +30,10 @@ const useLoginMutation = () => {
       },
       onError(error: any) {
         console.log({ loginError: error });
-        alertHandler.onToast({ msg: error.response.data.msg, icon: "error" });
+        alertHandler.onToast({
+          msg: error.response.data.errorMsg,
+          icon: "error"
+        });
       }
     }
   );
