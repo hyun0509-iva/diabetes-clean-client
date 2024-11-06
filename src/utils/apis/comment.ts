@@ -1,11 +1,16 @@
 import { API_PATH } from "constants/api_path";
-import { CommonResponse, ICommentResponse } from "models/data";
+import { CommonResponse, ICommentRequest, ICommentResponse } from "models/data";
 import api from "utils/axios";
 
-const { COMMENT_API } = API_PATH;
+const { CONTENTS_API } = API_PATH;
 
-const createCommentAPI = async <T>(insertData: T) => {
-  const { data } = await api.post<CommonResponse>(`${COMMENT_API}`, insertData);
+// /api/v1/contents/:id/comments
+const createCommentAPI = async (insertData: ICommentRequest) => {
+  const { contentsId, ...insert } = insertData;
+  const { data } = await api.post<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}/comments`,
+    insert
+  );
   return data;
 };
 
@@ -17,7 +22,7 @@ const updateCommentAPI = async ({
   commentId: string;
 }) => {
   const { data } = await api.patch<CommonResponse>(
-    `${COMMENT_API}/${commentId}`,
+    `${CONTENTS_API}/${commentId}`,
     { content }
   );
   console.log({ predata: data });
@@ -26,7 +31,7 @@ const updateCommentAPI = async ({
 
 const deleteCommentAPI = async (commentId: string) => {
   const { data } = await api.delete<CommonResponse>(
-    `${COMMENT_API}/${commentId}`
+    `${CONTENTS_API}/${commentId}`
   );
   return data;
 };
@@ -34,8 +39,9 @@ const deleteCommentAPI = async (commentId: string) => {
 const getAllCommentAPI = async (contentsId: string | null) => {
   if (!contentsId) return;
   const { data } = await api.get<ICommentResponse>(
-    `${COMMENT_API}/contents/${contentsId}`
+    `${CONTENTS_API}/${contentsId}/comments`
   );
+  console.log({ data });
   return data;
 };
 

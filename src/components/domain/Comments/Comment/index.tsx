@@ -18,6 +18,7 @@ interface Iprops {
 }
 
 const Comment = ({ comment }: Iprops) => {
+  console.log(comment);
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
   const [isShowSubMenu, setIsShowSubMenu, onToggleMenu] = useToggle();

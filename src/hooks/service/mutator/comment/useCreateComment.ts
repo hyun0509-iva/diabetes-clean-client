@@ -11,7 +11,7 @@ const useCreateComment = () => {
   const queryClient = useQueryClient();
 
   return useMutation<CommonResponse, AxiosError, ICommentRequest>(
-    createCommentAPI<ICommentRequest>,
+    createCommentAPI,
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries<string>([COMMENT_KEY]);

@@ -29,8 +29,8 @@ const CommentForm = ({
   onClose
 }: IProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const { userInfo } = userState();
-  const userId = userInfo?._id as string;
+  // const { userInfo } = userState();
+  // const userId = userInfo?._id as string;
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
   const updateComment = useUpdateComment();
@@ -57,7 +57,6 @@ const CommentForm = ({
       e.preventDefault();
       if (content) {
         const insertData = {
-          writer: userId,
           contentsId,
           content
         };
@@ -79,7 +78,6 @@ const CommentForm = ({
     },
     [
       content,
-      userId,
       contentsId,
       editMode,
       commentId,

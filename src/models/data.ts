@@ -152,6 +152,7 @@ export interface IContents {
   content: string;
   msg?: string;
   imageData?: Array<IUploadedImg>;
+  comments: Array<IComment>;
   createdAt: Date | string;
   updateAt: Date | string;
   isDeleted: boolean;
@@ -204,7 +205,6 @@ export interface IMyFeedResponse {
 /* <--- Comment Type ---> */
 
 export interface ICommentRequest {
-  writer: string;
   contentsId: string;
   parentCommentId?: string;
   content: string;

@@ -31,15 +31,16 @@ const PostItem = ({
   content,
   imageData,
   isDeleted,
-  createdAt
+  createdAt,
+  comments
 }: IContents) => {
-  console.log("cnff");
+  console.log("PostItem");
   const { data: contentsLike } = useAPIByParamQuery<ILikeResponse>(
     _id,
     Like_key,
     getContentsLikeAPI
   );
-  const { data: comments } = useAPIByParamQuery<ICommentResponse>(
+  const { data: comments_ } = useAPIByParamQuery<ICommentResponse>(
     _id,
     COMMENT_KEY,
     getAllCommentAPI
@@ -119,14 +120,12 @@ const PostItem = ({
               <PostStatus
                 contentsId={_id}
                 likes={contentsLike?.like}
-                commentCount={comments?.comment?.length}
+                commentCount={comments?.length}
               />
             </PostContentBlock>
             <Contour />
             <ReviewBlock>
-              {comments && (
-                <Comments postId={_id} comments={comments?.comment} />
-              )}
+              {comments && <Comments postId={_id} comments={comments} />}
             </ReviewBlock>
           </PostContent>
         </>

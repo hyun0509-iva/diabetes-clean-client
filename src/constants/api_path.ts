@@ -14,8 +14,6 @@ export const API_PATH = {
   MY_FEED_KEY: "/api/v1/contents/users",
   // Search
   SEARCH_API: "/api/v1/search",
-  // Comment
-  COMMENT_API: "/api/v1/comment",
   //Like
   LIKE_API: "/api/v1/like",
   //Image

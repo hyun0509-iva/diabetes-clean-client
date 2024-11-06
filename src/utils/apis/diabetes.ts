@@ -1,9 +1,10 @@
 import { API_PATH } from "constants/api_path";
 import { CommonResponse, IDiabetesRequest } from "models/data";
 import api from "utils/axios";
+import useStorage from "utils/functions/useStorage";
 
 const { DIABETES_API } = API_PATH;
-
+const { getStorage } = useStorage;
 const createDiabetesAPI = async <T>(insertData: T) => {
   const { data } = await api.post<CommonResponse>(
     `${DIABETES_API}`,
@@ -35,8 +36,11 @@ const updateDiabetesAPI = async ({
 };
 
 const getDiabetesAPI = async (userId: string | null) => {
+  const token = getStorage("accessToken");
   if (!userId) return;
-  const { data } = await api.get(`${DIABETES_API}/users/${userId}`);
+  const { data } = await api.get(`${DIABETES_API}/users/${userId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
   return data;
 };
 
