@@ -1,6 +1,7 @@
 import { API_PATH } from "constants/api_path";
 import { CommonResponse, IContentsResponse } from "models/data";
 import api from "utils/axios";
+import useStorage from "utils/functions/useStorage";
 
 const { CONTENTS_API, SEARCH_API } = API_PATH;
 
@@ -8,6 +9,7 @@ export interface ResData {
   data: { isOk: boolean; likedPost: []; msg: string };
 }
 
+const { getStorage } = useStorage;
 // 게시글 추가
 const createContentsAPI = async <T>(insertData: T) => {
   const { data } = await api.post<CommonResponse>(
@@ -103,8 +105,12 @@ const getLikedPostsAPI = async (page: string, context: string) => {
 // 내 게시글 정보(페이징 처리되지 않음)
 const getMyFeedInfoAPI = async (ninkName: string) => {
   console.log("getMyFeedCount");
+  const token = getStorage("accessToken");
   const { data } = await api.get<IContentsResponse>(
-    `${CONTENTS_API}/myfeed-info/users/${ninkName}`
+    `${CONTENTS_API}/myfeed-info/users/${ninkName}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
   );
   console.log(data);
   return data;
