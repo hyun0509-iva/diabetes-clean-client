@@ -15,14 +15,7 @@ const logInAPI = async <T>(insertData: T) => {
 };
 
 const logOutAPI = async () => {
-  const token = getStorage("accessToken");
-  const { data } = await api.post<CommonResponse>(
-    LOG_OUT,
-    {},
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  );
+  const { data } = await api.post<CommonResponse>(LOG_OUT);
   return data;
 };
 
