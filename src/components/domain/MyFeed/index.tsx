@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, Outlet } from "react-router-dom";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import gravatar from "gravatar";
 import Avatar from "components/common/Avatar";
 import NavMenu from "components/common/NavMenu";
@@ -10,7 +9,7 @@ import userState from "store/userState";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import useFollowMutation from "hooks/service/mutator/follow/useFollow";
 import useUnFollowMutation from "hooks/service/mutator/follow/useUnFollow";
-import { getMyFeedInfoAPI, getUserContentsAPI } from "utils/apis/contents";
+import { getMyFeedInfoAPI } from "utils/apis/contents";
 import { getFollowAPI } from "utils/apis/follow";
 import { QUERY_KEY } from "constants/query_key";
 import { IFollowResponse, IMyFeedResponse } from "models/data";
@@ -35,9 +34,10 @@ const MyFeed = () => {
   const { data, isLoading } = useAPIByParamQuery<IMyFeedResponse>(
     usernick as string,
     `${MY_FEED_KEY}/info`,
-    getMyFeedInfoAPI // myfeedInfo: {writer, contentsCount}
+    getMyFeedInfoAPI
   );
-  const writer = data?.writer;
+  const myFeedInfo = data?.myFeedInfo;
+  const writer = myFeedInfo?.writer;
   const { userInfo: currentUser } = userState(); //현재 인증된 유저
   const followMutate = useFollowMutation();
   const unFollowMutate = useUnFollowMutation();
@@ -136,7 +136,7 @@ const MyFeed = () => {
                   <li>
                     <span className="status-inner">
                       <span className="status">게시글</span>
-                      <span>{data?.contents.length}</span>
+                      <span>{myFeedInfo?.contentsCount}</span>
                     </span>
                   </li>
                 </ul>
