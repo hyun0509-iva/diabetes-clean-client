@@ -14,7 +14,6 @@ const Avatar = ({
   imgName = "profile-img",
   imgUrl
 }: IAatarProps) => {
-  console.log({ imgUrl });
   return (
     <AvatarWarp size={size} posX={posX} posY={posY}>
       <img src={imgUrl} alt={imgName} />

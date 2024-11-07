@@ -25,7 +25,6 @@ const updateCommentAPI = async ({
     `${CONTENTS_API}/${commentId}`,
     { content }
   );
-  console.log({ predata: data });
   return data;
 };
 
@@ -41,7 +40,6 @@ const getAllCommentAPI = async (contentsId: string | null) => {
   const { data } = await api.get<ICommentResponse>(
     `${CONTENTS_API}/${contentsId}/comments`
   );
-  console.log({ data });
   return data;
 };
 

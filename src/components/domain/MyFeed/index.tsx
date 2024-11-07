@@ -58,6 +58,9 @@ const MyFeed = () => {
     FOLLOW_KEY,
     getFollowAPI
   );
+
+  console.log({ followData });
+
   useEffect(() => {
     if (followData && currentUser) {
       // 팔로우 버튼: 유저의 팔로워 목록에 내가 존재하는가?

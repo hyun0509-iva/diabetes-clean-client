@@ -34,7 +34,6 @@ const PostItem = ({
   createdAt,
   comments
 }: IContents) => {
-  console.log("PostItem");
   const { data: contentsLike } = useAPIByParamQuery<ILikeResponse>(
     _id,
     Like_key,

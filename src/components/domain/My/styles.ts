@@ -8,6 +8,7 @@ export const MyWarp = styled(Wapper)`
 
 export const ProfileWarp = styled.div`
   padding: 45px 0;
+  margin: 0 auto;
   left: 0;
   top: 0;
   display: flex;

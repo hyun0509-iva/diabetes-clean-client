@@ -56,7 +56,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
             </PostCardWrap>
           );
         } else {
-          console.log(page);
+          // console.log(page);
           return page.contents?.map((post) => (
             <PostCardWrap
               key={post._id}

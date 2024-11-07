@@ -19,7 +19,7 @@ const useInterceptor = () => {
   const responseErrorHandler = useCallback(
     async (responseError: any) => {
       const { data, status, config } = responseError;
-      console.log({ data, status, config });
+      // console.log({ data, status, config });
       if (status === 401 && !isRefreshToken) {
         setIsRefreshToken(true);
 
@@ -46,7 +46,7 @@ const useInterceptor = () => {
           }
         }
       } else if (status === 400) {
-        console.log(data);
+        // console.log(data);
         return alertHandler.onToast({
           // msg: data?.errorMsg,
           msg: "예기치 않는 에러",

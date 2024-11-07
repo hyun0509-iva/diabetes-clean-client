@@ -16,13 +16,11 @@ const createContentsAPI = async <T>(insertData: T) => {
     `${CONTENTS_API}`,
     insertData
   );
-  console.log(data);
   return data;
 };
 
 // 게시글 삭제
 const deleteContentsAPI = async (contentId: string) => {
-  console.log(contentId);
   const { data } = await api.delete<CommonResponse>(
     `${CONTENTS_API}/${contentId}`
   );
@@ -104,7 +102,6 @@ const getLikedPostsAPI = async (page: string, context: string) => {
 
 // 내 게시글 정보(페이징 처리되지 않음)
 const getMyFeedInfoAPI = async (ninkName: string) => {
-  console.log("getMyFeedCount");
   const token = getStorage("accessToken");
   const { data } = await api.get<IContentsResponse>(
     `${CONTENTS_API}/myfeed-info/users/${ninkName}`,
@@ -112,7 +109,6 @@ const getMyFeedInfoAPI = async (ninkName: string) => {
       headers: { Authorization: `Bearer ${token}` }
     }
   );
-  console.log(data);
   return data;
 };
 

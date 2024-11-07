@@ -10,6 +10,7 @@ export const NavMenutWrap = styled.nav<{
   justify-content: center;
   padding: 0 0;
   margin: 30px 0;
+  border-bottom: 2px solid gray;
   background-color: ${({ bgColor }) => bgColor || "inherit"};
 
   ul {
@@ -24,7 +25,7 @@ export const NavMenutWrap = styled.nav<{
     &.active {
       position: absolute;
       width: 128px;
-      height: 3px;
+      height: 2px;
       border-radius: 2px;
       bottom: 0;
       transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1.05);
