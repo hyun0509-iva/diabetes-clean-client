@@ -191,15 +191,14 @@ export interface IContentsDetailResponse {
 
 /* <--- MyFeed Type ---> */
 
-// export interface IMyFeedInfo {
-//   writer: TMyInfo;
-//   contentsCount: number;
-// }
+export interface IMyFeedInfo {
+  writer: TMyInfo;
+  contentsCount: number;
+}
 
 export interface IMyFeedResponse {
   isOk: boolean;
-  contents: IContents[];
-  writer: TMyInfo;
+  myFeedInfo: IMyFeedInfo;
 }
 
 /* <--- Comment Type ---> */

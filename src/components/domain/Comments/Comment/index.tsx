@@ -97,6 +97,7 @@ const Comment = ({ comment }: Iprops) => {
     onToggleComment,
     onDelComment
   ]);
+  console.log(writer);
   return (
     <CommentWrap>
       <CommentHeader>

@@ -10,7 +10,6 @@ import userState from "store/userState";
 const { setStorage, removeStorage, getStorage } = useStorage;
 
 const useInterceptor = () => {
-  console.log("useInterceptor");
   const [isRefreshToken, setIsRefreshToken] = useState(false);
   const navigate = useNavigate();
   const { setIsAuth } = userState();
@@ -59,7 +58,6 @@ const useInterceptor = () => {
   );
 
   useEffect(() => {
-    console.log("responseInterceptorId", responseInterceptorId);
     const token = getStorage("accessToken");
     if (!token) return;
 
@@ -69,12 +67,12 @@ const useInterceptor = () => {
     // Request Interceptor
     requestInterceptorId.current = api.interceptors.request.use(
       async (config) => {
-        const currentToken = getStorage("accessToken"); // 현재 토큰을 매번 새로 가져옴
+        // const currentToken = getStorage("accessToken"); // 현재 토큰을 매번 새로 가져옴
         return {
           ...config,
           headers: {
             ...config.headers,
-            Authorization: `Bearer ${currentToken}`
+            Authorization: `Bearer ${token}`
           }
         };
       },

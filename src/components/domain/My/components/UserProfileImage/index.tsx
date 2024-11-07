@@ -10,7 +10,7 @@ import {
 } from "hooks/service/mutator";
 import userState from "store/userState";
 import { ProfileImgBtn, UserImageWrap } from "components/domain/My/styles";
-import { IUploadedImg } from "models/data";
+import { IUploadedImg, TBriefWriter } from "models/data";
 
 const UserProfileImage = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -21,8 +21,8 @@ const UserProfileImage = () => {
   const [isActiveProfileImage, setIsActiveProfileImage] = useState(true);
 
   // thumbnail: 이미지 미리보기에 대한 상태
-  const [thumbnail, setThumbnail] = useState<IUploadedImg | null>(
-    me?.imageData ?? null
+  const [thumbnail, setThumbnail] = useState<string | null>(
+    (me?.imageData as IUploadedImg)?.url ?? null
   );
   const [profileImageUrl, setProfileImageUrl] = useState<IUploadedImg | null>(
     null
@@ -33,48 +33,77 @@ const UserProfileImage = () => {
   const deleteImageMutate = useDeleteImage();
 
   /* 사진 선택하기 */
-  const onChangeImg = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = (e.currentTarget.files as FileList)[0];
-    console.log("실행", file);
-    if (file) {
-      uploadImageMutate.mutate(file, {
-        onSuccess: (data) => {
-          const {
-            public_id: publicId,
-            asset_id: assetId,
-            original_filename: fileName,
-            url,
-            width,
-            height
-          } = data;
+  const onChangeImg = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = (e.currentTarget.files as FileList)[0];
+      console.log("실행", file);
+      if (file) {
+        uploadImageMutate.mutate(file, {
+          onSuccess: (data) => {
+            const {
+              public_id: publicId,
+              asset_id: assetId,
+              original_filename: fileName,
+              url,
+              width,
+              height
+            } = data;
 
-          setProfileImageUrl({
-            publicId,
-            assetId,
-            fileName,
-            url,
-            width,
-            height
-          });
-          setThumbnail({
-            publicId,
-            assetId,
-            fileName,
-            url,
-            width,
-            height
-          });
-          setIsActiveProfileImage(false);
+            setProfileImageUrl({
+              publicId,
+              assetId,
+              fileName,
+              url,
+              width,
+              height
+            });
+            setThumbnail(url);
+            setIsActiveProfileImage(false);
+          }
+        });
+      }
+    },
+    [uploadImageMutate]
+  );
+
+  const onUpdateUserProfileImage = useCallback(() => {
+    if (profileImageUrl?.publicId) {
+      console.log({ profileImageUrl });
+      const userData = { imageData: profileImageUrl };
+      updateUserMutate.mutate(
+        {
+          userId: me?._id as string,
+          userData
+        },
+        {
+          onSuccess: () => {
+            setIsActiveProfileImage(true);
+            setUserInfo(userData);
+          }
         }
-      });
+      );
     }
-  }, []);
+  }, [me?._id, profileImageUrl, setUserInfo, updateUserMutate]);
 
-  const onUpdateUserProfileImage = useCallback(
-    (e: any) => {
-      if (profileImageUrl?.publicId) {
-        console.log({ profileImageUrl });
-        const userData = { imageData: profileImageUrl };
+  const onDeleteUserProfileAndUpLoadImage = useCallback(async () => {
+    // TODO: 사진 삭제 로직 추가하기. - 스토리지와 디비에서 사진 삭제하기.
+    console.log("사진 삭제");
+    if (thumbnail) {
+      console.log({ thumbnail });
+      const result = await deleteImageMutate.mutateAsync(
+        (profileImageUrl as IUploadedImg)?.publicId
+      );
+      if (result) {
+        const userData = {
+          imageData: {
+            publicId: "",
+            assetId: "",
+            fileName: "",
+            url: "",
+            width: "",
+            height: ""
+          }
+        };
         updateUserMutate.mutate(
           {
             userId: me?._id as string,
@@ -84,52 +113,37 @@ const UserProfileImage = () => {
             onSuccess: () => {
               setIsActiveProfileImage(true);
               setUserInfo(userData);
+              setThumbnail(userData.imageData.url);
             }
           }
         );
       }
-    },
-    [profileImageUrl]
-  );
+    }
+  }, [
+    deleteImageMutate,
+    me?._id,
+    profileImageUrl,
+    setUserInfo,
+    thumbnail,
+    updateUserMutate
+  ]);
 
-  const onDeleteUserProfileAndUpLoadImage = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement>) => {
-      // TODO: 사진 삭제 로직 추가하기. - 스토리지와 디비에서 사진 삭제하기.
-      console.log("사진 삭제");
-      if (thumbnail) {
-        console.log(thumbnail.publicId);
-        const result = await deleteImageMutate.mutateAsync(thumbnail.publicId);
-        if (result) {
-          const userData = {
-            imageData: {
-              publicId: "",
-              assetId: "",
-              fileName: "",
-              url: "",
-              width: "",
-              height: ""
-            }
-          };
-          updateUserMutate.mutate(
-            {
-              userId: me?._id as string,
-              userData
-            },
-            {
-              onSuccess: () => {
-                setIsActiveProfileImage(true);
-                setUserInfo(userData);
-                setThumbnail(userData.imageData);
-              }
-            }
-          );
-        }
-      }
-    },
-    [thumbnail]
-  );
+  console.log(me);
 
-  console.log(thumbnail);
+  const getThumbnail = (me: TBriefWriter) => {
+    const imageUrl = me?.imageData.url;
+
+    if (!imageUrl) {
+      return (
+        thumbnail ||
+        gravatar.url(me?.email as string, {
+          s: "170px",
+          d: "retro"
+        })
+      );
+    }
+    return imageUrl;
+  };
 
   return (
     <UserImageWrap>
@@ -139,7 +153,6 @@ const UserProfileImage = () => {
         onClick={() => inputRef?.current?.click()}
         onMouseDown={(e) => e.stopPropagation()}
       />
-
       <input
         type="file"
         id="image"
@@ -148,20 +161,7 @@ const UserProfileImage = () => {
         ref={inputRef}
         onChange={onChangeImg}
       />
-      <Avatar
-        size={160}
-        imgUrl={
-          me?.imageData && me?.imageData.url !== ""
-            ? me?.imageData?.url
-            : thumbnail && thumbnail.url !== ""
-            ? thumbnail?.url
-            : gravatar.url(me?.email as string, {
-                s: "170px",
-                d: "retro"
-              })
-        }
-      />
-
+      <Avatar size={160} imgUrl={getThumbnail(me as TBriefWriter)} />
       <ProfileImgBtn>
         <div className="profile_img_btn_group">
           <Button
