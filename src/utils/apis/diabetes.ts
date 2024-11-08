@@ -37,6 +37,7 @@ const updateDiabetesAPI = async ({
 
 const getDiabetesAPI = async (userId: string | null) => {
   const token = getStorage("accessToken");
+
   if (!userId) return;
   const { data } = await api.get(`${DIABETES_API}/users/${userId}`, {
     headers: { Authorization: `Bearer ${token}` }
@@ -45,8 +46,12 @@ const getDiabetesAPI = async (userId: string | null) => {
 };
 
 const getDiabetesFindByIdAPI = async (id: string | null) => {
+  const token = getStorage("accessToken");
+
   if (!id) return;
-  const { data } = await api.get(`${DIABETES_API}/${id}`);
+  const { data } = await api.get(`${DIABETES_API}/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
   return data;
 };
 

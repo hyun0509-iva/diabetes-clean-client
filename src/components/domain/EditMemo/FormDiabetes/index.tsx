@@ -18,17 +18,19 @@ import {
 } from "./styles";
 import Button from "components/common/Button";
 import { useInput } from "hooks/common/useInput";
-import { IDiabetesResponse, IDiabetesRequest } from "models/data";
+import { IDiabetesRequest, Idiabetes } from "models/data";
 import useUpdateDiabetes from "hooks/service/mutator/diabetes/useUpdateDiabetes";
 import modalState from "store/modalState";
 
 interface Props {
   mode: string;
-  data: IDiabetesResponse | null;
+  data: Idiabetes | null;
 }
 const FormDiabetes = ({ mode, data }: Props) => {
-  const date = (data?.createdAt as string)?.split(" ")[0];
-  const time = (data?.createdAt as string)?.split(" ")[1];
+  console.log("FormDiabetes");
+  console.log({ data });
+  const date = mode === "update" && (data?.createdAt as string)?.split(" ")[0];
+  const time = mode === "update" && (data?.createdAt as string)?.split(" ")[1];
   const { closeModal } = modalState();
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
@@ -106,7 +108,7 @@ const FormDiabetes = ({ mode, data }: Props) => {
           createMutate.mutate(insertData);
         } else {
           updateMudate.mutate({
-            diabetesId: data?.diabetes._id as string,
+            diabetesId: data?._id as string,
             diabetesData: insertData
           });
         }

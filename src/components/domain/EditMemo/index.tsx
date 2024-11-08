@@ -5,7 +5,7 @@ import { getDiabetesFindByIdAPI } from "utils/apis/diabetes";
 import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 import { useAPIByParamQuery } from "hooks/service/queries";
-import { IDiabetesResponse } from "models/data";
+import { Idiabetes, IDiabetesResponse } from "models/data";
 import { Wapper } from "styles/common";
 import { EditHeader, EditContent } from "./styles";
 
@@ -35,6 +35,7 @@ const EditMemo = () => {
     );
   }
 
+  console.log(data);
   return (
     <Wapper>
       <EditHeader>
@@ -54,7 +55,9 @@ const EditMemo = () => {
         {mode === "create" ? (
           <FormDiabetes data={null} />
         ) : (
-          data && <FormDiabetes mode="update" data={data} />
+          data && (
+            <FormDiabetes mode="update" data={data.diabetes as Idiabetes} />
+          )
         )}
       </EditContent>
     </Wapper>
