@@ -12,7 +12,7 @@ export const PostCardWrap = styled.div`
 
 // PostItem
 export const PostItemWrap = styled.div`
-  padding: 30px 15px;
+  padding: 16px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 4px rgb(0 0 0 /10%);
@@ -77,11 +77,16 @@ export const EmptyPostItemWrap = styled(ErrprPostItemWrap)`
 
 export const PostContent = styled.section`
   position: relative;
+  margin-bottom: 25px;
   padding-top: 10px;
 `;
 
-export const PostContentBlock = styled.div<{ moreImg?: number }>`
+export const PostContentBlock = styled.div<{
+  isDeleted: boolean;
+  moreImg?: number;
+}>`
   padding: 0 5px;
+  cursor: ${(props) => (props.isDeleted ? "default" : "pointer")};
 
   .content-wrap {
     padding: 15px 0px;
@@ -187,7 +192,7 @@ export const PostContentBlock = styled.div<{ moreImg?: number }>`
 `;
 
 export const ReviewBlock = styled.div`
-  padding: 0 10px;
+  padding: 0;
 `;
 
 export const PostsSpinnerBlock = styled.div`

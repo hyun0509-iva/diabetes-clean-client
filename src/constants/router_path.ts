@@ -12,8 +12,9 @@ export const ROUTER_PATH = {
   SAVE_CONTENTS: "/create/story",
   UPDATE_CONTENTS: "/update/story",
   STORY: "/story",
+  STORY_DETAIL: "/story/:id",
   SEARCH_HOSPITAL: "/search/hosp",
-  MY_FEED: "/story/:usernick",
+  MY_FEED: "/story/user/:usernick",
   SEARCH: "/search",
   EMPATHY: "empathy",
   REPORT: "/report"

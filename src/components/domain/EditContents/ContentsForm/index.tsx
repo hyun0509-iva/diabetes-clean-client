@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 import userState from "store/userState";
 import { useCreateContents, useupdateContents } from "hooks/service/mutator";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
 import ImageUpload from "../ImageUpload";
 import Button from "components/common/Button";
@@ -23,15 +23,18 @@ interface Props {
 }
 
 const ContentsForm = ({ mode, data }: Props) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const navigate = useNavigate();
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
+  const navigate = useNavigate();
+  const { state: contentsId } = useLocation();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [content, setContent] = useState((data?.content as string) || "");
   const [imageData, setImageData] = useState<Array<IUploadedImg>>(
     data?.imageData || []
   );
+
   const { cld } = cloudinaryState();
+
   const createMutation = useCreateContents();
   const updateMutation = useupdateContents();
 
@@ -74,16 +77,19 @@ const ContentsForm = ({ mode, data }: Props) => {
         imageData
       });
     },
-    []
+    [createMutation]
   );
 
   /* 컨텐츠 수정 */
-  const updateContents = useCallback((contentsId: string, content: string) => {
-    updateMutation.mutate({
-      contentsId: contentsId as string,
-      content
-    });
-  }, []);
+  const updateContents = useCallback(
+    (contentsId: string, content: string) => {
+      updateMutation.mutate({
+        contentsId: contentsId as string,
+        content
+      });
+    },
+    [updateMutation]
+  );
 
   const onSubmitContent = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {

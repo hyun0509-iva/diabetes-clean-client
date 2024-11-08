@@ -150,19 +150,22 @@ export interface IContents {
   _id: string;
   writer: TMyInfo | TBriefWriter;
   content: string;
-  msg?: string;
   imageData?: Array<IUploadedImg>;
   comments: Array<IComment>;
-  createdAt: Date | string;
-  updateAt: Date | string;
+  commentCount: number;
   isDeleted: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 export interface IContentsResponse {
-  msg?: string;
   likedPost?: any;
   isOk: boolean;
   contents: IContents[];
-  total?: number;
+}
+
+export interface IContentsDetailResponse {
+  isOk: boolean;
+  contents: IContents;
 }
 
 // * --
@@ -181,12 +184,6 @@ export interface IUploadedImg {
   url: string;
   width: number | string;
   height: number | string;
-}
-
-export interface IContentsDetailResponse {
-  isOk: boolean;
-  contentsInfo: IContents;
-  total?: number;
 }
 
 /* <--- MyFeed Type ---> */

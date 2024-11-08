@@ -1,7 +1,7 @@
 import { IComment } from "models/data";
-import { CommentsWrap } from "./styles";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
+import { CommentsWrap } from "./styles";
 
 interface IProps {
   postId: string;

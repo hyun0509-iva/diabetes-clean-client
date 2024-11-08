@@ -19,7 +19,6 @@ interface IProps {
   queryKey?: string;
 }
 const Posts = ({ params, queryKey, fetcher }: IProps) => {
-  console.log({ params, queryKey, fetcher });
   const listSize = 10; //한 페이지에 보여질 게시글 수
   const { ref, inView } = useInView();
 
@@ -40,7 +39,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
         : undefined;
     }
   });
-
+  console.log(data);
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();

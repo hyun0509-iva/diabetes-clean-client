@@ -47,7 +47,7 @@ const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
       {
         id: 3,
         label: "내피드",
-        path: `${STORY}/${userInfo?.nickname}`
+        path: `${STORY}/user/${userInfo?.nickname}`
       },
       {
         id: 4,

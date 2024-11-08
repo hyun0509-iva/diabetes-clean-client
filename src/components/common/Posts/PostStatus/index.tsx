@@ -1,6 +1,8 @@
 import { PostStatusWrap } from "./styles";
 import PostLikeStatus from "../PostLikeStatus";
 import { IContentsLikeData } from "models/data";
+import { useLocation, useNavigate } from "react-router-dom";
+import PostCommentStatus from "../PostCommentStatus";
 
 interface IProps {
   contentsId: string;
@@ -9,14 +11,16 @@ interface IProps {
 }
 const PostStatus = ({ contentsId, likeData, commentCount }: IProps) => {
   // console.log(likeData); /* {contentsLike, count} */
+  const navigate = useNavigate();
+
   return (
     <PostStatusWrap>
       <div className="status_inner">
         <PostLikeStatus likeData={likeData} contentsId={contentsId} />
-        <div className="status_item comments">
-          <div>댓글</div>
-          <div className="count">{commentCount}</div>
-        </div>
+        <PostCommentStatus
+          linkUrl={`/story/${contentsId}`}
+          count={commentCount as number}
+        />
       </div>
     </PostStatusWrap>
   );

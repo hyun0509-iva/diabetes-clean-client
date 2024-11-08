@@ -25,6 +25,7 @@ const EditContents = () => {
       </div>
     );
   }
+  console.log({ data });
   return (
     <div className="form-wrap">
       <EditContentsWrap>
@@ -39,7 +40,7 @@ const EditContents = () => {
           {mode === "create" ? (
             <ContentsForm mode="create" />
           ) : (
-            data && <ContentsForm mode="update" data={data.contentsInfo} />
+            data && <ContentsForm mode="update" data={data.contents} />
           )}
         </EditContent>
       </EditContentsWrap>

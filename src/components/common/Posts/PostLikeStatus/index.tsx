@@ -5,6 +5,7 @@ import userState from "store/userState";
 import { IContentsLikeData } from "models/data";
 import useAddLike from "hooks/service/mutator/like/useAddLike";
 import useUnLike from "hooks/service/mutator/like/useUnLike";
+import { LikeStatusWrap } from "./style";
 
 interface IProps {
   likeData: IContentsLikeData;
@@ -27,9 +28,8 @@ const PostLikeStatus = ({ likeData, contentsId }: IProps) => {
       unLike.mutate({ contentsId });
     }
   }, [addLike, contentsId, isLiked, unLike]);
-
   return (
-    <div className="status_item links">
+    <LikeStatusWrap>
       <div>공감</div>
       <div className="likes-icon" onClick={onClickLikes}>
         {isLiked ? (
@@ -39,7 +39,7 @@ const PostLikeStatus = ({ likeData, contentsId }: IProps) => {
         )}
       </div>
       <div className="count">{likeData?.count}</div>
-    </div>
+    </LikeStatusWrap>
   );
 };
 

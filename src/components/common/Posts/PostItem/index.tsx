@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import Comments from "components/domain/Comments";
 import PostHeader from "components/common/Posts/PostHeader";
 import PostStatus from "components/common/Posts/PostStatus";
@@ -21,8 +21,32 @@ import {
 } from "components/common/Posts/styles";
 import { getContentsLikeAPI } from "utils/apis/like";
 import NewLine from "components/common/NewLine";
+import { useLocation, useNavigate } from "react-router-dom";
+import PostLikeStatus from "../PostLikeStatus";
 
 const { Like_key } = QUERY_KEY;
+
+const imgLayoutClass = (imageLength: number) => {
+  // const imgLen = (imageData as IUploadedImg[])?.length;
+  return (() => {
+    if (imageLength > 5) {
+      return `flex_wrap_len05 more`;
+    }
+
+    switch (imageLength) {
+      case 2:
+        return "flex_wrap_len02";
+      case 3:
+        return "flex_wrap_len03";
+      case 4:
+        return "flex_wrap_len04";
+      case 5:
+        return "flex_wrap_len05";
+      default:
+        return "";
+    }
+  })();
+};
 
 const PostItem = ({
   _id,
@@ -31,7 +55,8 @@ const PostItem = ({
   imageData,
   isDeleted,
   createdAt,
-  comments
+  comments,
+  commentCount
 }: IContents) => {
   const { data } = useAPIByParamQuery<IContentsLikeResponse>(
     _id,
@@ -45,28 +70,14 @@ const PostItem = ({
   // );
 
   const [isOpenImgDetail, setIsOpenImgDetail] = useState(false);
+  const [isDetailPage, setDetailPage] = useState(false);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const imgLayoutClass = () => {
-    const imgLen = (imageData as IUploadedImg[])?.length;
-    return (() => {
-      if (imgLen > 5) {
-        return `flex_wrap_len05 more`;
-      }
-
-      switch (imgLen) {
-        case 2:
-          return "flex_wrap_len02";
-        case 3:
-          return "flex_wrap_len03";
-        case 4:
-          return "flex_wrap_len04";
-        case 5:
-          return "flex_wrap_len05";
-        default:
-          return "";
-      }
-    })();
-  };
+  useEffect(() => {
+    const segments = pathname.split("/");
+    setDetailPage(segments[1] === "story" && segments.length === 3);
+  }, [pathname]);
 
   return (
     <PostItemWrap key={_id}>
@@ -78,18 +89,27 @@ const PostItem = ({
       />
       {isDeleted ? (
         <PostContent>
-          <PostContentBlock>해당 게시물이 삭제되었습니다.</PostContentBlock>
+          <PostContentBlock isDeleted={isDeleted}>
+            해당 게시물이 삭제되었습니다.
+          </PostContentBlock>
         </PostContent>
       ) : (
         <>
           <PostContent>
-            <PostContentBlock>
+            <PostContentBlock
+              isDeleted={isDeleted}
+              onClick={() => navigate(`/story/${_id}`)}
+            >
               <div className="content-wrap">
                 <p>
                   <NewLine context={content} />
                 </p>
               </div>
-              <ul className={`img-wrap ${imgLayoutClass()}`}>
+              <ul
+                className={`img-wrap ${imgLayoutClass(
+                  (imageData as IUploadedImg[])?.length
+                )}`}
+              >
                 {imageData?.length
                   ? imageData.map((image, idx) => (
                       <li
@@ -114,18 +134,25 @@ const PostItem = ({
               </ul>
               {isOpenImgDetail && <div>이미지 상세 모달 형식의 페이지</div>}
             </PostContentBlock>
-            <PostContentBlock>
-              <PostStatus
-                contentsId={_id}
-                likeData={data?.like as IContentsLikeData}
-                commentCount={comments?.length}
-              />
-            </PostContentBlock>
-            <Contour />
-            <ReviewBlock>
-              {comments && <Comments postId={_id} comments={comments} />}
-            </ReviewBlock>
           </PostContent>
+          <Contour />
+          {isDetailPage ? (
+            <>
+              <PostLikeStatus
+                likeData={data?.like as IContentsLikeData}
+                contentsId={_id}
+              />
+              <ReviewBlock>
+                <Comments postId={_id} comments={comments} />
+              </ReviewBlock>
+            </>
+          ) : (
+            <PostStatus
+              contentsId={_id}
+              likeData={data?.like as IContentsLikeData}
+              commentCount={commentCount as number}
+            />
+          )}
         </>
       )}
     </PostItemWrap>

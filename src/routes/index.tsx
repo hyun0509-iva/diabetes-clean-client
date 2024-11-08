@@ -12,6 +12,7 @@ import { OvalSpinner } from "components/common/Spinner";
 const Login = lazy(() => import("pages/Login"));
 const SignUp = lazy(() => import("pages/SignUp"));
 const Story = lazy(() => import("pages/Story"));
+const StoryDetail = lazy(() => import("pages/StoryDetail"));
 const Memo = lazy(() => import("pages/Memo"));
 const My = lazy(() => import("pages/My"));
 const WriteMemo = lazy(() => import("pages/WriteMemo"));
@@ -30,6 +31,7 @@ const {
   UPDATE_DIABETES,
   MEMO,
   STORY,
+  STORY_DETAIL,
   MYPAGE,
   SAVE_CONTENTS,
   UPDATE_CONTENTS,
@@ -72,6 +74,10 @@ const Router = createBrowserRouter([
       {
         path: STORY,
         element: <Story />
+      },
+      {
+        path: STORY_DETAIL,
+        element: <StoryDetail />
       },
       {
         path: SEARCH,

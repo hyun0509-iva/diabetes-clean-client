@@ -128,6 +128,7 @@ const getSearchContentsAPI = async (page: string, context: string) => {
 const getContentsFindByIdAPI = async (id: string | null) => {
   if (!id) return;
   const { data } = await api.get(`${CONTENTS_API}/${id}`);
+  console.log({ data });
   return data;
 };
 

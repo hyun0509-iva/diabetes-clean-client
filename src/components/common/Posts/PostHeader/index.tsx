@@ -70,6 +70,7 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
   }, [contentsMutation, contentsId]);
 
   const onUpdatePost = useCallback(() => {
+    console.log(contentsId);
     navigate(`${UPDATE_CONTENTS}`, { state: contentsId });
   }, [contentsId, navigate]);
 
@@ -152,7 +153,7 @@ const PostHeader = ({ writer, contentsId, createdAt, isDeleted }: IProps) => {
                   d: "retro"
                 })
           }
-          link={`/story/${writer?.nickname}`}
+          link={`/story/user/${writer?.nickname}`}
         />
         {!isDeleted && (
           <Icons
