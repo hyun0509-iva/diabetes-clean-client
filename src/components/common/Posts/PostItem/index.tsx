@@ -3,15 +3,14 @@ import Comments from "components/domain/Comments";
 import PostHeader from "components/common/Posts/PostHeader";
 import PostStatus from "components/common/Posts/PostStatus";
 import {
-  ICommentResponse,
   IContents,
-  ILikeResponse,
+  IContentsLikeData,
+  IContentsLikeResponse,
   IUploadedImg,
   TMyInfo
 } from "models/data";
 import { useAPIByParamQuery } from "hooks/service/queries";
 import { QUERY_KEY } from "constants/query_key";
-import { getAllCommentAPI } from "utils/apis/comment";
 
 import { Contour } from "styles/common";
 import {
@@ -23,7 +22,7 @@ import {
 import { getContentsLikeAPI } from "utils/apis/like";
 import NewLine from "components/common/NewLine";
 
-const { COMMENT_KEY, Like_key } = QUERY_KEY;
+const { Like_key } = QUERY_KEY;
 
 const PostItem = ({
   _id,
@@ -34,16 +33,16 @@ const PostItem = ({
   createdAt,
   comments
 }: IContents) => {
-  const { data: contentsLike } = useAPIByParamQuery<ILikeResponse>(
+  const { data } = useAPIByParamQuery<IContentsLikeResponse>(
     _id,
-    Like_key,
+    `${Like_key}`,
     getContentsLikeAPI
   );
-  const { data: comments_ } = useAPIByParamQuery<ICommentResponse>(
-    _id,
-    COMMENT_KEY,
-    getAllCommentAPI
-  );
+  // const { data: comments_ } = useAPIByParamQuery<ICommentResponse>(
+  //   _id,
+  //   COMMENT_KEY,
+  //   getAllCommentAPI
+  // );
 
   const [isOpenImgDetail, setIsOpenImgDetail] = useState(false);
 
@@ -118,7 +117,7 @@ const PostItem = ({
             <PostContentBlock>
               <PostStatus
                 contentsId={_id}
-                likes={contentsLike?.like}
+                likeData={data?.like as IContentsLikeData}
                 commentCount={comments?.length}
               />
             </PostContentBlock>

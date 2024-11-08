@@ -1,33 +1,45 @@
 import { API_PATH } from "constants/api_path";
-import { CommonResponse, ILikeRequest, ILikeResponse } from "models/data";
+import {
+  CommonResponse,
+  IContentsLikeRequest,
+  IContentsLikeResponse
+} from "models/data";
 import api from "utils/axios";
 
-const { LIKE_API } = API_PATH;
-
-const addLikeAPI = async (insertData: ILikeRequest) => {
-  const { data } = await api.post<CommonResponse>(`${LIKE_API}`, insertData);
-  return data;
-};
-const unLikeAPI = async (insertData: ILikeRequest) => {
-  const { userId, ...context } = insertData;
+const { CONTENTS_API } = API_PATH;
+// contents/contentsId/:like
+const addLikeAPI = async (insertData: IContentsLikeRequest) => {
+  const { contentsId } = insertData;
   const { data } = await api.post<CommonResponse>(
-    `${LIKE_API}/contents/users/${userId}`,
-    context
+    `${CONTENTS_API}/${contentsId}/addlike`
   );
   return data;
 };
-// /like/contents/contentsId
+
+// contents/contentsId/:unlike
+const unLikeAPI = async (insertData: IContentsLikeRequest) => {
+  const { contentsId } = insertData;
+  const { data } = await api.delete<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}/unlike`
+  );
+  return data;
+};
+
+// contents/contentsId/:like
 const getContentsLikeAPI = async (contentsId: string | null) => {
   if (!contentsId) return;
-  const { data } = await api.get<ILikeResponse>(
-    `${LIKE_API}/contents/${contentsId}`
+  const { data } = await api.get<IContentsLikeResponse>(
+    `${CONTENTS_API}/${contentsId}/like`
   );
   return data;
 };
-// /like/users/6491db12d62b2e1abd051b97
+
+// contents/contentsId/like/users/:userId
 const getMyContentsLikeAPI = async (userId: string | null) => {
   if (!userId) return;
-  const { data } = await api.get<ILikeResponse>(`${LIKE_API}/users/${userId}`);
+  const { data } = await api.get<IContentsLikeResponse>(
+    `${CONTENTS_API}/users/${userId}`
+  );
   return data;
 };
 

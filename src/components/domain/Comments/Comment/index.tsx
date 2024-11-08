@@ -18,7 +18,6 @@ interface Iprops {
 }
 
 const Comment = ({ comment }: Iprops) => {
-  console.log(comment);
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
   const [isShowSubMenu, setIsShowSubMenu, onToggleMenu] = useToggle();
@@ -57,11 +56,15 @@ const Comment = ({ comment }: Iprops) => {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            mutation.mutate(commentId);
+            const intertData = {
+              contentsId,
+              commentId
+            };
+            mutation.mutate(intertData);
           }
         });
     }
-  }, [commentId, mutation]);
+  }, [commentId, contentsId, mutation]);
 
   const menuItem = useMemo(() => {
     if (userId === writer?._id) {
@@ -97,7 +100,6 @@ const Comment = ({ comment }: Iprops) => {
     onToggleComment,
     onDelComment
   ]);
-  console.log(writer);
   return (
     <CommentWrap>
       <CommentHeader>

@@ -209,6 +209,16 @@ export interface ICommentRequest {
   content: string;
 }
 
+export interface IcommentupdateResponse
+  extends Omit<ICommentRequest, "parentCommentId"> {
+  commentId: string;
+}
+
+export interface IcommentdeleteResponse
+  extends Omit<ICommentRequest, "parentCommentId" | "content"> {
+  commentId: string;
+}
+
 export interface IComment {
   _id: string;
   writer: TBriefWriter;
@@ -239,20 +249,16 @@ export interface IFollowResponse {
 
 /* <---  Like Type ---> */
 
-export interface ILikeRequest {
-  userId: string;
-  commentId?: string;
-  contentsId?: string;
+export interface IContentsLikeRequest {
+  contentsId: string;
 }
 
-export interface ILike {
-  _id: string;
-  writer: string;
-  comments?: IComment;
-  contents?: IContents;
+export interface IContentsLikeData {
+  contentsLike: Array<{ writer: string; contents: string }>;
+  count: number;
 }
 
-export interface ILikeResponse {
+export interface IContentsLikeResponse {
   isOk: boolean;
-  like: ILike[];
+  like: IContentsLikeData;
 }

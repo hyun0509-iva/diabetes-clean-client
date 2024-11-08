@@ -187,7 +187,7 @@ export const PostContentBlock = styled.div<{ moreImg?: number }>`
 `;
 
 export const ReviewBlock = styled.div`
-  padding-top: 25px;
+  padding: 0 10px;
 `;
 
 export const PostsSpinnerBlock = styled.div`

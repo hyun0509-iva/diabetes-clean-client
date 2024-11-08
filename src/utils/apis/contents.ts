@@ -59,15 +59,17 @@ const getAllContentsAPI = async (page: string) => {
 };
 
 //내피드(페이징 처리)
-const getUserContentsAPI = async (page: string, context: string) => {
+const getUserContentsAPI = async (nickname: string, page: string) => {
+  console.log({ nickname, page });
   const limit = 10;
   const res = await api.get<IContentsResponse>(
-    `${CONTENTS_API}/users/${context}?page=${page}&size=${limit}`
+    `${CONTENTS_API}/users/${nickname}?page=${page}&size=${limit}`
   );
   if (res.status === 204) {
     return { contents: null };
   }
   const data = res.data;
+  console.log({ myfeed: data });
   return data;
 };
 
@@ -101,10 +103,10 @@ const getLikedPostsAPI = async (page: string, context: string) => {
 };
 
 // 내 게시글 정보(페이징 처리되지 않음)
-const getMyFeedInfoAPI = async (ninkName: string) => {
+const getMyFeedInfoAPI = async (nickname: string) => {
   const token = getStorage("accessToken");
   const { data } = await api.get<IContentsResponse>(
-    `${CONTENTS_API}/myfeed-info/users/${ninkName}`,
+    `${CONTENTS_API}/myfeed-info/users/${nickname}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     }

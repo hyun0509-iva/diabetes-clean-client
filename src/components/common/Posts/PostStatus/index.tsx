@@ -1,21 +1,18 @@
 import { PostStatusWrap } from "./styles";
-import LikeStatus from "../PostLikeStatus";
-import { ILike } from "models/data";
+import PostLikeStatus from "../PostLikeStatus";
+import { IContentsLikeData } from "models/data";
 
 interface IProps {
   contentsId: string;
-  likes?: ILike[];
+  likeData: IContentsLikeData;
   commentCount?: number;
 }
-const PostStatus = ({ contentsId, likes, commentCount }: IProps) => {
+const PostStatus = ({ contentsId, likeData, commentCount }: IProps) => {
+  // console.log(likeData); /* {contentsLike, count} */
   return (
     <PostStatusWrap>
       <div className="status_inner">
-        <LikeStatus
-          likes={likes}
-          contentsId={contentsId}
-          likeCount={likes?.length}
-        />
+        <PostLikeStatus likeData={likeData} contentsId={contentsId} />
         <div className="status_item comments">
           <div>댓글</div>
           <div className="count">{commentCount}</div>

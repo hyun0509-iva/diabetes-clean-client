@@ -106,7 +106,7 @@ const FormDiabetes = ({ mode, data }: Props) => {
           createMutate.mutate(insertData);
         } else {
           updateMudate.mutate({
-            diabetesId: data?._id as string,
+            diabetesId: data?.diabetes._id as string,
             diabetesData: insertData
           });
         }

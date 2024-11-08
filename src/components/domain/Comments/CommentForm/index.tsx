@@ -56,19 +56,24 @@ const CommentForm = ({
     (e: FormEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (content) {
-        const insertData = {
-          contentsId,
-          content
-        };
         editMode
           ? (() => {
               if (commentId && preContent !== content) {
-                updateComment.mutate({ commentId, content });
+                const intertData = {
+                  contentsId,
+                  commentId,
+                  content
+                };
+                updateComment.mutate(intertData);
                 onClose && onClose();
               }
               onClose && onClose();
             })()
           : (() => {
+              const insertData = {
+                contentsId,
+                content
+              };
               createComment.mutate(insertData);
               onReset && onReset();
             })();

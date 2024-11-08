@@ -12,7 +12,7 @@ const MyPost = () => {
   return (
     <MyPosts
       params={usernick as string}
-      queryKey={MY_FEED_KEY}
+      queryKey={`${MY_FEED_KEY}/${usernick}`}
       fetcher={getUserContentsAPI}
     />
   );

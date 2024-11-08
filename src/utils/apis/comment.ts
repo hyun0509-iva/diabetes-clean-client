@@ -1,5 +1,11 @@
 import { API_PATH } from "constants/api_path";
-import { CommonResponse, ICommentRequest, ICommentResponse } from "models/data";
+import {
+  CommonResponse,
+  IcommentdeleteResponse,
+  ICommentRequest,
+  ICommentResponse,
+  IcommentupdateResponse
+} from "models/data";
 import api from "utils/axios";
 
 const { CONTENTS_API } = API_PATH;
@@ -14,23 +20,19 @@ const createCommentAPI = async (insertData: ICommentRequest) => {
   return data;
 };
 
-const updateCommentAPI = async ({
-  content,
-  commentId
-}: {
-  content: string;
-  commentId: string;
-}) => {
+const updateCommentAPI = async (insertData: IcommentupdateResponse) => {
+  const { contentsId, commentId, content } = insertData;
   const { data } = await api.patch<CommonResponse>(
-    `${CONTENTS_API}/${commentId}`,
+    `${CONTENTS_API}/${contentsId}/comments/${commentId}`,
     { content }
   );
   return data;
 };
 
-const deleteCommentAPI = async (commentId: string) => {
+const deleteCommentAPI = async (insertData: IcommentdeleteResponse) => {
+  const { contentsId, commentId } = insertData;
   const { data } = await api.delete<CommonResponse>(
-    `${CONTENTS_API}/${commentId}`
+    `${CONTENTS_API}/${contentsId}/comments/${commentId}`
   );
   return data;
 };

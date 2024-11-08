@@ -5,7 +5,7 @@ import { CommonResponse, ICommentRequest } from "models/data";
 import { createCommentAPI } from "utils/apis/comment";
 import alertHandler from "utils/functions/alertHandler";
 
-const { COMMENT_KEY } = QUERY_KEY;
+const { CONTENTS_KEY } = QUERY_KEY;
 
 const useCreateComment = () => {
   const queryClient = useQueryClient();
@@ -14,7 +14,8 @@ const useCreateComment = () => {
     createCommentAPI,
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries<string>([COMMENT_KEY]);
+        // queryClient.invalidateQueries<string>([COMMENT_KEY]);
+        queryClient.invalidateQueries<string>([CONTENTS_KEY]);
         alertHandler.onToast({ msg: data.msg });
       },
       onError: (err) => {

@@ -19,6 +19,7 @@ interface IProps {
   queryKey?: string;
 }
 const Posts = ({ params, queryKey, fetcher }: IProps) => {
+  console.log({ params, queryKey, fetcher });
   const listSize = 10; //한 페이지에 보여질 게시글 수
   const { ref, inView } = useInView();
 
@@ -31,7 +32,7 @@ const Posts = ({ params, queryKey, fetcher }: IProps) => {
     isFetchingNextPage
   } = useInfiniteQuery<IContentsResponse>({
     queryKey: [queryKey],
-    queryFn: ({ pageParam = 1 }) => fetcher(pageParam, params),
+    queryFn: ({ pageParam = 1 }) => fetcher(params, pageParam),
     staleTime: 1000 * 60, // 1분간 refetch 안함
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.contents?.length === listSize

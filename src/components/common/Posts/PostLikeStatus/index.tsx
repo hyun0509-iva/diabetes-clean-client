@@ -2,60 +2,43 @@ import { useState, useEffect, useCallback } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FcLike } from "react-icons/fc";
 import userState from "store/userState";
-import { ILike } from "models/data";
+import { IContentsLikeData } from "models/data";
 import useAddLike from "hooks/service/mutator/like/useAddLike";
 import useUnLike from "hooks/service/mutator/like/useUnLike";
 
 interface IProps {
-  contentsId?: string;
-  likes?: ILike[];
-  likeCount?: number;
+  likeData: IContentsLikeData;
+  contentsId: string;
 }
-
-const PostLikeStatus = ({ contentsId, likes, likeCount }: IProps) => {
-  const [isLike, setIsLike] = useState(false);
+/* {contetnsLike, count} */
+const PostLikeStatus = ({ likeData, contentsId }: IProps) => {
   const { userInfo: currentUser } = userState();
   const addLike = useAddLike();
   const unLike = useUnLike();
 
-  useEffect(() => {
-    likes?.map((like) => {
-      if (like.writer === currentUser?._id) {
-        setIsLike(like.writer === currentUser?._id);
-      }
-    });
-
-    return () => {
-      if (!likes) {
-        setIsLike(false);
-      }
-    };
-  }, [currentUser?._id, likes]);
+  const isLiked =
+    !!likeData?.contentsLike.length &&
+    !!likeData?.contentsLike.find((like) => like.writer === currentUser?._id);
 
   const onClickLikes = useCallback(() => {
-    const insertData = {
-      userId: currentUser?._id as string,
-      contentsId: contentsId
-    };
-    if (!isLike) {
-      addLike.mutate(insertData);
+    if (!isLiked) {
+      addLike.mutate({ contentsId });
     } else {
-      unLike.mutate(insertData);
-      setIsLike(false);
+      unLike.mutate({ contentsId });
     }
-  }, [addLike, contentsId, currentUser?._id, isLike, unLike]);
+  }, [addLike, contentsId, isLiked, unLike]);
 
   return (
     <div className="status_item links">
       <div>공감</div>
       <div className="likes-icon" onClick={onClickLikes}>
-        {isLike ? (
+        {isLiked ? (
           <FcLike color="#000" className="icon" />
         ) : (
           <AiOutlineHeart color="#f44336" className="icon" />
         )}
       </div>
-      <div className="count">{likeCount}</div>
+      <div className="count">{likeData?.count}</div>
     </div>
   );
 };
