@@ -27,7 +27,7 @@ export const NavMenutWrap = styled.nav<{
       width: 128px;
       height: 2px;
       border-radius: 2px;
-      bottom: 0;
+      bottom: -2px;
       transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1.05);
       background-color: ${({ borderColor }) => borderColor || "#000"};
     }
