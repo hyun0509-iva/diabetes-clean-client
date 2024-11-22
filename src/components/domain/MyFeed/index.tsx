@@ -46,9 +46,9 @@ const MyFeed = () => {
       {
         id: 1,
         label: `${usernick === currentUser?.nickname ? "내 게시글" : "게시글"}`,
-        url: `${STORY}/${usernick}`
+        url: `${STORY}/user/${usernick}`
       },
-      { id: 2, label: "관심 글", url: `${STORY}/${usernick}/empathy` }
+      { id: 2, label: "관심 글", url: `${STORY}/user/${usernick}/empathy` }
     ],
     [STORY, currentUser?.nickname, usernick]
   );
@@ -147,7 +147,7 @@ const MyFeed = () => {
             </div>
           </LeftSide>
           <MainContents>
-            <NavMenu lists={subMenus} borderColor="#868e96" />
+            <NavMenu lists={subMenus} />
             <Outlet />
           </MainContents>
         </MyFeedMain>

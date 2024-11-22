@@ -115,7 +115,7 @@ const Comment = ({ comment }: Iprops) => {
           }
           imgSize={40}
           userName={writer?.nickname}
-          link={`${STORY}/${writer?.nickname}`}
+          link={`${STORY}/user/${writer?.nickname}`}
         />
         {!isDeleted && (
           <Icons

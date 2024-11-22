@@ -33,14 +33,9 @@ const FeedDetail = () => {
         id: 1,
         path: `${SAVE_CONTENTS}`,
         label: "작성하기"
-      },
-      {
-        id: 2,
-        path: `${STORY}/${userInfo?.nickname}`,
-        label: "내피드"
       }
     ],
-    [userInfo?.nickname]
+    []
   );
   return (
     <StoryWarp className="posts">

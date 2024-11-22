@@ -6,21 +6,21 @@ import PostCommentStatus from "../PostCommentStatus";
 
 interface IProps {
   contentsId: string;
+  linkUrl?: string;
   likeData: IContentsLikeData;
   commentCount?: number;
 }
-const PostStatus = ({ contentsId, likeData, commentCount }: IProps) => {
-  // console.log(likeData); /* {contentsLike, count} */
-  const navigate = useNavigate();
-
+const PostStatus = ({
+  contentsId,
+  likeData,
+  linkUrl,
+  commentCount
+}: IProps) => {
   return (
     <PostStatusWrap>
       <div className="status_inner">
         <PostLikeStatus likeData={likeData} contentsId={contentsId} />
-        <PostCommentStatus
-          linkUrl={`/story/${contentsId}`}
-          count={commentCount as number}
-        />
+        <PostCommentStatus linkUrl={linkUrl} count={commentCount as number} />
       </div>
     </PostStatusWrap>
   );

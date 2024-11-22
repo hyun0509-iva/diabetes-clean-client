@@ -138,9 +138,10 @@ const PostItem = ({
           <Contour />
           {isDetailPage ? (
             <>
-              <PostLikeStatus
-                likeData={data?.like as IContentsLikeData}
+              <PostStatus
                 contentsId={_id}
+                likeData={data?.like as IContentsLikeData}
+                commentCount={commentCount as number}
               />
               <ReviewBlock>
                 <Comments postId={_id} comments={comments} />
@@ -149,6 +150,7 @@ const PostItem = ({
           ) : (
             <PostStatus
               contentsId={_id}
+              linkUrl={`/story/${_id}`}
               likeData={data?.like as IContentsLikeData}
               commentCount={commentCount as number}
             />
