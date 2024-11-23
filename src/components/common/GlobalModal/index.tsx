@@ -1,5 +1,5 @@
 import Modal from "components/common/Modal";
-import { modalState } from "store/modalState";
+import modalState from "store/modalState";
 import { Wapper } from "styles/common";
 
 interface IDetail {

@@ -115,7 +115,7 @@ export interface IDiabetesRequest {
   sugar_level: number;
   slot: string;
   note: string;
-  createdAt: Date | string;
+  createdAt: string;
 }
 
 export interface IDiabetesResponse {
@@ -128,7 +128,7 @@ export interface Idiabetes {
   writer?: Pick<TBriefWriter, "_id" | "nickname">;
   sugar_level: number;
   slot: string;
-  createdAt: Date | string;
+  createdAt: string;
   note?: string;
 }
 

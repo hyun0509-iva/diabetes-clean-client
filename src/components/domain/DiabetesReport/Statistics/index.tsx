@@ -11,10 +11,11 @@ import {
 const Statistics = () => {
   const periods = useMemo(
     () => [
-      { id: 1, label: "오늘", url: "/report" },
-      { id: 2, label: "한 주", url: "/report" },
-      { id: 3, label: "한 달", url: "/report" },
-      { id: 4, label: "3개월", url: "/report" }
+      { id: 1, label: "오늘" },
+      { id: 2, label: "주간" },
+      { id: 3, label: "한달" },
+      { id: 4, label: "3개월" },
+      { id: 5, label: "기간 선택" }
     ],
     []
   );
@@ -26,7 +27,7 @@ const Statistics = () => {
         <div>범위</div>
         <NavMenu
           lists={periods}
-          borderColor={palette.indigo[3]}
+          borderColor={palette.gray[5]}
           fontSize={"18px"}
         />
       </StatisticsHeader>
