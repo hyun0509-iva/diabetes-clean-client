@@ -23,7 +23,7 @@ export const SubMenuContainer = styled.div`
   .menu-list {
     width: 100%;
     cursor: pointer;
-    border-bottom: 1px solid ${palette.gray[1]};
+    border-bottom: 1px solid ${palette.gray[2]};
     a,
     button {
       font-size: inherit;
@@ -33,7 +33,7 @@ export const SubMenuContainer = styled.div`
       cursor: pointer;
     }
     &:hover {
-      background-color: ${palette.gray[1]};
+      background-color: #e4e7e9;
     }
   }
 `;

@@ -10,13 +10,12 @@ export const FormWrap = styled.div`
 
   form {
     width: 425px;
-    padding: 10px 30px;
     position: relative;
   }
 `;
 
 export const InputGroup = styled.div`
-  margin: 18px 18px 32px;
+  margin: 18px 18px 45px;
   position: relative;
 `;
 
@@ -57,30 +56,12 @@ export const InputWrap = styled.div`
   }
 
   button {
+    width: 100px;
     outline: none;
-    transition: 0.2s;
-    cursor: pointer;
 
     &:active {
       position: relative;
       top: -3px;
-    }
-  }
-`;
-
-export const FormBtn = styled.button`
-  padding: 5px;
-  margin: 0 4px;
-  position: relative;
-  border: 1px solid #dcdcdc;
-  width: 100px;
-  height: 100%;
-
-  &.not-allowed {
-    cursor: not-allowed;
-    &:active {
-      position: relative;
-      top: 0px;
     }
   }
 `;
@@ -90,39 +71,49 @@ export const FrmBtnContainer = styled.div`
   margin: 18px 18px 32px;
 
   & > button {
-    width: 329px;
-    border: 1px solid transparent;
+    display: inline-block;
     height: 45px;
-    color: #fff;
-    font-size: 18px;
-    padding: 3px 8px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &[type="submit"] {
-      background-color: #514d4d;
-
-      &.not-allowed {
-        opacity: 0.1;
-        cursor: not-allowed;
-        &:active {
-          position: relative;
-          top: 0px;
-        }
-      }
-    }
-    &[type="reset"] {
-      background-color: #4f2323;
-    }
   }
   .auth-msg {
     text-align: center;
     margin: 30px 0;
     a {
       color: #70290d;
+    }
+  }
+`;
+
+export const FormBtn = styled.button`
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-size: 15px;
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  background-color: #514d4d;
+
+  &.not-allowed {
+    cursor: not-allowed;
+    opacity: 0.3;
+    &:active {
+      position: relative;
+      top: 0px;
+    }
+  }
+  &.allowed {
+    background-color: #514d4d;
+    cursor: pointer;
+
+    &:active {
+      position: relative;
+      top: 0px;
+    }
+
+    &:hover {
+      opacity: 0.8;
     }
   }
 `;

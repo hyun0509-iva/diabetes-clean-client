@@ -5,9 +5,11 @@ import React, {
   useRef,
   DetailedHTMLProps,
   HTMLAttributes,
-  FC
+  FC,
+  useState
 } from "react";
 import { Link, useLocation } from "react-router-dom";
+import navLinkState from "store/navLinkState";
 import { NavMenutWrap } from "./styles";
 
 type commonProps = DetailedHTMLProps<
@@ -30,10 +32,11 @@ interface customType {
 
 const NavMenu: FC<customType & commonProps> = ({ lists, ...rest }) => {
   const { pathname } = useLocation();
+  const { setTargetLinkIdx } = navLinkState();
   const listChildrenRefs = useRef<HTMLElement[]>([]);
   const selectedElRef = useRef<HTMLElement | null>(null);
   const activeRef = useRef<HTMLLIElement | null>(null);
-
+  const [targetElIdx, setTargetElIdx] = useState(0);
   const Lists = useMemo(() => lists, [lists]);
   const paths = pathname.split("/");
   const currentPathName = decodeURI(paths[paths.length - 1]);
@@ -42,8 +45,17 @@ const NavMenu: FC<customType & commonProps> = ({ lists, ...rest }) => {
     (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       const targetEl = listChildrenRefs.current.find((el) => el === e.target);
       selectedElRef.current = targetEl as HTMLElement;
+
+      if (!lists[0].url) {
+        const targetElIdx = lists.findIndex(
+          (item) => item.label === selectedElRef.current?.innerText
+        );
+        setTargetElIdx(targetElIdx);
+        setTargetLinkIdx(targetElIdx);
+        console.log(selectedElRef.current?.innerText, targetElIdx);
+      }
     },
-    []
+    [lists, setTargetLinkIdx]
   );
 
   /**
@@ -64,13 +76,14 @@ const NavMenu: FC<customType & commonProps> = ({ lists, ...rest }) => {
 
   const pathNameIdx =
     Lists[0].url && (getPathNameIdx(Lists) < 0 ? 0 : getPathNameIdx(Lists));
+
   const activeLiPos =
-    Number(pathNameIdx) * Number((100 / lists.length).toFixed(1));
+    Number(pathNameIdx || targetElIdx) *
+    Number((100 / lists.length).toFixed(1));
 
   useEffect(() => {
     if (activeRef.current) {
-      const curElementPos = activeLiPos;
-      activeRef.current.style.left = `${curElementPos}%`;
+      activeRef.current.style.left = `${activeLiPos}%`;
     }
   }, [Lists, activeLiPos, selectedElRef]);
 
@@ -93,7 +106,14 @@ const NavMenu: FC<customType & commonProps> = ({ lists, ...rest }) => {
                 {list.label}
               </Link>
             ) : (
-              <span ref={pushToRefs}>{list.label}</span>
+              <span
+                ref={pushToRefs}
+                style={{
+                  cursor: "pointer"
+                }}
+              >
+                {list.label}
+              </span>
             )}
           </li>
         ))}

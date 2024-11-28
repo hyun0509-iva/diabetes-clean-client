@@ -5,12 +5,12 @@ import { IComment } from "models/data";
 import SubMenu from "components/common/SubMenu";
 import ContentsInfo from "components/domain/Feed/PostUserInfo";
 import CommentForm from "components/domain/Comments/CommentForm";
-import { Icons } from "components/domain/Posts/styles";
+import { Icons } from "components/common/Posts/styles";
 import alertHandler from "utils/functions/alertHandler";
 import userState from "store/userState";
 import { useDelComment } from "hooks/service/mutator";
 import { useToggle } from "hooks/common/useToggle";
-import { CommentContainer, CommentContents, CommentHeader } from "./styles";
+import { CommentWrap, CommentContent, CommentHeader } from "./styles";
 import { ROUTER_PATH } from "constants/router_path";
 
 interface Iprops {
@@ -35,10 +35,10 @@ const Comment = ({ comment }: Iprops) => {
   const { STORY } = ROUTER_PATH;
   const onCloseMenu = useCallback(() => {
     setIsShowSubMenu(false);
-  }, []);
+  }, [setIsShowSubMenu]);
   const onCloseCommentForm = useCallback(() => {
     setIsShowCommentForm(false);
-  }, []);
+  }, [setIsShowCommentForm]);
 
   const onReportComment = useCallback(() => {
     console.log("ReportPost >> 개발중");
@@ -56,11 +56,15 @@ const Comment = ({ comment }: Iprops) => {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            mutation.mutate(commentId);
+            const intertData = {
+              contentsId,
+              commentId
+            };
+            mutation.mutate(intertData);
           }
         });
     }
-  }, [commentId, mutation]);
+  }, [commentId, contentsId, mutation]);
 
   const menuItem = useMemo(() => {
     if (userId === writer?._id) {
@@ -97,21 +101,21 @@ const Comment = ({ comment }: Iprops) => {
     onDelComment
   ]);
   return (
-    <CommentContainer>
+    <CommentWrap>
       <CommentHeader>
         <ContentsInfo
           createdAt={createdAt}
           imgUrl={
             writer?.imageData?.url
               ? writer?.imageData?.url
-              : gravatar.url(writer?.nickname, {
+              : gravatar.url(writer?.email, {
                   s: "32px",
                   d: "retro"
                 })
           }
           imgSize={40}
-          userName={writer.nickname}
-          link={`${STORY}/${writer.nickname}`}
+          userName={writer?.nickname}
+          link={`${STORY}/user/${writer?.nickname}`}
         />
         {!isDeleted && (
           <Icons
@@ -134,7 +138,7 @@ const Comment = ({ comment }: Iprops) => {
           />
         )}
       </CommentHeader>
-      <CommentContents>
+      <CommentContent>
         <>
           {isDeleted ? (
             "해당 댓글이 삭제되었습니다."
@@ -154,8 +158,8 @@ const Comment = ({ comment }: Iprops) => {
             </>
           )}
         </>
-      </CommentContents>
-    </CommentContainer>
+      </CommentContent>
+    </CommentWrap>
   );
 };
 

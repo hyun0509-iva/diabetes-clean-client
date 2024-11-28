@@ -1,5 +1,27 @@
 import { palette } from "libs/palette";
 import styled from "@emotion/styled";
+import { Header } from "styles/common";
+import { css } from "@emotion/react";
+
+export const TopHeader = styled(Header)<{
+  isOpen: boolean;
+  isChangeHeaderHeight: boolean;
+  targetPath: boolean;
+}>`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  box-shadow: ${({ isChangeHeaderHeight, theme }) =>
+    isChangeHeaderHeight && theme.boxShadow.light};
+  backdrop-filter: ${({ isOpen, isChangeHeaderHeight }) =>
+    isChangeHeaderHeight && (isOpen ? "none" : "blur(5px)")};
+  z-index: 2;
+  ${({ targetPath }) =>
+    !targetPath &&
+    css`
+      background-color: #eaecee;
+    `};
+`;
 
 export const Navbar = styled.div<{ isAuth: boolean }>`
   display: flex;
@@ -38,9 +60,15 @@ export const Navbar = styled.div<{ isAuth: boolean }>`
   .logo {
     position: relative;
     left: 0;
-    top: 3px;
-    height: 100%;
+    top: -3px;
+    width: 100px;
+    height: 34px;
     line-height: 40px;
+
+    & img {
+      width: 100%;
+      height: 100%;
+    }
   }
 `;
 export const OverWrap = styled.div`
@@ -49,8 +77,10 @@ export const OverWrap = styled.div`
   right: 0;
   top: 0;
   bottom: 0;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
+  backdrop-filter: blur(5px);
 `;
 
 export const NavContents = styled.li`

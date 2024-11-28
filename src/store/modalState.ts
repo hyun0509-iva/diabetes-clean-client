@@ -13,7 +13,7 @@ export interface IModalState {
   closeModal: () => void;
 }
 
-export const modalState = create<IModalState>()(
+const modalState = create<IModalState>()(
   devtools((set) => ({
     modal: null,
     openModal: ({ type, isOpen, props }: IModal) =>

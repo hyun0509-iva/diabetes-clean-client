@@ -37,7 +37,7 @@ export const ButtonInterface = styled.button<{
     color: ${(props) => props.color || "#000"};
     cursor: pointer;
     &:hover {
-      opacity: 0.8;
+      opacity: 0.7;
     }
     &:active {
       transform: translateY(3px);

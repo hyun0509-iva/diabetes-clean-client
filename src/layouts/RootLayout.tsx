@@ -1,14 +1,17 @@
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Cloudinary } from "@cloudinary/url-gen";
-import { Header, Main } from "styles/common";
+import { Main } from "styles/common";
 import Topbar from "./TopBar";
 import ScrollTop from "components/common/ScrollTop";
 import GlobalModal from "components/common/GlobalModal";
 import modalState from "store/modalState";
 import cloudinaryState from "store/cloudinaryState";
+import useInterceptor from "utils/axios/hook/useInterceptor";
 
 const RootLayout = () => {
+  useInterceptor();
+
   const { modal } = modalState();
   const [isOpenModal, setOpenModal] = useState(false);
   const { setCid } = cloudinaryState();
@@ -31,15 +34,11 @@ const RootLayout = () => {
 
   return (
     <div>
-      <Header>
-        <Topbar />
-      </Header>
-      <Suspense fallback={<div>로딩중...</div>}>
-        <Main>
-          <Outlet />
-          <ScrollTop />
-        </Main>
-      </Suspense>
+      <Topbar />
+      <Main>
+        <Outlet />
+        <ScrollTop />
+      </Main>
       {isOpenModal && <GlobalModal isOpenModal={modal?.isOpen as boolean} />}
     </div>
   );

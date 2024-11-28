@@ -69,8 +69,8 @@ export const ContentsItem = styled.div`
 // -- [ ContentsItemHeader ] --
 export const ContentsItemHeader = styled.header``;
 
-// -- [ ContentsItemBody ] --
-export const ContentsItemBody = styled.div`
+// -- [ ContentsItemContent ] --
+export const ContentsItemContent = styled.div`
   width: 100%;
   display: flex;
   padding: 5px 10px;

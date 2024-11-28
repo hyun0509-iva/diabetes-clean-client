@@ -1,18 +1,19 @@
 import { useParams } from "react-router-dom";
-import MyPosts from "components/domain/Posts";
-import { getUserContents } from "utils/apis/contents";
+import MyPosts from "components/common/Posts";
+import { getUserContentsAPI } from "utils/apis/contents";
 import { QUERY_KEY } from "constants/query_key";
 
-const { MY_FEED } = QUERY_KEY;
+const { MY_FEED_KEY } = QUERY_KEY;
 
 // 내 게시글
 const MyPost = () => {
-  const { username } = useParams();
+  const { usernick } = useParams();
+  console.log(`${usernick}_내 게시글`);
   return (
     <MyPosts
-      params={username as string}
-      queryKey={MY_FEED}
-      fetcher={getUserContents}
+      params={usernick as string}
+      queryKey={`${MY_FEED_KEY}/${usernick}`}
+      fetcher={getUserContentsAPI}
     />
   );
 };

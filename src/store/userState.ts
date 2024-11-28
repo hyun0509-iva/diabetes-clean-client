@@ -6,28 +6,28 @@ interface IUserState {
   userInfo: Partial<IUserInfo> | null;
   isAuth: boolean | null;
   setUserInfo: (userData: Partial<IUserInfo>) => void;
-  setIsAuth: (isAuth: boolean | null) => void;
-  logOut: () => void;
+  removeUserInfo: () => void;
+  setIsAuth: (isAuth: boolean) => void;
 }
 
 const userState = create<IUserState>()(
   devtools(
     persist(
       (set) => ({
-        isAuth: null, // 인증 상태: 토큰 유무로 판단
         userInfo: null,
+        isAuth: null,
         setUserInfo: (userData) =>
           set((state) => ({
             userInfo: { ...state.userInfo, ...userData }
           })),
-        setIsAuth: (isAuth: boolean | null) =>
+        removeUserInfo: () => {
+          set(() => ({
+            userInfo: null
+          }));
+        },
+        setIsAuth: (isAuth: boolean) => {
           set(() => ({
             isAuth
-          })),
-        logOut: () => {
-          set(() => ({
-            isAuth: null,
-            userInfo: null
           }));
         }
       }),

@@ -11,7 +11,7 @@ import Textarea from "components/common/Textarea";
 import { useCreateComment, useUpdateComment } from "hooks/service/mutator";
 import userState from "store/userState";
 import alertHandler from "utils/functions/alertHandler";
-import { CommentsFormContainer } from "./styles";
+import { CommentsFormWapper } from "./styles";
 
 interface IProps {
   contentsId: string;
@@ -29,8 +29,8 @@ const CommentForm = ({
   onClose
 }: IProps) => {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const { userInfo } = userState();
-  const userId = userInfo?._id as string;
+  // const { userInfo } = userState();
+  // const userId = userInfo?._id as string;
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
   const updateComment = useUpdateComment();
@@ -56,20 +56,24 @@ const CommentForm = ({
     (e: FormEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (content) {
-        const insertData = {
-          writer: userId,
-          contentsId,
-          content
-        };
         editMode
           ? (() => {
               if (commentId && preContent !== content) {
-                updateComment.mutate({ commentId, content });
+                const intertData = {
+                  contentsId,
+                  commentId,
+                  content
+                };
+                updateComment.mutate(intertData);
                 onClose && onClose();
               }
               onClose && onClose();
             })()
           : (() => {
+              const insertData = {
+                contentsId,
+                content
+              };
               createComment.mutate(insertData);
               onReset && onReset();
             })();
@@ -79,7 +83,6 @@ const CommentForm = ({
     },
     [
       content,
-      userId,
       contentsId,
       editMode,
       commentId,
@@ -91,7 +94,7 @@ const CommentForm = ({
     ]
   );
   return (
-    <CommentsFormContainer>
+    <CommentsFormWapper>
       <div className="comments-form">
         <div className="input-wrap">
           <Textarea
@@ -99,7 +102,7 @@ const CommentForm = ({
             value={content}
             onChange={onChange}
             rows={3}
-            placeholder={content || "댓글을 입력해주세요."}
+            placeholder={content || "댓글을 작성해주세요."}
           />
         </div>
         <div className="button-wrap">
@@ -117,7 +120,7 @@ const CommentForm = ({
           />
         </div>
       </div>
-    </CommentsFormContainer>
+    </CommentsFormWapper>
   );
 };
 

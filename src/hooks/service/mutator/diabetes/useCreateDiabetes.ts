@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { CommonResponse, IDiabetesRequest } from "models/data";
-import { createDiabetes } from "utils/apis/diabetesApis";
+import { createDiabetesAPI } from "utils/apis/diabetes";
 import { QUERY_KEY } from "constants/query_key";
 import alertHandler from "utils/functions/alertHandler";
 import { ROUTER_PATH } from "constants/router_path";
@@ -16,7 +16,7 @@ const useCreateDiabetes = () => {
   const { MEMO_DIABETES } = ROUTER_PATH;
 
   return useMutation<CommonResponse, AxiosError, IDiabetesRequest>(
-    createDiabetes<IDiabetesRequest>,
+    createDiabetesAPI<IDiabetesRequest>,
     {
       onSuccess: (data) => {
         queryClient.invalidateQueries<string>([DIABETES_KEY]);

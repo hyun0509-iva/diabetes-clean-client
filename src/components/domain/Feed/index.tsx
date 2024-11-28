@@ -1,11 +1,12 @@
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { ROUTER_PATH } from "constants/router_path";
-import FeedPost from "components/domain/Posts";
+import FeedPost from "components/common/Posts";
 import SideBtnMenu from "components/common/SideBtnMenu";
 import userState from "store/userState";
 import { StoryWarp } from "./styles";
-import { getAllContents } from "utils/apis/contents";
+import { getAllContentsAPI } from "utils/apis/contents";
 import { QUERY_KEY } from "constants/query_key";
+// import Spinner from "components/common/Spinner";
 
 const { CONTENTS_KEY } = QUERY_KEY;
 const { SAVE_CONTENTS, STORY } = ROUTER_PATH;
@@ -30,7 +31,7 @@ const Feed = () => {
   );
   return (
     <StoryWarp className="posts">
-      <FeedPost params="" queryKey={CONTENTS_KEY} fetcher={getAllContents} />
+      <FeedPost params="" queryKey={CONTENTS_KEY} fetcher={getAllContentsAPI} />
       <SideBtnMenu menuItem={menuItem} />
     </StoryWarp>
   );

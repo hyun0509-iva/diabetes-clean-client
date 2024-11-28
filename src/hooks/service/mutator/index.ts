@@ -1,4 +1,5 @@
 export { default as useLoginMutation } from "./auth/useLoginMutation";
+export { default as useLogOutMutation } from "./auth/useLogOutMutation";
 
 export { default as useCreateDiabetes } from "./diabetes/useCreateDiabetes";
 export { default as useDelDiabetes } from "./diabetes/useDelDiabetes";

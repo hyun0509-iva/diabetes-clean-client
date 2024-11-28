@@ -6,10 +6,13 @@ import PrivateRoutes from "./PrivateRoutes";
 import LoggedInRoutes from "./LoggedInRoutes";
 import Home from "pages/Home";
 import NotFound from "pages/NotFound";
+import SearchHospital from "pages/SearchHospital";
+import { OvalSpinner } from "components/common/Spinner";
 
 const Login = lazy(() => import("pages/Login"));
 const SignUp = lazy(() => import("pages/SignUp"));
 const Story = lazy(() => import("pages/Story"));
+const StoryDetail = lazy(() => import("pages/StoryDetail"));
 const Memo = lazy(() => import("pages/Memo"));
 const My = lazy(() => import("pages/My"));
 const WriteMemo = lazy(() => import("pages/WriteMemo"));
@@ -18,6 +21,7 @@ const WriteContents = lazy(() => import("pages/WriteContents"));
 const SearchPage = lazy(() => import("pages/SearchPage"));
 const MyPost = lazy(() => import("components/domain/MyFeed/MyPost"));
 const LikedPost = lazy(() => import("components/domain/MyFeed/LikedPost"));
+const DiabetesReports = lazy(() => import("components/domain/DiabetesReport"));
 
 const {
   INDEX,
@@ -27,12 +31,15 @@ const {
   UPDATE_DIABETES,
   MEMO,
   STORY,
+  STORY_DETAIL,
   MYPAGE,
   SAVE_CONTENTS,
   UPDATE_CONTENTS,
   MY_FEED,
   SEARCH,
-  EMPATHY
+  SEARCH_HOSPITAL,
+  EMPATHY,
+  REPORT
 } = ROUTER_PATH;
 
 const Router = createBrowserRouter([
@@ -49,7 +56,8 @@ const Router = createBrowserRouter([
           { path: UPDATE_DIABETES, element: <WriteMemo /> },
           { path: SAVE_CONTENTS, element: <WriteContents /> },
           { path: UPDATE_CONTENTS, element: <WriteContents /> },
-          { path: MYPAGE, element: <My /> }
+          { path: MYPAGE, element: <My /> },
+          { path: REPORT, element: <DiabetesReports /> }
         ]
       },
       {
@@ -68,8 +76,16 @@ const Router = createBrowserRouter([
         element: <Story />
       },
       {
+        path: STORY_DETAIL,
+        element: <StoryDetail />
+      },
+      {
         path: SEARCH,
         element: <SearchPage />
+      },
+      {
+        path: SEARCH_HOSPITAL,
+        element: <SearchHospital />
       },
       {
         path: MY_FEED,
@@ -85,7 +101,7 @@ const Router = createBrowserRouter([
 
 const Routes = () => {
   return (
-    <Suspense fallback={<div>로딩중...</div>}>
+    <Suspense fallback={<OvalSpinner />}>
       <RouterProvider router={Router} />
     </Suspense>
   );

@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { QUERY_KEY } from "constants/query_key";
-import { deleteImage } from "utils/apis/uploadImage";
+import { deleteImageAPI } from "utils/apis/uploadImage";
 import alertHandler from "utils/functions/alertHandler";
 
 const { COMMENT_KEY } = QUERY_KEY;
 
 const useDeleteImage = () => {
   const queryClient = useQueryClient();
-  return useMutation<any, AxiosError, string>(deleteImage, {
+  return useMutation<any, AxiosError, string>(deleteImageAPI, {
     onSuccess: (data) => {
       if (data.isOk) {
         alertHandler.onToast({ msg: data.msg });

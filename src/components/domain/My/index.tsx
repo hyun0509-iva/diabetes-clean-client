@@ -1,18 +1,20 @@
-import UserProfile from "./UserProfile";
-import DiabetesReport from "./DiabetesReport";
-import DiabetesStatus from "./DiabetesStatus";
-import { MyContainer } from "./styles";
-import { Contour } from "styles/common";
+import UserProfileImage from "./components/UserProfileImage";
+import UserProfileInfo from "./components/UserProfileInfo";
+import { MyWarp, ProfileWarp, ProfileContext, ProfileHeader } from "./styles";
 
 const My = () => {
   return (
-    <MyContainer>
-      <UserProfile />
-      <Contour />
-      <DiabetesReport />
-      <Contour />
-      <DiabetesStatus />
-    </MyContainer>
+    <MyWarp>
+      <ProfileWarp>
+        <ProfileHeader>
+          <h2 className="title">프로필</h2>
+        </ProfileHeader>
+        <ProfileContext>
+          <UserProfileImage />
+          <UserProfileInfo />
+        </ProfileContext>
+      </ProfileWarp>
+    </MyWarp>
   );
 };
 

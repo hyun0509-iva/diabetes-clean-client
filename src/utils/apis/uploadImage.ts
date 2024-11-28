@@ -12,7 +12,7 @@ const config = {
   }
 };
 
-const uploadImage = async (file: File) => {
+const uploadImageAPI = async (file: File) => {
   try {
     const frmData = new FormData();
     frmData.append("file", file);
@@ -30,17 +30,12 @@ const uploadImage = async (file: File) => {
   }
 };
 
-const deleteImage = async (publicId: string) => {
-  try {
-    // 이미지 삭제 API 호출
-    const res = await api.post("/api/v1/image", {
-      publicId
-    });
-    return res;
-  } catch (error) {
-    console.error("Error deleting image:", error);
-    throw error;
-  }
+const deleteImageAPI = async (publicId: string) => {
+  // 이미지 삭제 API 호출
+  const res = await api.post("/api/v1/image", {
+    publicId
+  });
+  return res;
 };
 
-export { uploadImage, deleteImage };
+export { uploadImageAPI, deleteImageAPI };

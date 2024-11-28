@@ -1,13 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryKey, UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 const useAPIQuery = <TYPE = unknown>(
-  apiKey: string,
-  apiFunc: () => Promise<any>
+  apiKey: QueryKey,
+  apiFunc: () => Promise<any>,
+  options?: Omit<
+    UseQueryOptions<TYPE, AxiosError, TYPE>,
+    "queryKey" | "queryFn"
+  >
 ) => {
-  return useQuery<TYPE | undefined, AxiosError>({
-    queryKey: [apiKey],
-    queryFn: () => apiFunc()
+  return useQuery<TYPE, AxiosError, TYPE, QueryKey>({
+    queryKey: apiKey,
+    queryFn: apiFunc,
+    ...options
   });
 };
 

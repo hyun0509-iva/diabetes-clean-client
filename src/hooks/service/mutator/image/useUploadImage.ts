@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { uploadImage } from "utils/apis/uploadImage";
+import { uploadImageAPI } from "utils/apis/uploadImage";
 import alertHandler from "utils/functions/alertHandler";
 
 const useUploadImage = () => {
-  return useMutation<any, AxiosError, File>(uploadImage, {
+  return useMutation<any, AxiosError, File>(uploadImageAPI, {
     onSuccess: (data) => {
       alertHandler.onToast({
         icon: "success",

@@ -7,6 +7,8 @@ import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
 import userState from "store/userState";
 import useStorage from "utils/functions/useStorage";
+import { API_PATH } from "constants/api_path";
+import { useLogOutMutation } from "hooks/service/mutator";
 
 interface IProps {
   showSubMenu: boolean;
@@ -14,21 +16,18 @@ interface IProps {
 }
 
 const { USER_KEY } = QUERY_KEY;
+const { LOG_OUT } = API_PATH;
 
 const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
-  const { MYPAGE, STORY } = ROUTER_PATH;
-  const { userInfo, logOut } = userState();
-  const { removeStorage } = useStorage;
-  const queryClient = useQueryClient();
+  const { MYPAGE, STORY, REPORT } = ROUTER_PATH;
+  const { userInfo } = userState();
   const navigate = useNavigate();
-  const handleLogOut = useCallback(() => {
-    api.get("/api/v1/auth/logout", { withCredentials: true }).then(() => {
-      logOut();
-      queryClient.setQueryData([USER_KEY], false);
 
-      navigate("/login", { replace: true });
-    });
-    removeStorage("accessToken");
+  const mutation = useLogOutMutation();
+
+  const handleLogOut = useCallback(() => {
+    mutation.mutate();
+    navigate("/login", { replace: true });
     onCloseMenu();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -37,22 +36,27 @@ const UserSubMenu = ({ showSubMenu, onCloseMenu }: IProps) => {
     () => [
       {
         id: 1,
-        path: `${MYPAGE}`,
-        label: "마이페이지"
+        label: "마이페이지",
+        path: `${MYPAGE}`
       },
       {
         id: 2,
-        path: `${STORY}/${userInfo?.nickname}`,
-        label: "내피드"
+        label: "당수치 분석",
+        path: `${REPORT}`
       },
       {
         id: 3,
-        path: null,
+        label: "내피드",
+        path: `${STORY}/user/${userInfo?.nickname}`
+      },
+      {
+        id: 4,
         label: "로그아웃",
+        path: null,
         handler: handleLogOut
       }
     ],
-    [MYPAGE, STORY, handleLogOut, userInfo?.nickname]
+    [MYPAGE, REPORT, STORY, handleLogOut, userInfo?.nickname]
   );
 
   return (

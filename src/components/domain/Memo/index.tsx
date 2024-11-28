@@ -5,8 +5,9 @@ import Diabetes from "components/domain/Memo/DiabetesList";
 import SideBtnMenu from "components/common/SideBtnMenu";
 import alertHandler from "utils/functions/alertHandler";
 import { ROUTER_PATH } from "constants/router_path";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 import { MemoContents, MemoHeader } from "./styles";
+import { BollSpinner, OvalSpinner } from "components/common/Spinner";
 
 const MemoList = () => {
   const { SAVE_MEMO_DIABETES } = ROUTER_PATH;
@@ -55,11 +56,11 @@ const MemoList = () => {
   );
 
   return (
-    <Container>
+    <Wapper>
       <MemoHeader>
-        <h1 className="memo-title">
+        <h2 className="title">
           <span>기록 내역</span>
-        </h1>
+        </h2>
         {/* <Submenu /> */} {/* <-- 식단 기능 추가후 활성화 --> */}
         <DateArea
           currentDate={currentDate}
@@ -80,7 +81,7 @@ const MemoList = () => {
         <Diabetes curDate={curDate} />
       </MemoContents>
       <SideBtnMenu menuItem={menuItem} />
-    </Container>
+    </Wapper>
   );
 };
 

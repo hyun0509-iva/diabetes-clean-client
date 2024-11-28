@@ -1,8 +1,7 @@
-import axios from "axios";
 import { API_PATH } from "constants/api_path";
 import { CommonResponse, IContentsResponse } from "models/data";
-import api, { ResponseErrorType } from "utils/axios";
-import alertHandler from "utils/functions/alertHandler";
+import api from "utils/axios";
+import useStorage from "utils/functions/useStorage";
 
 const { CONTENTS_API, SEARCH_API } = API_PATH;
 
@@ -10,221 +9,137 @@ export interface ResData {
   data: { isOk: boolean; likedPost: []; msg: string };
 }
 
+const { getStorage } = useStorage;
 // 게시글 추가
-const createContents = async <T>(insertData: T) => {
-  try {
-    const { data } = await api.post<CommonResponse>(
-      `${CONTENTS_API}`,
-      insertData
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+const createContentsAPI = async <T>(insertData: T) => {
+  const { data } = await api.post<CommonResponse>(
+    `${CONTENTS_API}`,
+    insertData
+  );
+  return data;
 };
 
 // 게시글 삭제
-const deleteContents = async (contentId: string) => {
-  console.log(contentId);
-  try {
-    const { data } = await api.delete<CommonResponse>(
-      `${CONTENTS_API}/${contentId}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+const deleteContentsAPI = async (contentId: string) => {
+  const { data } = await api.delete<CommonResponse>(
+    `${CONTENTS_API}/${contentId}`
+  );
+  return data;
 };
 
 // 게시글 수정
-const updateContents = async ({
+const updateContentsAPI = async ({
   contentsId,
   content
 }: {
   contentsId: string;
   content: string;
 }) => {
-  try {
-    const { data } = await api.patch<CommonResponse>(
-      `${CONTENTS_API}/${contentsId}`,
-      {
-        content
-      }
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
+  const { data } = await api.patch<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}`,
+    {
+      content
     }
-    throw error;
-  }
+  );
+  return data;
 };
 
 //모든 게시글
-const getAllContents = async (page: string) => {
+const getAllContentsAPI = async (page: string) => {
   const limit = 10;
-  try {
-    //contents?page=1&size=10
-    const { data } = await api.get<IContentsResponse>(
-      `${CONTENTS_API}?page=${page}&size=${limit}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
+  //contents?page=1&size=10
+  const res = await api.get<IContentsResponse>(
+    `${CONTENTS_API}?page=${page}&size=${limit}`
+  );
+  //page: string, context: string
+  if (res.status === 204) {
+    return { contents: null };
   }
+  return res.data;
 };
 
-//내피드 페이징처리
-const getUserContents = async (page: string, context: string) => {
+//내피드(페이징 처리)
+const getUserContentsAPI = async (nickname: string, page: string) => {
+  console.log({ nickname, page });
   const limit = 10;
-  try {
-    const { data } = await api.get<IContentsResponse>(
-      `${CONTENTS_API}/users/${context}?page=${page}&size=${limit}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
+  const res = await api.get<IContentsResponse>(
+    `${CONTENTS_API}/users/${nickname}?page=${page}&size=${limit}`
+  );
+  if (res.status === 204) {
+    return { contents: null };
   }
-};
-
-// 내 게시글 (게시글수 포함)
-const getMyFeedInfo = async (context: string) => {
-  try {
-    const { data } = await api.get<IContentsResponse>(
-      `${CONTENTS_API}/users/${context}/info`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+  const data = res.data;
+  console.log({ myfeed: data });
+  return data;
 };
 
 // 내 관심글
-const getLikedPosts = async (page: string, context: string) => {
+const getLikedPostsAPI = async (page: string, context: string) => {
   const limit = 10;
-  try {
-    //contents/like/users/username?page=1&size=10
-    const { data } = await api.get<IContentsResponse>(
-      `${CONTENTS_API}/like/users/${context}?page=${page}&size=${limit}`
-    );
-    //응답 데이터를 contents와 맞추기 위해 가공함.
-    if (!data.likedPost.length)
-      return {
-        isOk: false,
-        contents: []
-      };
-    const contents = data?.likedPost
-      .map((item: any) => item.contents)
-      .reverse();
-    const data_: IContentsResponse = {
-      isOk: true,
-      contents
-    };
-
-    return data_;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
+  //contents/like/users/username?page=1&size=10
+  const res = await api.get<IContentsResponse>(
+    `${CONTENTS_API}/like/users/${context}?page=${page}&size=${limit}`
+  );
+  //응답 데이터를 contents와 맞추기 위해 가공함.
+  if (res.status === 204) {
+    return { contents: null };
   }
+  const data = res.data;
+  if (!data.likedPost?.length) {
+    return {
+      isOk: false,
+      contents: []
+    };
+  }
+
+  const contents = data?.likedPost.map((item: any) => item.contents).reverse();
+
+  const data_: IContentsResponse = {
+    isOk: true,
+    ...contents
+  };
+
+  return data_;
+};
+
+// 내 게시글 정보(페이징 처리되지 않음)
+const getMyFeedInfoAPI = async (nickname: string) => {
+  const token = getStorage("accessToken");
+  const { data } = await api.get<IContentsResponse>(
+    `${CONTENTS_API}/myfeed-info/users/${nickname}`,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
+  return data;
 };
 
 // 게시글 검색
 //search?keyword=오늘&page=1&size=10
-const getSearchContents = async (page: string, context: string) => {
+const getSearchContentsAPI = async (page: string, context: string) => {
   const limit = 10;
-  try {
-    const { data } = await api.get<IContentsResponse>(
-      `${SEARCH_API}?keyword=${context}&page=${page}&size=${limit}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+  const { data } = await api.get<IContentsResponse>(
+    `${SEARCH_API}?keyword=${context}&page=${page}&size=${limit}`
+  );
+  return data;
 };
 
 // 게시글 상세 조회
-const getContentsFindById = async (id: string | null) => {
-  try {
-    if (!id) return;
-    const { data } = await api.get(`${CONTENTS_API}/${id}`);
-    return data;
-  } catch (error: any) {
-    alertHandler.onToast({
-      msg: error.data.msg || "서버 오류, 관리자에게 문의해주세요!",
-      icon: "error"
-    });
-    throw error.response;
-  }
+const getContentsFindByIdAPI = async (id: string | null) => {
+  if (!id) return;
+  const { data } = await api.get(`${CONTENTS_API}/${id}`);
+  console.log({ data });
+  return data;
 };
 
 export {
-  getAllContents,
-  getSearchContents,
-  getUserContents,
-  getMyFeedInfo,
-  getLikedPosts,
-  createContents,
-  deleteContents,
-  updateContents,
-  getContentsFindById
+  getAllContentsAPI,
+  getSearchContentsAPI,
+  getUserContentsAPI,
+  getMyFeedInfoAPI,
+  getLikedPostsAPI,
+  createContentsAPI,
+  deleteContentsAPI,
+  updateContentsAPI,
+  getContentsFindByIdAPI
 };

@@ -1,22 +1,22 @@
 import { useLocation } from "react-router-dom";
 import NavMenu from "components/common/NavMenu";
 import FormDiabetes from "./FormDiabetes";
-import { getDiabetesFindById } from "utils/apis/diabetesApis";
+import { getDiabetesFindByIdAPI } from "utils/apis/diabetes";
 import { ROUTER_PATH } from "constants/router_path";
 import { QUERY_KEY } from "constants/query_key";
-import { useAPIByIdQuery } from "hooks/service/queries";
-import { IDiabetesInfo, IDiabetesResponse } from "models/data";
-import { Container } from "styles/common";
-import { EditBody, EditHeader } from "./styles";
+import { useAPIByParamQuery } from "hooks/service/queries";
+import { Idiabetes, IDiabetesResponse } from "models/data";
+import { Wapper } from "styles/common";
+import { EditHeader, EditContent } from "./styles";
 
 const { DIABETES_KEY } = QUERY_KEY;
 
 const EditMemo = () => {
   const { pathname, state: DiabetesId } = useLocation();
-  const { data, isError } = useAPIByIdQuery<IDiabetesResponse>(
+  const { data, isError } = useAPIByParamQuery<IDiabetesResponse>(
     DiabetesId,
     DIABETES_KEY,
-    getDiabetesFindById
+    getDiabetesFindByIdAPI
   );
   const mode = pathname.split("/")[1];
   const { SAVE_MEMO_DIABETES, SAVE_MEMO_DIET } = ROUTER_PATH;
@@ -35,8 +35,9 @@ const EditMemo = () => {
     );
   }
 
+  console.log(data);
   return (
-    <Container>
+    <Wapper>
       <EditHeader>
         <div className="memo-title">
           <span>당수치 {mode === "create" ? "기록하기" : "수정하기"}</span>
@@ -50,24 +51,16 @@ const EditMemo = () => {
           }}
         />
       </EditHeader>
-      <EditBody>
+      <EditContent>
         {mode === "create" ? (
           <FormDiabetes data={null} />
         ) : (
           data && (
-            <FormDiabetes
-              mode="update"
-              data={data.diabetesInfo as IDiabetesInfo}
-            />
+            <FormDiabetes mode="update" data={data.diabetes as Idiabetes} />
           )
         )}
-      </EditBody>
-      {/* 
-       식단 CRUD 개발후 활성화
-      <EditBody>
-        <Outlet />
-      </EditBody> */}
-    </Container>
+      </EditContent>
+    </Wapper>
   );
 };
 

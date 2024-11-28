@@ -1,95 +1,53 @@
-import axios from "axios";
 import { API_PATH } from "constants/api_path";
-import { CommonResponse, ICommentResponse } from "models/data";
-import api, { ResponseErrorType } from "utils/axios";
-import alertHandler from "utils/functions/alertHandler";
+import {
+  CommonResponse,
+  IcommentdeleteResponse,
+  ICommentRequest,
+  ICommentResponse,
+  IcommentupdateResponse
+} from "models/data";
+import api from "utils/axios";
 
-const { COMMENT_API } = API_PATH;
+const { CONTENTS_API } = API_PATH;
 
-const createComment = async <T>(insertData: T) => {
-  try {
-    const { data } = await api.post<CommonResponse>(
-      `${COMMENT_API}`,
-      insertData
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+// /api/v1/contents/:id/comments
+const createCommentAPI = async (insertData: ICommentRequest) => {
+  const { contentsId, ...insert } = insertData;
+  const { data } = await api.post<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}/comments`,
+    insert
+  );
+  return data;
 };
 
-const updateComment = async ({
-  content,
-  commentId
-}: {
-  content: string;
-  commentId: string;
-}) => {
-  try {
-    const { data } = await api.patch<CommonResponse>(
-      `${COMMENT_API}/${commentId}`,
-      { content }
-    );
-    console.log({ predata: data });
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+const updateCommentAPI = async (insertData: IcommentupdateResponse) => {
+  const { contentsId, commentId, content } = insertData;
+  const { data } = await api.patch<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}/comments/${commentId}`,
+    { content }
+  );
+  return data;
 };
 
-const deleteComment = async (commentId: string) => {
-  try {
-    const { data } = await api.delete<CommonResponse>(
-      `${COMMENT_API}/${commentId}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+const deleteCommentAPI = async (insertData: IcommentdeleteResponse) => {
+  const { contentsId, commentId } = insertData;
+  const { data } = await api.delete<CommonResponse>(
+    `${CONTENTS_API}/${contentsId}/comments/${commentId}`
+  );
+  return data;
 };
 
-const getAllComment = async (contentsId: string | null) => {
-  try {
-    if (!contentsId) return;
-    const { data } = await api.get<ICommentResponse>(
-      `${COMMENT_API}/contents/${contentsId}`
-    );
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError<ResponseErrorType>(error)) {
-      if (error.response?.status === 500) {
-        alertHandler.onToast({
-          msg: "서버 오류! 잠시후 다시 시작해주세요.",
-          icon: "error"
-        });
-      }
-    }
-    throw error;
-  }
+const getAllCommentAPI = async (contentsId: string | null) => {
+  if (!contentsId) return;
+  const { data } = await api.get<ICommentResponse>(
+    `${CONTENTS_API}/${contentsId}/comments`
+  );
+  return data;
 };
 
-export { getAllComment, createComment, updateComment, deleteComment };
+export {
+  getAllCommentAPI,
+  createCommentAPI,
+  updateCommentAPI,
+  deleteCommentAPI
+};

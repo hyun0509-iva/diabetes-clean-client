@@ -3,6 +3,6 @@ import { MemoHeader } from "components/domain/Memo/styles";
 
 export const EditHeader = styled(MemoHeader)``;
 
-export const EditBody = styled.div`
+export const EditContent = styled.div`
   margin-top: 15px;
 `;

@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 
-export const EditContentsContainer = styled(Container)`
+export const EditContentsWrap = styled(Wapper)`
   margin: 0 auto 60px;
-  max-width: 680px;
 `;
 
 export const EditHeader = styled.header`
@@ -12,7 +11,7 @@ export const EditHeader = styled.header`
     font-size: 20px;
   }
 `;
-export const EditBody = styled.div`
+export const EditContent = styled.div`
   margin-top: 15px;
 `;
 

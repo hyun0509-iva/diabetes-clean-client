@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const MemoHeader = styled.header`
-  .memo-title {
+  .title {
     padding: 20px 5px;
     font-size: 20px;
   }
@@ -74,7 +74,7 @@ export const DiabetesItemWrap = styled.div`
   cursor: pointer;
 `;
 
-export const ItemBodyWrap = styled.div`
+export const ItemContentWrap = styled.div`
   display: flex;
   justify-content: space-between;
 

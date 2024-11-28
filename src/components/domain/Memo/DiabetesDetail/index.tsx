@@ -2,17 +2,17 @@ import React, { useCallback } from "react";
 import { BsFillTrash2Fill, BsPencilSquare } from "react-icons/bs";
 import dayjs from "dayjs";
 import { timeIcons } from "libs/time-icons";
-import { useAPIByIdQuery } from "hooks/service/queries";
+import { useAPIByParamQuery } from "hooks/service/queries";
 import { useDelDiabetes } from "hooks/service/mutator";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
-import { getDiabetesFindById } from "utils/apis/diabetesApis";
+import { getDiabetesFindByIdAPI } from "utils/apis/diabetes";
 import {
   DetailContainer,
   DetailModalContent,
   DetailModalHeader
 } from "components/common/GlobalModal/styles";
 import { QUERY_KEY } from "constants/query_key";
-import { IDiabetesInfo, IDiabetesResponse } from "models/data";
+import { Idiabetes, IDiabetesResponse } from "models/data";
 import { useNavigate } from "react-router-dom";
 import { ROUTER_PATH } from "constants/router_path";
 import modalState from "store/modalState";
@@ -27,13 +27,13 @@ const { UPDATE_DIABETES } = ROUTER_PATH;
 const DiabetesDetail = ({ id }: Iprops) => {
   const { closeModal } = modalState();
   const navigate = useNavigate();
-  const { data, isError } = useAPIByIdQuery<IDiabetesResponse>(
+  const { data, isError } = useAPIByParamQuery<IDiabetesResponse>(
     id,
     DIABETES_KEY,
-    getDiabetesFindById
+    getDiabetesFindByIdAPI
   );
-  const diabetes = data?.diabetesInfo as IDiabetesInfo;
 
+  const diabetes = data?.diabetes as Idiabetes;
   const iconData = timeIcons.find(({ itemIcons_desc }) =>
     diabetes?.slot?.includes(itemIcons_desc)
   );
@@ -48,7 +48,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            useMutate.mutate(diabetes._id);
+            useMutate.mutate(diabetes?._id);
             alertHandler.onToast({ msg: alertMessage.delMsg });
             closeModal();
           } else if (result.isDismissed) {
@@ -57,7 +57,7 @@ const DiabetesDetail = ({ id }: Iprops) => {
           }
         });
     }
-  }, [diabetes?._id, closeModal, useMutate]);
+  }, [diabetes?._id, useMutate, closeModal]);
 
   const onEditDiabetes = useCallback(() => {
     navigate(`${UPDATE_DIABETES}`, { state: id });

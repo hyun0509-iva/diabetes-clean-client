@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const CommentContainer = styled.div`
+export const CommentWrap = styled.div`
   padding: 15px 0;
 `;
 
@@ -9,7 +9,7 @@ export const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-export const CommentContents = styled.div`
+export const CommentContent = styled.div`
   margin-top: 10px;
   padding-left: 5px;
 `;

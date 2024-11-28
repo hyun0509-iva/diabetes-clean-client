@@ -1,12 +1,18 @@
 import { palette } from "libs/palette";
-import styled from "@emotion/styled";
-import { Container } from "styles/common";
+import { Wapper } from "styles/common";
 import { StoryWarp } from "components/domain/Feed/styles";
+import styled from "@emotion/styled";
 
-export const MyFeedWrap = styled(Container)`
-  max-width: inherit;
-  width: 90%;
+export const MyFeedWrap = styled(Wapper)`
+  width: 50%;
+  max-width: none;
+  padding: 0px;
+
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
 `;
+
 export const Header = styled.header`
   width: 100%;
   padding: 15px 20px;
@@ -15,18 +21,44 @@ export const Header = styled.header`
   background-color: ${palette.gray[1]};
   box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 30%);
   font-size: 18px;
+
+  @media screen and (max-width: 1200px) {
+    & {
+      width: 100%;
+    }
+  }
 `;
 
 export const MyFeedMain = styled.section`
   display: flex;
+
+  @media screen and (max-width: 1200px) {
+    & {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    & > aside {
+      width: 100%;
+      margin-top: 15px;
+      position: static;
+      height: auto;
+
+      & .inner {
+        padding: 0;
+      }
+    }
+  }
 `;
+
 export const MyFeedContainer = styled.div`
   width: 100%;
 `;
 
 export const LeftSide = styled.aside`
   position: sticky;
-  top: 0;
+  top: 55px;
   width: 350px;
   height: 500px;
   .inner {
@@ -40,7 +72,7 @@ export const LeftSide = styled.aside`
 
 export const UserInfo = styled.div`
   position: relative;
-  padding: 20px 0 30px;
+  padding: 20px 0 20px;
   box-shadow: 0px 0px 12px -3px rgb(0 0 0 / 20%);
 
   .profile-img {
@@ -89,10 +121,5 @@ export const UserStatus = styled.div`
 `;
 
 export const MainContents = styled(StoryWarp)`
-  flex: 80px 3;
-
-  .container {
-    background-color: ${palette.gray[1]};
-    padding: 30px;
-  }
+  padding: 0px;
 `;

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 import userState from "store/userState";
 import { useCreateContents, useupdateContents } from "hooks/service/mutator";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import alertHandler, { alertMessage } from "utils/functions/alertHandler";
 import ImageUpload from "../ImageUpload";
 import Button from "components/common/Button";
@@ -23,15 +23,18 @@ interface Props {
 }
 
 const ContentsForm = ({ mode, data }: Props) => {
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const navigate = useNavigate();
   const { userInfo } = userState();
   const userId = userInfo?._id as string;
+  const navigate = useNavigate();
+  const { state: contentsId } = useLocation();
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [content, setContent] = useState((data?.content as string) || "");
   const [imageData, setImageData] = useState<Array<IUploadedImg>>(
     data?.imageData || []
   );
+
   const { cld } = cloudinaryState();
+
   const createMutation = useCreateContents();
   const updateMutation = useupdateContents();
 
@@ -67,22 +70,26 @@ const ContentsForm = ({ mode, data }: Props) => {
   /* 컨텐츠 추가 */
   const createContents = useCallback(
     (writer: string, content: string, imageData?: Array<IUploadedImg>) => {
+      content && content.replaceAll("\n", "&#10;");
       createMutation.mutate({
         writer: writer,
         content,
         imageData
       });
     },
-    []
+    [createMutation]
   );
 
   /* 컨텐츠 수정 */
-  const updateContents = useCallback((contentsId: string, content: string) => {
-    updateMutation.mutate({
-      contentsId: contentsId as string,
-      content
-    });
-  }, []);
+  const updateContents = useCallback(
+    (contentsId: string, content: string) => {
+      updateMutation.mutate({
+        contentsId: contentsId as string,
+        content
+      });
+    },
+    [updateMutation]
+  );
 
   const onSubmitContent = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,12 +106,12 @@ const ContentsForm = ({ mode, data }: Props) => {
     },
     [
       content,
-      createMutation,
+      createContents,
       data?._id,
       imageData,
       mode,
       navigate,
-      updateMutation,
+      updateContents,
       userId
     ]
   );
@@ -113,9 +120,9 @@ const ContentsForm = ({ mode, data }: Props) => {
       <Textarea
         ref={textAreaRef}
         value={content}
-        onChange={onChangeContent}
         rows={13}
-        placeholder={content || "댓글을 입력해주세요."}
+        onChange={onChangeContent}
+        placeholder={content ? "" : "컨텐츠를 작성해주세요."}
       />
       <InputGroup>
         <LabelWrap>

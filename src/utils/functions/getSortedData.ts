@@ -1,18 +1,18 @@
 import dayjs from "dayjs";
-import { IDiabetesInfo } from "models/data";
+import { Idiabetes } from "models/data";
 
 export interface ISortedData {
-  [key: string]: IDiabetesInfo[];
+  [key: string]: Idiabetes[];
 }
 
 /**
  * 날짜별로 정렬해주는 함수 구현
- * @param {IDiabetesInfo[]} originData
+ * @param {IDiabetesResponse[]} originData
  * @returns {ISortedData}
  */
-export const getSortedData = (originData: IDiabetesInfo[]): ISortedData => {
-  const sortedObj: { [key: string]: IDiabetesInfo[] } = {};
-  originData.forEach((item: IDiabetesInfo) => {
+export const getSortedData = (originData: Idiabetes[]): ISortedData => {
+  const sortedObj: { [key: string]: Idiabetes[] } = {};
+  originData.forEach((item: Idiabetes) => {
     const createdDate = dayjs(item.createdAt).format("YYYY-MM-DD dddd");
     if (Array.isArray(sortedObj[createdDate])) {
       sortedObj[createdDate].push(item);

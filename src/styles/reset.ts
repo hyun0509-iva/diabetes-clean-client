@@ -43,7 +43,7 @@ export const reset = css`
   body {
     font-size: 1rem;
     color: #000;
-    background-color: ${palette.gray[0]};
+    background-color: #eaecee;
   }
 
   a {

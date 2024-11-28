@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 import { timeIcons } from "libs/time-icons";
-import { IDiabetesInfo } from "models/data";
+import { Idiabetes } from "models/data";
 import DiabetesDetail from "components/domain/Memo/DiabetesDetail";
-import { DiabetesItemWrap, ItemBodyWrap } from "components/domain/Memo/styles";
+import {
+  DiabetesItemWrap,
+  ItemContentWrap
+} from "components/domain/Memo/styles";
 import modalState from "store/modalState";
 dayjs.locale("ko");
 
-const DiabetesItem = ({ _id, sugar_level, slot }: IDiabetesInfo) => {
+const DiabetesItem = ({ _id, sugar_level, slot }: Idiabetes) => {
   const { openModal } = modalState();
 
   const iconData = timeIcons.find(({ itemIcons_desc }) =>
@@ -25,7 +28,7 @@ const DiabetesItem = ({ _id, sugar_level, slot }: IDiabetesInfo) => {
         });
       }}
     >
-      <ItemBodyWrap>
+      <ItemContentWrap>
         <div>
           <span className="item-icon">{iconData?.itemIcons_icon}</span>
           <span className="item-slot">{slot}</span>
@@ -33,7 +36,7 @@ const DiabetesItem = ({ _id, sugar_level, slot }: IDiabetesInfo) => {
         <div>
           <div>{sugar_level}mg/dl</div>
         </div>
-      </ItemBodyWrap>
+      </ItemContentWrap>
     </DiabetesItemWrap>
   );
 };
